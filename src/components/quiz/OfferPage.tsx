@@ -286,22 +286,30 @@ const OfferPage: React.FC = () => {
               {
                 name: "Koji",
                 quote: "I can finally talk to my grandchildren in Spanish!",
-                video: "https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4"
+                video: "https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4",
+                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181137.png"
               },
               {
                 name: "Suzanne", 
                 quote: "My confidence has skyrocketed!",
-                video: "https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4"
+                video: "https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4",
+                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181102.png"
               },
               {
                 name: "Catie",
                 quote: "Learning Spanish opened new doors!",
-                video: "https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4"
+                video: "https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4",
+                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181037.png"
               }
             ].map((testimonial, index) => (
               <div key={index} className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => openVideoModal(testimonial.video)}>
                 <div className="aspect-video relative">
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                  <img
+                    src={testimonial.image}
+                    alt={`${testimonial.name} testimonial preview`}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
                     <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
                       <Play className="w-4 h-4 sm:w-6 sm:h-6 text-gray-800 ml-1" />
                     </div>
