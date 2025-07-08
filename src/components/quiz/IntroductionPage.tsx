@@ -172,8 +172,14 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
         </div>
         {/* Video Modal */}
         {videoModal.open && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
-            <div className="bg-white rounded-2xl shadow-2xl p-4 max-w-lg w-full relative flex flex-col items-center">
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
+            onClick={closeVideoModal}
+          >
+            <div
+              className="bg-white rounded-2xl shadow-2xl p-4 max-w-lg w-full relative flex flex-col items-center"
+              onClick={e => e.stopPropagation()}
+            >
               <button
                 className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-2xl font-bold"
                 onClick={closeVideoModal}

@@ -151,7 +151,7 @@ const OfferPage: React.FC = () => {
                   <div className="bg-gray-200 rounded-full h-2">
                     <div className="bg-orange-500 h-2 rounded-full" style={{ width: '25%' }}></div>
                   </div>
-                  <div className="text-center text-xs sm:text-sm text-gray-600 mt-2">IN 3 MONTHS</div>
+                  <div className="text-right text-xs sm:text-sm text-gray-600 mt-2">IN 3 MONTHS</div>
                   <div className="flex justify-between items-center py-2">
                     <span className="text-gray-700 text-xs sm:text-sm">PROBLEMATIC</span>
                     <span className="text-xs sm:text-sm text-gray-500 text-right">IMPROVED SPEAKING & COMPREHENSION</span>
@@ -195,13 +195,11 @@ const OfferPage: React.FC = () => {
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">80%</div>
-                      <div className="text-xs sm:text-sm text-gray-600">success rate in our study comparing 20 participants</div>
-                    </div>
+                    <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">80%</div>
                   </div>
                 </div>
               </div>
+              <div className="text-xs sm:text-sm text-gray-600 text-center mt-2">success rate in our study comparing 20 participants</div>
               <div className="flex justify-between text-xs text-gray-500 mt-4">
                 <span>MONTH 1</span>
                 <span>MONTH 2</span>
