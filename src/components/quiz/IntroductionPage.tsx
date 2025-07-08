@@ -1,5 +1,6 @@
 
 import { ArrowRight } from 'lucide-react';
+import React, { useState } from 'react';
 
 interface IntroductionPageProps {
   onStart: () => void;
@@ -18,6 +19,7 @@ const testimonials = [
     quote:
       'I can finally talk to my grandchildren in Spanish!',
     image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181137.png',
+    video: 'https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4',
     rating: 5,
   },
   {
@@ -26,6 +28,7 @@ const testimonials = [
     quote:
       'My confidence has skyrocketed!',
     image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181102.png',
+    video: 'https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4',
     rating: 5,
   },
   {
@@ -34,11 +37,21 @@ const testimonials = [
     quote:
       'Learning Spanish opened new doors!',
     image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181037.png',
+    video: 'https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4',
     rating: 5,
   },
 ];
 
 export default function IntroductionPage({ onStart, onDebugOffer }: IntroductionPageProps) {
+  const [videoModal, setVideoModal] = useState<{ open: boolean; videoUrl: string | null }>({ open: false, videoUrl: null });
+
+  const openVideoModal = (videoUrl: string) => {
+    setVideoModal({ open: true, videoUrl });
+  };
+  const closeVideoModal = () => {
+    setVideoModal({ open: false, videoUrl: null });
+  };
+
   return (
     <div className="min-h-screen bg-[#F7F4EE] flex flex-col font-sans">
       {/* Header */}
@@ -130,7 +143,7 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
               key={idx}
               className="bg-white rounded-2xl shadow-lg p-6 flex-1 flex flex-col items-center max-w-sm min-w-[260px] relative"
             >
-              <div className="relative mb-4 w-24 h-24">
+              <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
                 <img
                   src={t.image}
                   alt={t.name}
@@ -157,6 +170,27 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
             </div>
           ))}
         </div>
+        {/* Video Modal */}
+        {videoModal.open && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+            <div className="bg-white rounded-2xl shadow-2xl p-4 max-w-lg w-full relative flex flex-col items-center">
+              <button
+                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-2xl font-bold"
+                onClick={closeVideoModal}
+                aria-label="Close video"
+              >
+                ×
+              </button>
+              <video
+                src={videoModal.videoUrl || undefined}
+                controls
+                autoPlay
+                className="w-full rounded-xl max-h-[70vh]"
+                poster=""
+              />
+            </div>
+          </div>
+        )}
       </section>
     </div>
   );
