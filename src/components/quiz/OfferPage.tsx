@@ -25,10 +25,10 @@ const OfferPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 overflow-x-hidden">
       {/* Hero Section */}
       <section className="bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 w-full">
           <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Branding and Headline */}
             <div className="text-center lg:text-left">
@@ -69,8 +69,8 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Unified Results Section (2x2 grid of cards) */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
               Based on your answers, your Spanish learning journey is...
@@ -216,8 +216,8 @@ const OfferPage: React.FC = () => {
       <MobileFeaturesSection />
 
       {/* Social Proof Section */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-amber-400 to-orange-500">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-amber-400 to-orange-500 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 sm:space-y-8">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
@@ -275,8 +275,8 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Video Testimonials Section */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-white">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-white w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 sm:mb-12">
             Real stories from our Spanish learners
           </h2>
@@ -325,8 +325,8 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Offer Section */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gray-50 w-full">
+        <div className="max-w-4xl mx-auto w-full">
           {/* Countdown Timer */}
           <CountdownTimer 
             initialTime={15*60}
@@ -384,8 +384,8 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Money-Back Guarantee Section */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-green-400 to-green-600">
-        <div className="max-w-4xl mx-auto text-center">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-green-400 to-green-600 w-full">
+        <div className="max-w-4xl mx-auto text-center w-full">
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
             <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
           </div>
@@ -398,8 +398,8 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Final Testimonials Section */}
-      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-amber-400 to-orange-500">
-        <div className="max-w-6xl mx-auto">
+      <section className="py-8 sm:py-12 lg:py-16 px-4 sm:px-6 bg-gradient-to-r from-amber-400 to-orange-500 w-full">
+        <div className="max-w-6xl mx-auto w-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-8 sm:mb-12">
             People love SpanishVIP
           </h2>
