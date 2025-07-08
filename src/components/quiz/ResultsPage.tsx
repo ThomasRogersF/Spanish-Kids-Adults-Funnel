@@ -2,6 +2,13 @@
 import { Button } from "@/components/ui/button";
 import { QuizConfig, QuizParticipant, ResultTemplate } from "@/types/quiz";
 import { ArrowRight } from "lucide-react";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
 interface ResultsPageProps {
   config: QuizConfig;
@@ -66,6 +73,37 @@ const ResultsPage = ({
           This isn't a formal test to evaluate your Spanish skills — it's just a fun way to get to know you better so we can send you personalized recommendations, resources, and exclusive deals from SpanishVIP. 🎁✨<br/>
           So no pressure — just enjoy it!
         </p>
+      </div>
+
+      {/* People love SpanishVIP - Reviews Section */}
+      <div className="mt-10">
+        <h3 className="text-2xl font-bold text-center mb-6 text-brand-primary">People love SpanishVIP</h3>
+        <div className="relative max-w-md mx-auto">
+          <Carousel>
+            <CarouselContent>
+              {[
+                { name: 'Dale Givens', quote: 'Classes were structured to meet my needs... the best experience I have had with online language instruction.' },
+                { name: 'Matthew Heredia', quote: 'Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.' },
+                { name: 'Milton Lindsay', quote: 'Spanish VIP is the best program I’ve worked with. My instructor stays flexible while providing a structured curriculum.' },
+                { name: 'Todd Pereira', quote: 'Duolingo can only take you so far... I’ve been doing 1-to-1 classes for almost 2 months and still use Duolingo to top up.' },
+                { name: 'Sameera Hemmat', quote: 'The one-on-one teaching style tailored to the student makes Spanish VIP’s approach unique and beneficial.' },
+                { name: 'Steve Anderson', quote: 'I’ve used online programs before, but I wanted something more structured and challenging.' },
+                { name: 'Steve Worhlrab', quote: 'I can’t say enough good things about SpanishVIP and my private teacher.' },
+                { name: 'Gabriel Pretto', quote: 'My experience has been great so far. Very professional and easy to communicate with.' },
+                { name: 'Alexander Yaroshevich', quote: 'I’ve been taking group classes for 2 years. It’s a fun and affordable way of learning.' },
+              ].map((review, idx) => (
+                <CarouselItem key={idx}>
+                  <div className="bg-white rounded-xl shadow-md p-6 flex flex-col items-center border border-gray-100 min-h-[180px]">
+                    <blockquote className="italic text-gray-700 mb-3 text-center">“{review.quote}”</blockquote>
+                    <span className="font-semibold text-brand-primary">{review.name}</span>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="-left-4" />
+            <CarouselNext className="-right-4" />
+          </Carousel>
+        </div>
       </div>
     </div>
   );
