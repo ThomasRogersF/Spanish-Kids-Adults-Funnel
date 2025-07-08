@@ -264,7 +264,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F7F4EE] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-[#F7F4EE] p-0">
       {renderStage()}
     </div>
   );
