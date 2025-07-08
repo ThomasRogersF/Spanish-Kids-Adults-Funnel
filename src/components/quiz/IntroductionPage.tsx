@@ -13,27 +13,27 @@ const HERO_IMAGE_URL =
 
 const testimonials = [
   {
-    name: 'Kerry Michael Keyes',
+    name: 'Koji',
     role: 'SpanishVIP Student',
     quote:
-      'I have tried various platforms to learn Spanish. Spanish VIP is head and shoulders the best platform out there.',
-    image: HERO_IMAGE_URL,
+      'I can finally talk to my grandchildren in Spanish!',
+    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181137.png',
     rating: 5,
   },
   {
-    name: 'Kerry Michael Keyes',
+    name: 'Suzanne',
     role: 'SpanishVIP Student',
     quote:
-      'I have tried various platforms to learn Spanish. Spanish VIP is head and shoulders the best platform out there.',
-    image: HERO_IMAGE_URL,
+      'My confidence has skyrocketed!',
+    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181102.png',
     rating: 5,
   },
   {
-    name: 'Kerry Michael Keyes',
+    name: 'Catie',
     role: 'SpanishVIP Student',
     quote:
-      'I have tried various platforms to learn Spanish. Spanish VIP is head and shoulders the best platform out there.',
-    image: HERO_IMAGE_URL,
+      'Learning Spanish opened new doors!',
+    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181037.png',
     rating: 5,
   },
 ];
