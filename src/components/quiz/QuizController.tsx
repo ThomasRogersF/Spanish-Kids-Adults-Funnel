@@ -4,7 +4,6 @@ import { QuizConfig, QuizParticipant, QuizAnswer, ResultTemplate } from "@/types
 import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook } from "@/utils/quizUtils";
 import IntroductionPage from "./IntroductionPage";
 import QuestionCard from "./QuestionCard";
-import ResultsPage from "./ResultsPage";
 import OfferPage from "./OfferPage";
 import UserInfoForm from "./UserInfoForm";
 
@@ -12,7 +11,7 @@ interface QuizControllerProps {
   config: QuizConfig;
 }
 
-type QuizStage = "intro" | "questions" | "user-info" | "results" | "thank-you";
+type QuizStage = "intro" | "questions" | "user-info" | "thank-you";
 
 const QuizController = ({ config }: QuizControllerProps) => {
   const [stage, setStage] = useState<QuizStage>("intro");
@@ -25,21 +24,15 @@ const QuizController = ({ config }: QuizControllerProps) => {
     email: "",
     answers: []
   });
-  const [personalizedResult, setPersonalizedResult] = useState<ResultTemplate | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
   // Effect to handle completion of questions and transition to user info stage
   useEffect(() => {
-    console.log("Effect triggered - Stage:", stage, "Current Question ID:", currentQuestionId);
-    
     if (stage === "questions" && currentQuestionId === null && participant.answers.length > 0) {
-      console.log("Quiz questions completed. Transitioning to user info stage.");
-      const result = getPersonalizedResult(participant.answers, config.resultTemplates);
-      setPersonalizedResult(result);
       setStage("user-info");
     }
-  }, [stage, currentQuestionId, participant.answers, config.resultTemplates]);
+  }, [stage, currentQuestionId, participant.answers]);
 
   const handleStartQuiz = () => {
     console.log("Starting quiz");
@@ -125,17 +118,13 @@ const QuizController = ({ config }: QuizControllerProps) => {
   };
 
   const handleUserInfoSubmit = (name: string, email: string) => {
-    console.log("User info submitted:", name, email);
-    
     // Update participant info
     const updatedParticipant = {
       ...participant,
       name,
       email
     };
-    
     setParticipant(updatedParticipant);
-    
     // Send data to webhook if configured
     if (config.webhookUrl) {
       sendDataToWebhook(config.webhookUrl, updatedParticipant, config)
@@ -149,7 +138,6 @@ const QuizController = ({ config }: QuizControllerProps) => {
           }
         })
         .catch(error => {
-          console.error("Error sending data to webhook:", error);
           toast({
             title: "Data submission error",
             description: "There was an error submitting your data.",
@@ -157,8 +145,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
           });
         });
     }
-    
-    // Skip results page and go directly to thank you page
+    // Go directly to offer page
     setStage("thank-you");
   };
   
@@ -173,6 +160,16 @@ const QuizController = ({ config }: QuizControllerProps) => {
     }
   };
   
+  // Add a debug function to jump to results
+  const handleDebugOffer = () => {
+    setParticipant({
+      name: "Debug User",
+      email: "debug@example.com",
+      answers: []
+    });
+    setStage("thank-you");
+  };
+
   // Calculate progress and question numbers
   const calculateProgress = () => {
     if (!currentQuestionId || config.questions.length === 0) return 0;
@@ -209,10 +206,12 @@ const QuizController = ({ config }: QuizControllerProps) => {
     switch (stage) {
       case "intro":
         return (
-          <IntroductionPage 
-            config={config}
-            onStart={handleStartQuiz}
-          />
+          <>
+            <IntroductionPage 
+              onStart={handleStartQuiz}
+              onDebugOffer={handleDebugOffer}
+            />
+          </>
         );
       case "questions":
         if (isLoading) {
@@ -253,19 +252,9 @@ const QuizController = ({ config }: QuizControllerProps) => {
             config={config}
           />
         );
-      case "results":
-        return (
-          <ResultsPage
-            config={config}
-            participant={participant}
-            personalizedResult={personalizedResult}
-            onContinue={handleContinueToThankYou}
-          />
-        );
       case "thank-you":
         return (
           <OfferPage 
-            config={config} 
             onExternalRedirect={handleExternalRedirect}
           />
         );

@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 
 interface IntroductionPageProps {
   onStart: () => void;
+  onDebugOffer?: () => void;
 }
 
 const LOGO_URL =
@@ -37,7 +38,7 @@ const testimonials = [
   },
 ];
 
-export default function IntroductionPage({ onStart }: IntroductionPageProps) {
+export default function IntroductionPage({ onStart, onDebugOffer }: IntroductionPageProps) {
   return (
     <div className="min-h-screen bg-[#F7F4EE] flex flex-col font-sans">
       {/* Header */}
@@ -81,6 +82,14 @@ export default function IntroductionPage({ onStart }: IntroductionPageProps) {
           >
             Start Now <ArrowRight className="w-5 h-5" />
           </button>
+          {onDebugOffer && (
+            <button
+              onClick={onDebugOffer}
+              className="mt-4 px-8 py-3 bg-brand-primary text-white font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg hover:bg-orange-600 transition-colors duration-200 mx-auto md:mx-0"
+            >
+              Debug: Go to Offer Page
+            </button>
+          )}
         </div>
         {/* Right: Image with video call UI */}
         <div className="flex-1 flex items-center justify-center relative max-w-md w-full">

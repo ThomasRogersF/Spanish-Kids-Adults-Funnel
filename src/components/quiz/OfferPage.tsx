@@ -2,6 +2,13 @@ import React from 'react';
 import { CheckCircle, Users, BookOpen, Clock, Star, Globe, Heart, Brain, Shield, Smartphone, Award, MessageCircle, Play } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import MobileFeaturesSection from './MobileFeaturesSection';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
 const OfferPage: React.FC = () => {
   return (
@@ -264,33 +271,30 @@ const OfferPage: React.FC = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             {[
               {
-                name: "Maria, 62",
+                name: "Koji",
                 quote: "I can finally talk to my grandchildren in Spanish!",
-                image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=200&h=200&fit=crop&crop=face"
+                video: "https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4"
               },
               {
-                name: "Robert, 58", 
+                name: "Suzanne", 
                 quote: "My confidence has skyrocketed!",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"
+                video: "https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4"
               },
               {
-                name: "Linda, 65",
+                name: "Catie",
                 quote: "Learning Spanish opened new doors!",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face"
+                video: "https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4"
               }
             ].map((testimonial, index) => (
               <div key={index} className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer">
                 <div className="aspect-video relative">
-                  <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
+                  <video
+                    src={testimonial.video}
                     className="w-full h-full object-cover"
+                    controls
+                    preload="metadata"
+                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f3f4f6'/%3E%3C/svg%3E"
                   />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Play className="w-6 h-6 text-gray-800 ml-1" />
-                    </div>
-                  </div>
                 </div>
                 <div className="p-6">
                   <div className="flex text-yellow-400 mb-2">
@@ -389,29 +393,33 @@ const OfferPage: React.FC = () => {
           <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
             People love SpanishVIP
           </h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              { initial: "S", name: "Sarah M.", quote: "The best Spanish learning experience I've ever had!" },
-              { initial: "M", name: "Michael R.", quote: "Finally, a program that works for people my age." },
-              { initial: "J", name: "Jennifer L.", quote: "I'm amazed at how quickly I'm improving!" }
-            ].map((testimonial, index) => (
-              <div key={index} className="bg-white p-6 shadow-lg rounded-2xl">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-orange-600">{testimonial.initial}</span>
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-800">{testimonial.name}</div>
-                    <div className="flex text-yellow-400">
-                      {"★".repeat(5)}
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-700">"{testimonial.quote}"</p>
-              </div>
-            ))}
-          </div>
+         <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+           <CarouselContent className="-ml-4">
+             {[
+               { name: 'Dale Givens', quote: 'Classes were structured to meet my needs... the best experience I have had with online language instruction.' },
+               { name: 'Matthew Heredia', quote: 'Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.' },
+               { name: 'Milton Lindsay', quote: 'Spanish VIP is the best program I’ve worked with. My instructor stays flexible while providing a structured curriculum.' },
+               { name: 'Todd Pereira', quote: 'Duolingo can only take you so far... I’ve been doing 1-to-1 classes for almost 2 months and still use Duolingo to top up.' },
+               { name: 'Sameera Hemmat', quote: 'The one-on-one teaching style tailored to the student makes Spanish VIP’s approach unique and beneficial.' },
+               { name: 'Steve Anderson', quote: 'I’ve used online programs before, but I wanted something more structured and challenging.' },
+               { name: 'Steve Worhlrab', quote: 'I can’t say enough good things about SpanishVIP and my private teacher.' },
+               { name: 'Gabriel Pretto', quote: 'My experience has been great so far. Very professional and easy to communicate with.' },
+               { name: 'Alexander Yaroshevich', quote: 'I’ve been taking group classes for 2 years. It’s a fun and affordable way of learning.' },
+             ].map((review, idx) => (
+               <CarouselItem key={idx} className="pl-4 md:basis-1/3 basis-full">
+                 <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center h-full">
+                   <div className="flex text-yellow-400 mb-2">
+                     {"★".repeat(5)}
+                   </div>
+                   <p className="text-gray-800 mb-2 text-center">"{review.quote}"</p>
+                   <p className="font-semibold text-gray-900">{review.name}</p>
+                 </div>
+               </CarouselItem>
+             ))}
+           </CarouselContent>
+           <CarouselPrevious className="-left-4" />
+           <CarouselNext className="-right-4" />
+         </Carousel>
         </div>
       </section>
 
