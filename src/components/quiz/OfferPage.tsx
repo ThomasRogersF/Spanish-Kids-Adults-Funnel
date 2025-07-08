@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CheckCircle, Users, BookOpen, Clock, Star, Globe, Heart, Brain, Shield, Smartphone, Award, MessageCircle, Play } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import MobileFeaturesSection from './MobileFeaturesSection';
@@ -11,6 +11,19 @@ import {
 } from "@/components/ui/carousel";
 
 const OfferPage: React.FC = () => {
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openVideoModal = (videoUrl: string) => {
+    setSelectedVideo(videoUrl);
+    setIsModalOpen(true);
+  };
+
+  const closeVideoModal = () => {
+    setIsModalOpen(false);
+    setSelectedVideo(null);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
       {/* Hero Section */}
@@ -286,15 +299,13 @@ const OfferPage: React.FC = () => {
                 video: "https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4"
               }
             ].map((testimonial, index) => (
-              <div key={index} className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer">
+              <div key={index} className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => openVideoModal(testimonial.video)}>
                 <div className="aspect-video relative">
-                  <video
-                    src={testimonial.video}
-                    className="w-full h-full object-cover"
-                    controls
-                    preload="metadata"
-                    poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='225' viewBox='0 0 400 225'%3E%3Crect width='400' height='225' fill='%23f3f4f6'/%3E%3C/svg%3E"
-                  />
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                      <Play className="w-6 h-6 text-gray-800 ml-1" />
+                    </div>
+                  </div>
                 </div>
                 <div className="p-6">
                   <div className="flex text-yellow-400 mb-2">
@@ -422,6 +433,26 @@ const OfferPage: React.FC = () => {
          </Carousel>
         </div>
       </section>
+
+      {/* Video Modal */}
+      {isModalOpen && selectedVideo && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={closeVideoModal}>
+          <div className="relative max-w-4xl w-full max-h-[80vh]" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={closeVideoModal}
+              className="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 z-10"
+            >
+              ✕
+            </button>
+            <video
+              src={selectedVideo}
+              className="w-full h-full rounded-lg"
+              controls
+              autoPlay
+            />
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer className="bg-gray-900 py-8 px-4">
