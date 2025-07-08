@@ -13,10 +13,12 @@ const OfferPage: React.FC = () => {
             {/* Branding and Headline */}
             <div>
               <div className="flex items-center mb-6">
-                <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mr-4">
-                  <Globe className="w-6 h-6 text-orange-600" />
-                </div>
-                <span className="text-2xl font-bold text-gray-800">SpanishVIP</span>
+                <img
+                  src="https://spanishvip.com/wp-content/uploads/2025/06/SpanishVIP-Original-Logo.png"
+                  alt="SpanishVIP Logo"
+                  className="h-12 w-auto"
+                  style={{ maxWidth: 180 }}
+                />
               </div>
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-800 mb-6 leading-tight">
                 See how SpanishVIP will transform your Spanish journey
@@ -311,8 +313,10 @@ const OfferPage: React.FC = () => {
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           {/* Countdown Timer */}
+
           <CountdownTimer 
-            initialMinutes={15}
+            initialTime={15*60}
+            className="mb-12"
           />
 
           <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
@@ -414,9 +418,13 @@ const OfferPage: React.FC = () => {
       {/* Footer */}
       <footer className="bg-gray-900 py-8 px-4">
         <div className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Globe className="w-6 h-6 text-white" />
-            <span className="text-xl font-bold text-white">SpanishVIP</span>
+          <div className="flex items-center justify-center mb-4">
+            <img
+              src="https://spanishvip.com/wp-content/uploads/2025/06/SpanishVIP-Original-Logo.png"
+              alt="SpanishVIP Logo"
+              className="h-8 w-auto"
+              style={{ maxWidth: 120 }}
+            />
           </div>
           <p className="text-gray-400">2024 © SpanishVIP.com</p>
         </div>

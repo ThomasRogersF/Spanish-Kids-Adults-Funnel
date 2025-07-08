@@ -5,7 +5,7 @@ const MobileFeaturesSection: React.FC = () => (
   <section className="bg-[#eafff3] py-16">
     <div className="max-w-6xl mx-auto px-4">
       {/* Heading */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-12">
         <h2 className="text-4xl font-bold text-gray-900 mb-3">
           Learn Spanish anywhere, anytime
         </h2>
@@ -17,9 +17,9 @@ const MobileFeaturesSection: React.FC = () => (
       {/* Main Content */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-12">
         {/* Mobile Mockups */}
-        <div className="flex gap-4 overflow-x-auto w-full justify-center md:justify-start">
+        <div className="flex gap-4 overflow-x-auto md:overflow-x-visible md:gap-6 md:justify-center">
           {/* Live Class Mockup */}
-          <div className="rounded-3xl border-4 border-gray-900 bg-white w-full max-w-[240px] h-[420px] flex flex-col justify-between p-4 shadow-xl flex-shrink-0">
+          <div className="rounded-3xl border-4 border-gray-900 bg-white w-60 h-[420px] flex flex-col justify-between p-4 shadow-xl flex-shrink-0">
             <div className="bg-gradient-to-r from-orange-400 to-pink-400 text-white rounded-xl px-4 py-2 text-lg font-semibold mb-4">
               Live Spanish Class
             </div>
@@ -45,7 +45,7 @@ const MobileFeaturesSection: React.FC = () => (
             </div>
           </div>
           {/* Academy Course Mockup */}
-          <div className="rounded-3xl border-4 border-gray-900 bg-white w-full max-w-[240px] h-[420px] flex flex-col justify-between p-4 shadow-xl flex-shrink-0">
+          <div className="rounded-3xl border-4 border-gray-900 bg-white w-60 h-[420px] flex flex-col justify-between p-4 shadow-xl flex-shrink-0">
             <div className="bg-gradient-to-r from-cyan-400 to-blue-400 text-white rounded-xl px-4 py-2 text-lg font-semibold mb-4">
               Academy Course
             </div>
