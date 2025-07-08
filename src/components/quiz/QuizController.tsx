@@ -5,7 +5,7 @@ import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook } from "@/u
 import IntroductionPage from "./IntroductionPage";
 import QuestionCard from "./QuestionCard";
 import ResultsPage from "./ResultsPage";
-import ThankYouPage from "./ThankYouPage";
+import OfferPage from "./OfferPage";
 import UserInfoForm from "./UserInfoForm";
 
 interface QuizControllerProps {
@@ -264,7 +264,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
         );
       case "thank-you":
         return (
-          <ThankYouPage 
+          <OfferPage 
             config={config} 
             onExternalRedirect={handleExternalRedirect}
           />
