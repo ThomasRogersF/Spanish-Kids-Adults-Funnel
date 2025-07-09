@@ -59,8 +59,8 @@ const OfferPage: React.FC = () => {
             {/* Hero Image */}
             <div className="relative order-first lg:order-last">
               <img 
-                src="https://images.pexels.com/photos/3768911/pexels-photo-3768911.jpeg?auto=compress&cs=tinysrgb&w=600" 
-                alt="Happy mature woman learning Spanish" 
+                src="https://spanishvip.com/wp-content/uploads/2025/06/Learn-Spanish-with-SpanisVIP-Academy.jpg" 
+                alt="Learn Spanish with SpanishVIP Academy" 
                 className="rounded-2xl shadow-2xl w-full h-64 sm:h-80 lg:h-96 object-cover"
               />
             </div>
@@ -216,7 +216,7 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Social Proof Section */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-r from-amber-400 to-orange-500 w-full min-w-full p-0">
+      <section className="py-8 sm:py-12 lg:py-16 w-full min-w-full p-0" style={{ background: 'linear-gradient(135deg, #062231 0%, #012F56 100%)' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
           <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
             <div className="space-y-6 sm:space-y-8">
