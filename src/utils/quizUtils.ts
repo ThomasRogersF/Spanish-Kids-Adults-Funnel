@@ -168,14 +168,27 @@ export const sendDataToWebhook = async (
     // Calculate score by counting the number of correct answers
     const correctAnswers = countCorrectAnswers(participant.answers);
     
-    // Build simplified data structure
-    const simplifiedData = {
+    // Build comprehensive data structure with all responses
+    const webhookData = {
       name: participant.name,
       email: participant.email,
-      score: correctAnswers
+      score: correctAnswers,
+      totalQuestions: quizConfig.questions.length,
+      responses: participant.answers.map(answer => {
+        const question = quizConfig.questions.find(q => q.id === answer.questionId);
+        return {
+          questionId: answer.questionId,
+          questionTitle: question?.title || 'Unknown Question',
+          response: answer.value,
+          questionType: question?.type || 'unknown'
+        };
+      }),
+      timestamp: new Date().toISOString(),
+      quizTitle: quizConfig.title,
+      quizId: quizConfig.id
     };
     
-    console.log("Simplified data being sent:", simplifiedData);
+    console.log("Webhook data being sent:", webhookData);
     
     // Make the actual API call to the webhook
     const response = await fetch(webhookUrl, {
@@ -183,7 +196,7 @@ export const sendDataToWebhook = async (
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(simplifiedData),
+      body: JSON.stringify(webhookData),
     });
     
     if (!response.ok) {
