@@ -157,12 +157,23 @@ export const sendDataToWebhook = async (
   quizConfig: QuizConfig
 ): Promise<boolean> => {
   try {
-    console.log("Attempting to send data to webhook:", webhookUrl);
+    console.log("=== WEBHOOK DEBUG START ===");
+    console.log("Webhook URL:", webhookUrl);
+    console.log("Participant data:", participant);
+    console.log("Quiz config ID:", quizConfig.id);
     
     // Only attempt to send data if we have a webhook URL
-    if (!webhookUrl) {
+    if (!webhookUrl || webhookUrl.trim() === '') {
       console.log("No webhook URL provided, skipping data submission");
       return true;
+    }
+    
+    // Validate webhook URL format
+    try {
+      new URL(webhookUrl);
+    } catch (e) {
+      console.error("Invalid webhook URL format:", webhookUrl);
+      return false;
     }
     
     // Calculate score by counting the number of correct answers
@@ -188,26 +199,42 @@ export const sendDataToWebhook = async (
       quizId: quizConfig.id
     };
     
-    console.log("Webhook data being sent:", webhookData);
+    console.log("Webhook data being sent:", JSON.stringify(webhookData, null, 2));
     
     // Make the actual API call to the webhook
+    console.log("Making fetch request to webhook...");
     const response = await fetch(webhookUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
       },
+      mode: 'cors',
       body: JSON.stringify(webhookData),
     });
     
+    console.log("Webhook response status:", response.status);
+    console.log("Webhook response headers:", Object.fromEntries(response.headers.entries()));
+    
     if (!response.ok) {
-      console.error("Webhook response not OK:", response.status);
+      const errorText = await response.text();
+      console.error("Webhook response not OK:", response.status, errorText);
       return false;
     }
     
+    const responseText = await response.text();
+    console.log("Webhook response body:", responseText);
     console.log("Data sent successfully to webhook");
+    console.log("=== WEBHOOK DEBUG END ===");
     return true;
   } catch (error) {
+    console.error("=== WEBHOOK ERROR ===");
     console.error("Error sending data to webhook:", error);
+    console.error("Error details:", {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    console.log("=== WEBHOOK DEBUG END ===");
     return false;
   }
 };
