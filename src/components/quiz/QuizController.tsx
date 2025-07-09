@@ -135,23 +135,11 @@ const QuizController = ({ config }: QuizControllerProps) => {
       sendDataToWebhook(config.webhookUrl, updatedParticipant, config)
         .then((success) => {
           console.log("Webhook send result:", success);
-          if (!success) {
-            toast({
-              title: "Data submission issue",
-              description: "There was an issue sending your responses. Please try again later.",
-              variant: "destructive"
-            });
-          } else {
-            console.log("Webhook data sent successfully");
-          }
+          // No toast notification on failure
         })
         .catch(error => {
           console.error("Webhook send error:", error);
-          toast({
-            title: "Data submission error",
-            description: "There was an error submitting your data.",
-            variant: "destructive"
-          });
+          // No toast notification on error
         });
     } else {
       console.log("No webhook URL configured");
