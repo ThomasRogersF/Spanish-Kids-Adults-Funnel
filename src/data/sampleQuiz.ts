@@ -10,7 +10,7 @@ export const sampleQuiz: QuizConfig = {
   estimatedTime: "5-7 minutes",
   primaryColor: "#FF5913",
   secondaryColor: "#1DD3B0",
-  webhookUrl: "https://hook.us2.make.com/mvt34ak8l82zej965ykcsayb9fk34gs6",
+  webhookUrl: "https://hook.us2.make.com/gnfd34g3pl5pk0kbwsy53j5207o0yv95",
   incentiveEnabled: true,
   incentiveTitle: "Spanish Shortcuts Guide",
   incentiveUrl: "https://spanishvip.com/wp-content/uploads/2022/02/Easy-Spanish-Shortcuts-Updated.pdf",
