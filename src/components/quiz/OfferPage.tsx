@@ -308,7 +308,7 @@ const OfferPage: React.FC = () => {
             
             <div className="flex justify-center order-first md:order-last">
               <img
-                src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop&crop=faces"
+                src="https://spanishvip.com/wp-content/uploads/2025/07/Depositphotos_685488096_L.jpg"
                 alt="Happy mature couple enjoying conversation"
                 className="rounded-2xl shadow-xl max-w-sm w-full h-48 sm:h-64 object-cover"
               />
