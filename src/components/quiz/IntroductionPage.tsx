@@ -95,14 +95,7 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
           >
             Start Now <ArrowRight className="w-5 h-5" />
           </button>
-          {onDebugOffer && (
-            <button
-              onClick={onDebugOffer}
-              className="mt-4 px-8 py-3 bg-brand-primary text-white font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg hover:bg-orange-600 transition-colors duration-200 mx-auto md:mx-0"
-            >
-              Debug: Go to Offer Page
-            </button>
-          )}
+
         </div>
         {/* Right: Image with video call UI */}
         <div className="flex-1 flex items-center justify-center relative max-w-md w-full">

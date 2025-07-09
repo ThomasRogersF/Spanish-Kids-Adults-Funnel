@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle, Users, BookOpen, Clock, Star, Globe, Heart, Brain, Shield, Smartphone, Award, MessageCircle, Play } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import MobileFeaturesSection from './MobileFeaturesSection';
@@ -13,6 +13,7 @@ import {
 const OfferPage: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showJourneySection, setShowJourneySection] = useState(false);
 
   const openVideoModal = (videoUrl: string) => {
     setSelectedVideo(videoUrl);
@@ -23,6 +24,25 @@ const OfferPage: React.FC = () => {
     setIsModalOpen(false);
     setSelectedVideo(null);
   };
+
+  const scrollToOffer = () => {
+    const offerSection = document.getElementById('exclusive-offer-section');
+    if (offerSection) {
+      offerSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  useEffect(() => {
+    // Trigger animation when component mounts
+    const timer = setTimeout(() => {
+      setShowJourneySection(true);
+    }, 500);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 overflow-x-hidden w-full p-0">
@@ -51,7 +71,10 @@ const OfferPage: React.FC = () => {
                   </span>
                 </div>
               </div>
-              <button className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-colors flex items-center justify-center text-lg sm:text-xl shadow-lg w-full sm:w-auto">
+              <button 
+                onClick={scrollToOffer}
+                className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:from-orange-600 hover:to-red-600 transition-colors flex items-center justify-center text-lg sm:text-xl shadow-lg w-full sm:w-auto"
+              >
                 Claim Your Offer
                 <span className="ml-2">→</span>
               </button>
@@ -71,14 +94,22 @@ const OfferPage: React.FC = () => {
       {/* Unified Results Section (2x2 grid of cards) */}
       <section className="py-8 sm:py-12 lg:py-16 w-full min-w-full p-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-          <div className="text-center mb-8 sm:mb-12">
+          <div className={`text-center mb-8 sm:mb-12 transition-all duration-1000 ease-out ${
+            showJourneySection 
+              ? 'opacity-100 transform translate-y-0' 
+              : 'opacity-0 transform translate-y-8'
+          }`}>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-4">
               Based on your answers, your Spanish learning journey is...
             </h2>
           </div>
           <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
             {/* Card 1: Progress Chart */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <div className={`bg-white rounded-2xl shadow-lg p-6 sm:p-8 transition-all duration-1000 ease-out delay-200 ${
+              showJourneySection 
+                ? 'opacity-100 transform translate-y-0' 
+                : 'opacity-0 transform translate-y-8'
+            }`}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Your Spanish can flourish</h3>
               <div className="space-y-4 sm:space-y-6">
                 <div className="flex justify-between items-center">
@@ -113,7 +144,11 @@ const OfferPage: React.FC = () => {
             </div>
             
             {/* Card 2: Confidence Boost */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <div className={`bg-white rounded-2xl shadow-lg p-6 sm:p-8 transition-all duration-1000 ease-out delay-400 ${
+              showJourneySection 
+                ? 'opacity-100 transform translate-y-0' 
+                : 'opacity-0 transform translate-y-8'
+            }`}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Confidence / 3 months</h3>
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-start">
@@ -136,7 +171,11 @@ const OfferPage: React.FC = () => {
             </div>
             
             {/* Card 3: Spanish Skill Improvement */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <div className={`bg-white rounded-2xl shadow-lg p-6 sm:p-8 transition-all duration-1000 ease-out delay-600 ${
+              showJourneySection 
+                ? 'opacity-100 transform translate-y-0' 
+                : 'opacity-0 transform translate-y-8'
+            }`}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Spanish Skill Improvement</h3>
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex justify-between items-center">
@@ -169,7 +208,11 @@ const OfferPage: React.FC = () => {
             </div>
             
             {/* Card 4: Boost of Learning Success */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 sm:p-8">
+            <div className={`bg-white rounded-2xl shadow-lg p-6 sm:p-8 transition-all duration-1000 ease-out delay-800 ${
+              showJourneySection 
+                ? 'opacity-100 transform translate-y-0' 
+                : 'opacity-0 transform translate-y-8'
+            }`}>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4 sm:mb-6">Boost of Learning Success</h3>
               <div className="flex items-center justify-center">
                 <div className="relative w-32 h-32 sm:w-40 sm:h-40 lg:w-48 lg:h-48">
@@ -333,7 +376,7 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Offer Section */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-gray-50 w-full min-w-full p-0">
+      <section id="exclusive-offer-section" className="py-8 sm:py-12 lg:py-16 bg-gray-50 w-full min-w-full p-0">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 w-full">
           {/* Countdown Timer */}
           <CountdownTimer 
