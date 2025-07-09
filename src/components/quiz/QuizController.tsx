@@ -130,7 +130,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
     console.log("Config webhook URL:", config.webhookUrl);
     console.log("Updated participant:", updatedParticipant);
     
-    if (config.webhookUrl) {
+    if (config.webhookUrl && config.webhookUrl.trim() !== "") {
       console.log("Webhook URL found, attempting to send data...");
       sendDataToWebhook(config.webhookUrl, updatedParticipant, config)
         .then((success) => {
