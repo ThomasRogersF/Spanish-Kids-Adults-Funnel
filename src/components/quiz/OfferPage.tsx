@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CheckCircle, Users, BookOpen, Clock, Star, Globe, Heart, Brain, Shield, Smartphone, Award, MessageCircle, Play } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import MobileFeaturesSection from './MobileFeaturesSection';
+import DesktopFeaturesSection from './DesktopFeaturesSection'; // Added import for DesktopFeaturesSection
 import {
   Carousel,
   CarouselContent,
@@ -9,11 +10,13 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import Confetti from 'react-confetti';
 
 const OfferPage: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showJourneySection, setShowJourneySection] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(true);
 
   const openVideoModal = (videoUrl: string) => {
     setSelectedVideo(videoUrl);
@@ -44,8 +47,20 @@ const OfferPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    // Show confetti for 2 seconds on mount
+    setShowConfetti(true);
+    const timer = setTimeout(() => setShowConfetti(false), 10000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 overflow-x-hidden w-full p-0">
+      {showConfetti && (
+        <div className="fixed inset-0 z-[9999] pointer-events-none">
+          <Confetti width={window.innerWidth} height={window.innerHeight} numberOfPieces={250} recycle={false} />
+        </div>
+      )}
       {/* Hero Section */}
       <section className="bg-white w-full min-w-full p-0">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 w-full">
@@ -79,13 +94,18 @@ const OfferPage: React.FC = () => {
                 <span className="ml-2">→</span>
               </button>
             </div>
-            {/* Hero Image */}
-            <div className="relative order-first lg:order-last">
+            {/* Hero Video Thumbnail */}
+            <div className="relative order-first lg:order-last cursor-pointer group" onClick={() => openVideoModal('youtube:https://www.youtube.com/embed/aIaWXzztvc0')}> 
               <img 
                 src="https://spanishvip.com/wp-content/uploads/2025/06/Learn-Spanish-with-SpanisVIP-Academy.jpg" 
                 alt="Learn Spanish with SpanishVIP Academy" 
                 className="rounded-2xl shadow-2xl w-full h-64 sm:h-80 lg:h-96 object-cover"
               />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors rounded-2xl">
+                <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                  <Play className="w-8 h-8 text-gray-800 ml-1" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -253,9 +273,13 @@ const OfferPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Replace the old mobile learning section with the new one */}
-      <section className="w-full min-w-full p-0">
+      {/* Mobile/Tablet Features Section */}
+      <section className="w-full min-w-full p-0 block lg:hidden">
         <MobileFeaturesSection />
+      </section>
+      {/* Desktop Features Section */}
+      <section className="w-full min-w-full p-0 hidden lg:block">
+        <DesktopFeaturesSection />
       </section>
 
       {/* Social Proof Section */}
@@ -511,22 +535,36 @@ const OfferPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Video Modal */}
-      {isModalOpen && selectedVideo && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={closeVideoModal}>
-          <div className="relative max-w-4xl w-full max-h-[80vh]" onClick={(e) => e.stopPropagation()}>
+      {/* Video Modal (supports YouTube and local video) */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all"
+          onClick={closeVideoModal}
+        >
+          <div
+            className="relative bg-black rounded-2xl shadow-2xl max-w-2xl w-full mx-4"
+            onClick={e => e.stopPropagation()}
+          >
             <button
+              className="absolute top-2 right-2 z-10 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow"
               onClick={closeVideoModal}
-              className="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 z-10"
+              aria-label="Close video"
             >
-              ✕
+              ×
             </button>
-            <video
-              src={selectedVideo}
-              className="w-full h-full rounded-lg"
-              controls
-              autoPlay
-            />
+            <div className="aspect-video w-full h-full flex items-center justify-center">
+              {selectedVideo && selectedVideo.startsWith('youtube:') ? (
+                <iframe
+                  src={selectedVideo.replace('youtube:', '') + '?autoplay=1'}
+                  title="YouTube video player"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                  className="w-full h-full rounded-b-2xl"
+                />
+              ) : selectedVideo ? (
+                <video src={selectedVideo} controls autoPlay className="w-full h-full rounded-b-2xl" />
+              ) : null}
+            </div>
           </div>
         </div>
       )}

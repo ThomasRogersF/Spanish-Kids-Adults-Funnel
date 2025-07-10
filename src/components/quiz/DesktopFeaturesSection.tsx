@@ -17,7 +17,7 @@ const DesktopFeaturesSection: React.FC = () => (
       {/* Main Content */}
       <div className="flex flex-col md:flex-row items-center justify-center gap-12">
         {/* Mobile Mockups */}
-        <div className="flex gap-4 overflow-x-auto md:overflow-x-visible md:gap-6 md:justify-center scroll-smooth w-full max-w-full pb-2 no-scrollbar">
+        <div className="flex gap-4 overflow-x-auto md:overflow-x-visible md:gap-6 md:justify-center">
           {/* Live Class Mockup */}
           <div className="flex flex-col items-center w-60 flex-shrink-0">
             <span className="bg-orange-400 text-white text-xs font-bold px-3 py-1 rounded-full mb-2">LIVE</span>
@@ -115,6 +115,4 @@ const DesktopFeaturesSection: React.FC = () => (
   </section>
 );
 
-export default DesktopFeaturesSection;
-
-// Tailwind doesn't have a built-in 'no-scrollbar' class, so add it via global CSS if not present. 
+export default DesktopFeaturesSection; 

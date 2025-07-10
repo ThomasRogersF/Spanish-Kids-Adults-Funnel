@@ -87,9 +87,9 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F4EE] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F7F4EE] flex flex-col font-sans overflow-x-hidden w-full" style={{ boxSizing: 'border-box' }}>
       {/* Header */}
-      <header className="w-full flex flex-col items-center pt-8 pb-2">
+      <header className="w-full flex flex-col items-center pt-8 pb-2 max-w-screen">
         <img
           src={LOGO_URL}
           alt="SpanishVIP Logo"
@@ -99,9 +99,9 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
       </header>
 
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-center gap-10 px-4 md:px-12 py-6 md:py-12 max-w-6xl mx-auto w-full">
+      <section className="flex flex-col md:flex-row items-center justify-center gap-10 px-4 md:px-12 py-6 md:py-12 max-w-6xl mx-auto w-full max-w-screen">
         {/* Left: Text */}
-        <div className="flex-1 max-w-xl text-center md:text-left">
+        <div className="flex-1 max-w-xl text-center md:text-left w-full">
           <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
             It's Never Too Late to <br />
             <span className="text-[#F36A20]">Master Spanish!</span>
@@ -158,17 +158,17 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
       </section>
 
       {/* Trust Indicator */}
-      <section className="w-full text-center mt-6 mb-2">
+      <section className="w-full text-center mt-6 mb-2 max-w-screen">
         <p className="text-gray-500 text-base tracking-wide mb-1">Trusted by Thousands</p>
       </section>
 
       {/* Testimonials */}
-      <section className="w-full flex flex-col items-center px-4 pb-12">
-        <div className="w-full max-w-5xl">
+      <section className="w-full flex flex-col items-center px-4 pb-12 max-w-screen">
+        <div className="w-full max-w-5xl overflow-x-hidden">
           <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
-            <CarouselContent className="-ml-4">
+            <CarouselContent className="w-full">
               {testimonials.map((t, idx) => (
-                <CarouselItem key={idx} className="pl-4 md:basis-1/3 basis-full">
+                <CarouselItem key={idx} className="w-full md:basis-1/3 basis-full">
                   <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center h-full max-w-sm mx-auto">
                     <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
                       <img
@@ -202,29 +202,20 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
             <CarouselNext className="-right-4" />
           </Carousel>
         </div>
-        {/* Video Modal */}
         {videoModal.open && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
-            onClick={closeVideoModal}
-          >
-            <div
-              className="bg-white rounded-2xl shadow-2xl p-4 max-w-lg w-full relative flex flex-col items-center"
-              onClick={e => e.stopPropagation()}
-            >
+          <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={closeVideoModal}>
+            <div className="relative max-w-4xl w-full max-h-[80vh]" onClick={e => e.stopPropagation()}>
               <button
-                className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 text-2xl font-bold"
                 onClick={closeVideoModal}
-                aria-label="Close video"
+                className="absolute -top-12 right-0 text-white text-2xl hover:text-gray-300 z-10"
               >
-                ×
+                ✕
               </button>
               <video
                 src={videoModal.videoUrl || undefined}
+                className="w-full h-full rounded-lg"
                 controls
                 autoPlay
-                className="w-full rounded-xl max-h-[70vh]"
-                poster=""
               />
             </div>
           </div>
