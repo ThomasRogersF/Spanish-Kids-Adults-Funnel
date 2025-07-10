@@ -140,7 +140,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
         .catch(error => {
           console.error("Webhook send error:", error);
           // No toast notification on error
-        });
+          });
     } else {
       console.log("No webhook URL configured");
     }

@@ -324,49 +324,75 @@ const OfferPage: React.FC = () => {
             Real stories from our Spanish learners
           </h2>
           
-          <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
-            {[
-              {
-                name: "Koji",
-                quote: "I can finally talk to my grandchildren in Spanish!",
-                video: "https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4",
-                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181137.png"
-              },
-              {
-                name: "Suzanne", 
-                quote: "My confidence has skyrocketed!",
-                video: "https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4",
-                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181102.png"
-              },
-              {
-                name: "Catie",
-                quote: "Learning Spanish opened new doors!",
-                video: "https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4",
-                image: "https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181037.png"
-              }
-            ].map((testimonial, index) => (
-              <div key={index} className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => openVideoModal(testimonial.video)}>
-                <div className="aspect-video relative">
-                  <img
-                    src={testimonial.image}
-                    alt={`${testimonial.name} testimonial preview`}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
-                    <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
-                      <Play className="w-4 h-4 sm:w-6 sm:h-6 text-gray-800 ml-1" />
+          <div className="w-full max-w-5xl mx-auto">
+            <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+              <CarouselContent className="-ml-4">
+                {[
+                  {
+                    name: "Koji",
+                    quote: "I can finally talk to my grandchildren in Spanish!",
+                    video: "/videos/koji-testimonial.mp4",
+                    image: "/images/testimonials-preview/koji-testimonial.png"
+                  },
+                  {
+                    name: "Suzanne", 
+                    quote: "My confidence has skyrocketed!",
+                    video: "/videos/suzanne-testimonial.mp4",
+                    image: "/images/testimonials-preview/suzanne-testimonial.png"
+                  },
+                  {
+                    name: "Catie",
+                    quote: "Learning Spanish opened new doors!",
+                    video: "/videos/catie-testimonial.mp4",
+                    image: "/images/testimonials-preview/catie-testimonial.png"
+                  },
+                  {
+                    name: "Boris",
+                    quote: "Classes were structured to meet my needs... the best experience I have had with online language instruction.",
+                    video: "/videos/boris-testimonial.mp4",
+                    image: "/images/testimonials-preview/boris-testimonial.png"
+                  },
+                  {
+                    name: "Chris", 
+                    quote: "Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.",
+                    video: "/videos/chris-testimonial.mp4",
+                    image: "/images/testimonials-preview/chris-testimonial.png"
+                  },
+                  {
+                    name: "Kholman",
+                    quote: "Spanish VIP is the best program I've worked with. My instructor stays flexible while providing a structured curriculum.",
+                    video: "/videos/kholman-testimonial.mp4",
+                    image: "/images/testimonials-preview/kholman-testimonial.png"
+                  }
+                ].map((testimonial, index) => (
+                  <CarouselItem key={index} className="pl-4 md:basis-1/3 basis-full">
+                    <div className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => openVideoModal(testimonial.video)}>
+                      <div className="aspect-video relative">
+                        <img
+                          src={testimonial.image}
+                          alt={`${testimonial.name} testimonial preview`}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/20 flex items-center justify-center group-hover:bg-black/30 transition-colors">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg">
+                            <Play className="w-4 h-4 sm:w-6 sm:h-6 text-gray-800 ml-1" />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="p-4 sm:p-6">
+                        <div className="flex text-yellow-400 mb-2">
+                          {"★".repeat(5)}
+                        </div>
+                        <p className="text-gray-700 mb-2 text-sm sm:text-base">"{testimonial.quote}"</p>
+                        <p className="font-semibold text-gray-800 text-sm sm:text-base">{testimonial.name}</p>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="p-4 sm:p-6">
-                  <div className="flex text-yellow-400 mb-2">
-                    {"★".repeat(5)}
-                  </div>
-                  <p className="text-gray-700 mb-2 text-sm sm:text-base">"{testimonial.quote}"</p>
-                  <p className="font-semibold text-gray-800 text-sm sm:text-base">{testimonial.name}</p>
-                </div>
-              </div>
-            ))}
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="-left-4" />
+              <CarouselNext className="-right-4" />
+            </Carousel>
           </div>
           
           <div className="text-center">

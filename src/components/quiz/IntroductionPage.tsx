@@ -1,6 +1,13 @@
 
 import { ArrowRight } from 'lucide-react';
 import React, { useState } from 'react';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from "@/components/ui/carousel";
 
 interface IntroductionPageProps {
   onStart: () => void;
@@ -18,8 +25,8 @@ const testimonials = [
     role: 'SpanishVIP Student',
     quote:
       'I can finally talk to my grandchildren in Spanish!',
-    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181137.png',
-    video: 'https://spanishvip.com/wp-content/uploads/2025/07/Koji-Testimonial-Video.mp4',
+    image: '/images/testimonials-preview/koji-testimonial.png',
+    video: '/videos/koji-testimonial.mp4',
     rating: 5,
   },
   {
@@ -27,8 +34,8 @@ const testimonials = [
     role: 'SpanishVIP Student',
     quote:
       'My confidence has skyrocketed!',
-    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181102.png',
-    video: 'https://spanishvip.com/wp-content/uploads/2025/07/Suzanne-Testimonial-Video.mp4',
+    image: '/images/testimonials-preview/suzanne-testimonial.png',
+    video: '/videos/suzanne-testimonial.mp4',
     rating: 5,
   },
   {
@@ -36,8 +43,35 @@ const testimonials = [
     role: 'SpanishVIP Student',
     quote:
       'Learning Spanish opened new doors!',
-    image: 'https://spanishvip.com/wp-content/uploads/2025/07/Captura-de-pantalla-2025-07-08-181037.png',
-    video: 'https://spanishvip.com/wp-content/uploads/2024/02/catie-reel.mp4',
+    image: '/images/testimonials-preview/catie-testimonial.png',
+    video: '/videos/catie-testimonial.mp4',
+    rating: 5,
+  },
+  {
+    name: 'Boris',
+    role: 'SpanishVIP Student',
+    quote:
+      'Classes were structured to meet my needs... the best experience I have had with online language instruction.',
+    image: '/images/testimonials-preview/boris-testimonial.png',
+    video: '/videos/boris-testimonial.mp4',
+    rating: 5,
+  },
+  {
+    name: 'Chris',
+    role: 'SpanishVIP Student',
+    quote:
+      'Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.',
+    image: '/images/testimonials-preview/chris-testimonial.png',
+    video: '/videos/chris-testimonial.mp4',
+    rating: 5,
+  },
+  {
+    name: 'Kholman',
+    role: 'SpanishVIP Student',
+    quote:
+      'Spanish VIP is the best program I\'ve worked with. My instructor stays flexible while providing a structured curriculum.',
+    image: '/images/testimonials-preview/kholman-testimonial.png',
+    video: '/videos/kholman-testimonial.mp4',
     rating: 5,
   },
 ];
@@ -130,38 +164,43 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
 
       {/* Testimonials */}
       <section className="w-full flex flex-col items-center px-4 pb-12">
-        <div className="flex flex-col md:flex-row gap-6 w-full max-w-5xl justify-center">
-          {testimonials.map((t, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl shadow-lg p-6 flex-1 flex flex-col items-center max-w-sm min-w-[260px] relative"
-            >
-              <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
-                <img
-                  src={t.image}
-                  alt={t.name}
-                  className="w-24 h-24 object-cover rounded-full border-4 border-[#F36A20] shadow-md"
-                />
-                {/* Play icon overlay */}
-                <span className="absolute inset-0 flex items-center justify-center">
-                  <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                    <circle cx="19" cy="19" r="19" fill="#F36A20" fillOpacity="0.85" />
-                    <polygon points="15,12 28,19 15,26" fill="#fff" />
-                  </svg>
-                </span>
-              </div>
-              <blockquote className="italic text-gray-700 text-base mb-3 text-center">“{t.quote}”</blockquote>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-semibold text-gray-900">{t.name}</span>
-                <span className="text-gray-400 text-sm">{t.role}</span>
-              </div>
-              <div className="flex gap-1">
-                {Array.from({ length: t.rating }).map((_, i) => (
-                  <span key={i} className="text-[#F36A20] text-lg">★</span>
-                ))}
-              </div>
-            </div>
-          ))}
+        <div className="w-full max-w-5xl">
+          <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+            <CarouselContent className="-ml-4">
+              {testimonials.map((t, idx) => (
+                <CarouselItem key={idx} className="pl-4 md:basis-1/3 basis-full">
+                  <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center h-full max-w-sm mx-auto">
+                    <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
+                      <img
+                        src={t.image}
+                        alt={t.name}
+                        className="w-24 h-24 object-cover rounded-full border-4 border-[#F36A20] shadow-md"
+                      />
+                      {/* Play icon overlay */}
+                      <span className="absolute inset-0 flex items-center justify-center">
+                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                          <circle cx="19" cy="19" r="19" fill="#F36A20" fillOpacity="0.85" />
+                          <polygon points="15,12 28,19 15,26" fill="#fff" />
+                        </svg>
+                      </span>
+                    </div>
+                    <blockquote className="italic text-gray-700 text-base mb-3 text-center">"{t.quote}"</blockquote>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-semibold text-gray-900">{t.name}</span>
+                      <span className="text-gray-400 text-sm">{t.role}</span>
+                    </div>
+                    <div className="flex gap-1">
+                      {Array.from({ length: t.rating }).map((_, i) => (
+                        <span key={i} className="text-[#F36A20] text-lg">★</span>
+                      ))}
+                    </div>
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="-left-4" />
+            <CarouselNext className="-right-4" />
+          </Carousel>
         </div>
         {/* Video Modal */}
         {videoModal.open && (
