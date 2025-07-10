@@ -418,7 +418,7 @@ const OfferPage: React.FC = () => {
 
           <div className="text-center mb-6 sm:mb-8">
             <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 sm:p-6 rounded-2xl">
-              <div className="text-lg sm:text-xl font-semibold mb-2">
+              <div className="text-lg sm:text-xl font-semibold mb-2 text-white">
                 Total Value: $248 | Your Price: $49.50 | You Save: $198.50!
               </div>
             </div>
@@ -426,6 +426,7 @@ const OfferPage: React.FC = () => {
 
           <div className="text-center">
             <button 
+              onClick={() => window.location.href = 'https://spanishvip.punchpass.com/passes/99815?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99815&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0wOC0xMFQxNTo0MTowNS4yNTJaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--357f1eff4a5be750270b2e907777edb0ec1d242f&pass%5Bdiscount_code%5D=PROMO50%25'}
               className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-8 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl font-bold rounded-full shadow-xl w-full sm:w-auto"
             >
               Claim Your Special Offer Now
@@ -435,13 +436,13 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Money-Back Guarantee Section */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-r from-green-400 to-green-600 w-full min-w-full p-0">
+      <section className="py-8 sm:py-12 lg:py-16 w-full min-w-full p-0" style={{ background: 'linear-gradient(135deg, #84FFB9 0%, #A9FFCE 100%)' }}>
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 w-full">
           <div className="w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
             <Shield className="w-8 h-8 sm:w-10 sm:h-10 text-green-600" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-3 sm:mb-4">30-Day Money-Back Guarantee</h2>
-          <p className="text-base sm:text-lg lg:text-xl text-white/90 max-w-2xl mx-auto">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">30-Day Money-Back Guarantee</h2>
+          <p className="text-base sm:text-lg lg:text-xl text-gray-700 max-w-2xl mx-auto">
             We're so confident you'll love learning Spanish with us that we offer a full 30-day money-back guarantee. 
             Start your journey risk-free today!
           </p>
@@ -449,9 +450,9 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Final Testimonials Section */}
-      <section className="py-8 sm:py-12 lg:py-16 bg-gradient-to-r from-amber-400 to-orange-500 w-full min-w-full p-0">
+      <section className="py-8 sm:py-12 lg:py-16 w-full min-w-full p-0" style={{ backgroundColor: '#F7F4EE' }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 w-full">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-white mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 sm:mb-12">
             People love SpanishVIP
           </h2>
           <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
