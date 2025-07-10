@@ -376,7 +376,7 @@ const OfferPage: React.FC = () => {
       </section>
 
       {/* Offer Section */}
-      <section id="exclusive-offer-section" className="py-8 sm:py-12 lg:py-16 bg-gray-50 w-full min-w-full p-0">
+      <section id="exclusive-offer-section" className="py-8 sm:py-12 lg:py-16 bg-white w-full min-w-full p-0">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 w-full">
           {/* Countdown Timer */}
           <CountdownTimer 
