@@ -570,7 +570,7 @@ const OfferPage: React.FC = () => {
       )}
 
       {/* Footer */}
-      <footer className="bg-gray-900 py-8 px-4">
+      <footer className="bg-gray-900 py-10 px-4">
         <div className="text-center">
           <div className="flex items-center justify-center mb-4">
             <img
@@ -580,7 +580,7 @@ const OfferPage: React.FC = () => {
               style={{ maxWidth: 120 }}
             />
           </div>
-          <p className="text-gray-400">2024 © SpanishVIP.com</p>
+          <p className="text-gray-400">2025 © SpanishVIP.com</p>
         </div>
       </footer>
     </div>

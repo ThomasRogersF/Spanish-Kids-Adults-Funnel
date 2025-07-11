@@ -129,7 +129,7 @@ const WelcomePage = ({ config, onStart }: WelcomePageProps) => {
             <Globe className="w-6 h-6 text-white" />
             <span className="text-xl font-bold text-white">SpanishVIP</span>
           </div>
-          <p className="text-gray-400">2024 © SpanishVIP.com</p>
+          <p className="text-gray-400">2025 © SpanishVIP.com</p>
         </div>
       </footer>
     </div>
