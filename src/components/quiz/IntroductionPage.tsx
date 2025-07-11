@@ -8,6 +8,7 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import Autoplay from 'embla-carousel-autoplay';
 
 interface IntroductionPageProps {
   onStart: () => void;
@@ -165,41 +166,40 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
       {/* Testimonials */}
       <section className="w-full flex flex-col items-center px-4 pb-12 max-w-screen">
         <div className="w-full max-w-5xl overflow-x-hidden">
-          <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+          <Carousel opts={{ align: 'start', slidesToScroll: 1 }} plugins={[Autoplay({ delay: 3500, stopOnInteraction: false })]}>
             <CarouselContent className="w-full">
-              {testimonials.map((t, idx) => (
+          {testimonials.map((t, idx) => (
                 <CarouselItem key={idx} className="w-full md:basis-1/3 basis-full">
                   <div className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center h-full max-w-sm mx-auto">
-                    <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
-                      <img
-                        src={t.image}
-                        alt={t.name}
-                        className="w-24 h-24 object-cover rounded-full border-4 border-[#F36A20] shadow-md"
-                      />
-                      {/* Play icon overlay */}
-                      <span className="absolute inset-0 flex items-center justify-center">
-                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
-                          <circle cx="19" cy="19" r="19" fill="#F36A20" fillOpacity="0.85" />
-                          <polygon points="15,12 28,19 15,26" fill="#fff" />
-                        </svg>
-                      </span>
-                    </div>
+              <div className="relative mb-4 w-24 h-24 cursor-pointer" onClick={() => openVideoModal(t.video)}>
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="w-24 h-24 object-cover rounded-full border-4 border-[#F36A20] shadow-md"
+                />
+                {/* Play icon overlay */}
+                <span className="absolute inset-0 flex items-center justify-center">
+                  <svg width="38" height="38" viewBox="0 0 38 38" fill="none">
+                    <circle cx="19" cy="19" r="19" fill="#F36A20" fillOpacity="0.85" />
+                    <polygon points="15,12 28,19 15,26" fill="#fff" />
+                  </svg>
+                </span>
+              </div>
                     <blockquote className="italic text-gray-700 text-base mb-3 text-center">"{t.quote}"</blockquote>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-semibold text-gray-900">{t.name}</span>
-                      <span className="text-gray-400 text-sm">{t.role}</span>
-                    </div>
-                    <div className="flex gap-1">
-                      {Array.from({ length: t.rating }).map((_, i) => (
-                        <span key={i} className="text-[#F36A20] text-lg">★</span>
-                      ))}
-                    </div>
-                  </div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-semibold text-gray-900">{t.name}</span>
+                <span className="text-gray-400 text-sm">{t.role}</span>
+              </div>
+              <div className="flex gap-1">
+                {Array.from({ length: t.rating }).map((_, i) => (
+                  <span key={i} className="text-[#F36A20] text-lg">★</span>
+                ))}
+              </div>
+            </div>
                 </CarouselItem>
-              ))}
+          ))}
             </CarouselContent>
-            <CarouselPrevious className="-left-4" />
-            <CarouselNext className="-right-4" />
+            {/* Removed CarouselPrevious and CarouselNext */}
           </Carousel>
         </div>
         {videoModal.open && (

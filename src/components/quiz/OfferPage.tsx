@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { CheckCircle, Users, BookOpen, Clock, Star, Globe, Heart, Brain, Shield, Smartphone, Award, MessageCircle, Play } from 'lucide-react';
 import CountdownTimer from './CountdownTimer';
 import MobileFeaturesSection from './MobileFeaturesSection';
@@ -11,12 +12,14 @@ import {
   CarouselNext,
 } from "@/components/ui/carousel";
 import Confetti from 'react-confetti';
+import Autoplay from 'embla-carousel-autoplay';
 
 const OfferPage: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showJourneySection, setShowJourneySection] = useState(false);
   const [showConfetti, setShowConfetti] = useState(true);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const openVideoModal = (videoUrl: string) => {
     setSelectedVideo(videoUrl);
@@ -54,8 +57,17 @@ const OfferPage: React.FC = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.volume = 0.7;
+      audioRef.current.play().catch(() => {});
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 overflow-x-hidden w-full p-0">
+      <audio ref={audioRef} src="/music/Success Joy.wav" preload="auto" />
       {showConfetti && (
         <div className="fixed inset-0 z-[9999] pointer-events-none">
           <Confetti width={window.innerWidth} height={window.innerHeight} numberOfPieces={250} recycle={false} />
@@ -263,11 +275,7 @@ const OfferPage: React.FC = () => {
                 </div>
               </div>
               <div className="text-xs sm:text-sm text-gray-600 text-center mt-2">success rate in our study comparing 20 participants</div>
-              <div className="flex justify-between text-xs text-gray-500 mt-4">
-                <span>MONTH 1</span>
-                <span>MONTH 2</span>
-                <span>MONTH 3</span>
-              </div>
+              
             </div>
           </div>
         </div>
@@ -349,7 +357,7 @@ const OfferPage: React.FC = () => {
           </h2>
           
           <div className="w-full max-w-5xl mx-auto">
-            <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+            <Carousel opts={{ align: 'start', slidesToScroll: 1 }} plugins={[Autoplay({ delay: 3500, stopOnInteraction: false })]}>
               <CarouselContent className="-ml-4">
                 {[
                   {
@@ -360,7 +368,7 @@ const OfferPage: React.FC = () => {
                   },
                   {
                     name: "Suzanne", 
-                    quote: "My confidence has skyrocketed!",
+                    quote: "My confidence has skyrocketed! I love it!",
                     video: "/videos/suzanne-testimonial.mp4",
                     image: "/images/testimonials-preview/suzanne-testimonial.png"
                   },
@@ -372,19 +380,19 @@ const OfferPage: React.FC = () => {
                   },
                   {
                     name: "Boris",
-                    quote: "Classes were structured to meet my needs... the best experience I have had with online language instruction.",
+                    quote: "Classes were structured to meet my needs...",
                     video: "/videos/boris-testimonial.mp4",
                     image: "/images/testimonials-preview/boris-testimonial.png"
                   },
                   {
                     name: "Chris", 
-                    quote: "Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.",
+                    quote: "Each class is tailored to my individual needs and abilities.",
                     video: "/videos/chris-testimonial.mp4",
                     image: "/images/testimonials-preview/chris-testimonial.png"
                   },
                   {
                     name: "Kholman",
-                    quote: "Spanish VIP is the best program I've worked with. My instructor stays flexible while providing a structured curriculum.",
+                    quote: "Spanish VIP is the best program I've worked with.",
                     video: "/videos/kholman-testimonial.mp4",
                     image: "/images/testimonials-preview/kholman-testimonial.png"
                   }
@@ -420,6 +428,7 @@ const OfferPage: React.FC = () => {
           </div>
           
           <div className="text-center">
+            <br/>
             <p className="text-base sm:text-lg text-gray-600">Join 2,147 successful Spanish learners</p>
           </div>
         </div>
@@ -505,18 +514,18 @@ const OfferPage: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-800 mb-8 sm:mb-12">
             People love SpanishVIP
           </h2>
-          <Carousel opts={{ align: 'start', slidesToScroll: 1 }}>
+          <Carousel opts={{ align: 'start', slidesToScroll: 1 }} plugins={[Autoplay({ delay: 3500, stopOnInteraction: false })]}>
             <CarouselContent className="-ml-4">
               {[
-                { name: 'Dale Givens', quote: 'Classes were structured to meet my needs... the best experience I have had with online language instruction.' },
-                { name: 'Matthew Heredia', quote: 'Each class is tailored to my individual needs and abilities. My one-on-one instructor is very passionate.' },
-                { name: 'Milton Lindsay', quote: 'Spanish VIP is the best program I\'ve worked with. My instructor stays flexible while providing a structured curriculum.' },
-                { name: 'Todd Pereira', quote: 'Duolingo can only take you so far... I\'ve been doing 1-to-1 classes for almost 2 months and still use Duolingo to top up.' },
+                { name: 'Dale Givens', quote: 'Classes were structured to meet my needs...' },
+                { name: 'Matthew Heredia', quote: 'Each class is tailored to my individual needs and abilities.' },
+                { name: 'Milton Lindsay', quote: 'Spanish VIP is the best program I\'ve worked with.' },
+                { name: 'Todd Pereira', quote: 'Duolingo can only take you so far...' },
                 { name: 'Sameera Hemmat', quote: 'The one-on-one teaching style tailored to the student makes Spanish VIP\'s approach unique and beneficial.' },
-                { name: 'Steve Anderson', quote: 'I\'ve used online programs before, but I wanted something more structured and challenging.' },
+                { name: 'Steve Anderson', quote: 'I\'ve used online programs before,' },
                 { name: 'Steve Worhlrab', quote: 'I can\'t say enough good things about SpanishVIP and my private teacher.' },
-                { name: 'Gabriel Pretto', quote: 'My experience has been great so far. Very professional and easy to communicate with.' },
-                { name: 'Alexander Yaroshevich', quote: 'I\'ve been taking group classes for 2 years. It\'s a fun and affordable way of learning.' },
+                { name: 'Gabriel Pretto', quote: 'My experience has been great so far.' },
+                { name: 'Alexander Yaroshevich', quote: 'I\'ve been taking group classes for 2 years.' },
               ].map((review, idx) => (
                 <CarouselItem key={idx} className="pl-4 md:basis-1/3 basis-full">
                   <div className="bg-white/80 rounded-2xl shadow-lg p-6 sm:p-8 flex flex-col items-center h-full">
