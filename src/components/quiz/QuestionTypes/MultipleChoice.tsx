@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { QuizQuestion, QuizAnswer } from "@/types/quiz";
 import { cn } from "@/lib/utils";
+import ChoiceCard from "../ChoiceCard";
+import { animationClasses, durations } from "@/lib/animations";
 
 interface MultipleChoiceProps {
   question: QuizQuestion;
@@ -40,7 +42,7 @@ const MultipleChoice = ({
     setTimeout(() => {
       console.log("MultipleChoice: Auto-advancing to next question");
       onNext();
-    }, 300);
+    }, 100); // Much shorter delay for faster response
   };
 
   // Map option values to appropriate emojis
@@ -84,29 +86,28 @@ const MultipleChoice = ({
 
   return (
     <div className="space-y-4">
-      <div className={isGridLayout ? "quiz-option-grid" : "space-y-3"}>
-        {question.options && question.options.map((option) => (
+      <div className={cn(
+        isGridLayout ? "grid grid-cols-1 md:grid-cols-2 gap-4" : "space-y-3",
+        animationClasses.staggerChildren
+      )}>
+        {question.options && question.options.map((option, index) => (
           <div
             key={option.id}
-            onClick={() => handleOptionSelect(option.value)}
-            className={cn(
-              "quiz-option cursor-pointer transition-all duration-200 hover:scale-105",
-              selectedOption === option.value && "quiz-option-selected"
-            )}
+            style={{ '--stagger-index': index } as React.CSSProperties}
+            className={animationClasses.staggerItem}
           >
-            <div className="flex items-center space-x-3 w-full">
-              <div className="text-2xl flex-shrink-0">
-                {getOptionEmoji(option.value, option.text)}
-              </div>
-              <div className="flex-1">
-                <span className="text-base font-medium leading-relaxed">
-                  {getCleanOptionText(option.text)}
-                </span>
-              </div>
-            </div>
+            <ChoiceCard
+              id={option.id}
+              value={option.value}
+              label={getCleanOptionText(option.text)}
+              icon={getOptionEmoji(option.value, option.text)}
+              isSelected={selectedOption === option.value}
+              onClick={() => handleOptionSelect(option.value)}
+            />
           </div>
         ))}
       </div>
+      
     </div>
   );
 };

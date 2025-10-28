@@ -13,6 +13,7 @@ import Autoplay from 'embla-carousel-autoplay';
 interface IntroductionPageProps {
   onStart: () => void;
   onDebugOffer?: () => void;
+  onViewResults?: () => void;
 }
 
 const LOGO_URL =
@@ -77,7 +78,7 @@ const testimonials = [
   },
 ];
 
-export default function IntroductionPage({ onStart, onDebugOffer }: IntroductionPageProps) {
+export default function IntroductionPage({ onStart, onDebugOffer, onViewResults }: IntroductionPageProps) {
   const [videoModal, setVideoModal] = useState<{ open: boolean; videoUrl: string | null }>({ open: false, videoUrl: null });
 
   const openVideoModal = (videoUrl: string) => {
@@ -124,12 +125,30 @@ export default function IntroductionPage({ onStart, onDebugOffer }: Introduction
               </li>
             </ul>
           </div>
-          <button
-            onClick={onStart}
-            className="mt-2 px-8 py-3 bg-[#F36A20] text-white font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg hover:bg-[#e85c0c] transition-colors duration-200 mx-auto md:mx-0"
-          >
-            Start Now <ArrowRight className="w-5 h-5" />
-          </button>
+          <div className="flex flex-col sm:flex-row gap-3 mt-2 mx-auto md:mx-0">
+            <button
+              onClick={onStart}
+              className="px-8 py-3 bg-[#F36A20] text-white font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg hover:bg-[#e85c0c] transition-colors duration-200 justify-center"
+            >
+              Start Now <ArrowRight className="w-5 h-5" />
+            </button>
+            {onViewResults && (
+              <button
+                onClick={onViewResults}
+                className="px-8 py-3 bg-white text-[#F36A20] font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg border-2 border-[#F36A20] hover:bg-[#F36A20] hover:text-white transition-colors duration-200 justify-center"
+              >
+                View Results <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
+            {onDebugOffer && (
+              <button
+                onClick={onDebugOffer}
+                className="px-8 py-3 bg-gray-600 text-white font-semibold rounded-full text-lg flex items-center gap-2 shadow-lg hover:bg-gray-700 transition-colors duration-200 justify-center"
+              >
+                Debug Button <ArrowRight className="w-5 h-5" />
+              </button>
+            )}
+          </div>
 
         </div>
         {/* Right: Image with video call UI */}

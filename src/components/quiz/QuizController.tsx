@@ -1,36 +1,70 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { QuizConfig, QuizParticipant, QuizAnswer, ResultTemplate } from "@/types/quiz";
 import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook } from "@/utils/quizUtils";
+import { calculateScores, determineRecommendation, RecommendationState } from "@/lib/recommendationEngine";
 import IntroductionPage from "./IntroductionPage";
 import QuestionCard from "./QuestionCard";
 import OfferPage from "./OfferPage";
 import UserInfoForm from "./UserInfoForm";
+import ResultsPage from "./ResultsPage";
+import { RecommendationResults } from "./RecommendationResults";
+import EmailGateModal from "./EmailGateModal";
+import InterstitialCard from "./InterstitialCard";
+import InterstitialStep from "./InterstitialStep";
+import ProgressBar from "./ProgressBar";
+import { animationClasses, durations } from "@/lib/animations";
 
 interface QuizControllerProps {
   config: QuizConfig;
 }
 
-type QuizStage = "intro" | "questions" | "user-info" | "thank-you";
+type QuizStage = "intro" | "questions" | "interstitial-a" | "interstitial-b" | "interstitial" | "email-gate" | "recommendations" | "results" | "thank-you";
 
 const QuizController = ({ config }: QuizControllerProps) => {
-  const [stage, setStage] = useState<QuizStage>("intro");
+  const [stage, setStage] = useState<QuizStage>("questions");
   const [currentQuestionId, setCurrentQuestionId] = useState<string | null>(
     config.questions.length > 0 ? config.questions[0].id : null
   );
-  const [questionHistory, setQuestionHistory] = useState<string[]>([]);
+  const [questionHistory, setQuestionHistory] = useState<string[]>(
+    config.questions.length > 0 ? [config.questions[0].id] : []
+  );
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isInterstitialTransitioning, setIsInterstitialTransitioning] = useState(false);
+  const [currentInterstitial, setCurrentInterstitial] = useState<'a' | 'b' | null>(null);
   const [participant, setParticipant] = useState<QuizParticipant>({
     name: "",
     email: "",
     answers: []
   });
   const [isLoading, setIsLoading] = useState(false);
+  const [emailGateOpen, setEmailGateOpen] = useState(false);
+  const [interstitialData, setInterstitialData] = useState<{
+    title: string;
+    features: Array<{ title: string; description: string; icon?: string }>;
+  } | null>(null);
+  const [recommendationState, setRecommendationState] = useState<RecommendationState | null>(null);
   const { toast } = useToast();
 
-  // Effect to handle completion of questions and transition to user info stage
+  // Effect to handle completion of questions and transition to recommendations
   useEffect(() => {
     if (stage === "questions" && currentQuestionId === null && participant.answers.length > 0) {
-      setStage("user-info");
+      // Calculate recommendations based on answers
+      const scores = calculateScores(participant.answers);
+      const recommendation = determineRecommendation(
+        scores.groupScore,
+        scores.privateScore,
+        false // Default to not kids override
+      );
+      
+      setRecommendationState({
+        ...recommendation,
+        isKidsOverride: false
+      });
+      
+      // Go directly to recommendations and open email gate
+      setStage("recommendations");
+      setEmailGateOpen(true);
     }
   }, [stage, currentQuestionId, participant.answers]);
 
@@ -41,6 +75,25 @@ const QuizController = ({ config }: QuizControllerProps) => {
     if (config.questions.length > 0) {
       setQuestionHistory([config.questions[0].id]);
     }
+  };
+
+  const handleViewResults = () => {
+    console.log("Viewing results directly");
+    setStage("results");
+  };
+
+  // Mock data for direct results viewing
+  const mockParticipant: QuizParticipant = {
+    name: "Demo User",
+    email: "demo@example.com",
+    answers: []
+  };
+
+  const mockPersonalizedResult: ResultTemplate = {
+    id: "demo-result",
+    title: "Your Personalized Spanish Learning Path",
+    description: "Based on your responses, you're ready to start your Spanish learning journey! Our program is designed specifically for adults 50+ who want to learn Spanish confidently and effectively. You'll benefit from our structured approach that combines conversation practice with grammar fundamentals, all at your own pace.",
+    conditions: []
   };
 
   const handleAnswer = (answer: QuizAnswer) => {
@@ -62,14 +115,28 @@ const QuizController = ({ config }: QuizControllerProps) => {
       });
     }
   };
+
+  // Add this function to determine when to show interstitials
+  const shouldShowInterstitial = useCallback((fromQuestionId: string, toQuestionId: string): 'a' | 'b' | null => {
+    // After Q1 → Q2, show Interstitial A
+    if (fromQuestionId === 'q1' && toQuestionId === 'q2') {
+      return 'a';
+    }
+    
+    // After Q3 → Q4, show Interstitial B
+    if (fromQuestionId === 'q3' && toQuestionId === 'q4') {
+      return 'b';
+    }
+    
+    return null;
+  }, []);
   
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (!currentQuestionId) {
       console.log("No current question ID, cannot proceed to next question");
       return;
     }
     
-    setIsLoading(true);
     console.log("Moving from question:", currentQuestionId);
     
     // Find next question ID
@@ -82,49 +149,126 @@ const QuizController = ({ config }: QuizControllerProps) => {
     console.log("Next question ID determined:", nextQuestionId);
     
     if (nextQuestionId) {
-      // Move to next question and add to history
-      setTimeout(() => {
-        setCurrentQuestionId(nextQuestionId);
-        setQuestionHistory(prev => [...prev, nextQuestionId]);
-        setIsLoading(false);
-      }, 100); // Small delay for better UX
+      // Check if we should show an interstitial
+      const interstitialType = shouldShowInterstitial(currentQuestionId, nextQuestionId);
+      
+      if (interstitialType) {
+        // Show interstitial instead of next question
+        setIsTransitioning(true);
+        
+        setTimeout(() => {
+          setStage(`interstitial-${interstitialType}` as QuizStage);
+          setCurrentInterstitial(interstitialType);
+          setIsTransitioning(false);
+        }, 300); // Question fade-out duration
+      } else {
+        // Regular question transition
+        setIsTransitioning(true);
+        
+        setTimeout(() => {
+          setCurrentQuestionId(nextQuestionId);
+          setQuestionHistory(prev => [...prev, nextQuestionId]);
+          setIsTransitioning(false);
+        }, 50);
+      }
     } else {
       // End of questions
       console.log("No more questions. Proceeding to user info form.");
       setCurrentQuestionId(null);
-      setIsLoading(false);
     }
-  };
+  }, [currentQuestionId, participant.answers, config.questions, shouldShowInterstitial]);
 
-  const handlePrevious = () => {
+  // New interstitial handlers
+  const handleInterstitialContinue = useCallback(() => {
+    if (!currentInterstitial || isInterstitialTransitioning) return;
+    
+    setIsInterstitialTransitioning(true);
+    
+    // Determine which question to go to after interstitial
+    let nextQuestionId: string | null = null;
+    
+    if (currentInterstitial === 'a') {
+      // After Interstitial A, go to Q2
+      nextQuestionId = 'q2';
+    } else if (currentInterstitial === 'b') {
+      // After Interstitial B, go to Q4
+      nextQuestionId = 'q4';
+    }
+    
+    setTimeout(() => {
+      if (nextQuestionId) {
+        setStage("questions");
+        setCurrentQuestionId(nextQuestionId);
+        setQuestionHistory(prev => [...prev, nextQuestionId]);
+        setCurrentInterstitial(null);
+      }
+      setIsInterstitialTransitioning(false);
+    }, 500); // Interstitial fade-out duration
+  }, [currentInterstitial, isInterstitialTransitioning]);
+
+  const handleInterstitialBack = useCallback(() => {
+    if (!currentInterstitial || isInterstitialTransitioning) return;
+    
+    setIsInterstitialTransitioning(true);
+    
+    // Determine which question to go back to
+    let previousQuestionId: string | null = null;
+    
+    if (currentInterstitial === 'a') {
+      // Before Interstitial A, go back to Q1
+      previousQuestionId = 'q1';
+    } else if (currentInterstitial === 'b') {
+      // Before Interstitial B, go back to Q3
+      previousQuestionId = 'q3';
+    }
+    
+    setTimeout(() => {
+      if (previousQuestionId) {
+        setStage("questions");
+        setCurrentQuestionId(previousQuestionId);
+        setCurrentInterstitial(null);
+      }
+      setIsInterstitialTransitioning(false);
+    }, 500);
+  }, [currentInterstitial, isInterstitialTransitioning]);
+
+  const handlePrevious = useCallback(() => {
     if (questionHistory.length <= 1) {
       console.log("Already at first question, cannot go back");
       return;
     }
     
-    setIsLoading(true);
     console.log("Going back from question:", currentQuestionId);
     
-    // Remove current question from history and go to previous
+    // Check if we're coming from an interstitial
+    if (currentInterstitial) {
+      handleInterstitialBack();
+      return;
+    }
+    
+    // Regular question back navigation
+    setIsTransitioning(true);
+    
     const newHistory = [...questionHistory];
-    newHistory.pop(); // Remove current question
+    newHistory.pop();
     const previousQuestionId = newHistory[newHistory.length - 1];
     
     setTimeout(() => {
       setCurrentQuestionId(previousQuestionId);
       setQuestionHistory(newHistory);
-      setIsLoading(false);
-    }, 100);
-  };
+      setIsTransitioning(false);
+    }, 50);
+  }, [questionHistory, currentInterstitial, handleInterstitialBack]);
 
-  const handleUserInfoSubmit = (name: string, email: string) => {
+  const handleEmailSubmit = (email: string) => {
     // Update participant info
     const updatedParticipant = {
       ...participant,
-      name,
-      email
+      email,
+      name: participant.name || "Spanish Learner" // Default name if not provided
     };
     setParticipant(updatedParticipant);
+    
     // Send data to webhook if configured
     console.log("=== QUIZ CONTROLLER WEBHOOK DEBUG ===");
     console.log("Config webhook URL:", config.webhookUrl);
@@ -135,18 +279,38 @@ const QuizController = ({ config }: QuizControllerProps) => {
       sendDataToWebhook(config.webhookUrl, updatedParticipant, config)
         .then((success) => {
           console.log("Webhook send result:", success);
-          // No toast notification on failure
+          // Continue to results even if webhook fails
         })
         .catch(error => {
           console.error("Webhook send error:", error);
-          // No toast notification on error
-          });
+          // Continue to results even if webhook fails
+        });
     } else {
       console.log("No webhook URL configured");
     }
     console.log("=== QUIZ CONTROLLER WEBHOOK DEBUG END ===");
-    // Go directly to offer page
-    setStage("thank-you");
+    
+    setEmailGateOpen(false);
+    // Stay on recommendations page after email submission
+    // setStage("thank-you");
+  };
+
+  const handleEmailSkip = () => {
+    setEmailGateOpen(false);
+    // Stay on recommendations page after email skip
+    // setStage("thank-you");
+  };
+
+  const handleTrackSelection = (track: 'group' | 'private' | 'kids') => {
+    console.log("Selected track:", track);
+    // Update recommendation state with selected track
+    if (recommendationState) {
+      setRecommendationState({
+        ...recommendationState,
+        recommendedTrack: track
+      });
+    }
+    // Email gate is already open, just proceed to results after email submission
   };
   
   const handleContinueToThankYou = () => {
@@ -204,52 +368,74 @@ const QuizController = ({ config }: QuizControllerProps) => {
   // Render the appropriate stage
   const renderStage = () => {
     switch (stage) {
-      case "intro":
-        return (
-          <>
-            <IntroductionPage 
-              onStart={handleStartQuiz}
-              onDebugOffer={handleDebugOffer}
-            />
-          </>
-        );
       case "questions":
-        if (isLoading) {
-          return (
-            <div className="quiz-container flex items-center justify-center">
-              <div className="text-center">
-                <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-t-primary border-r-transparent border-b-primary border-l-transparent"></div>
-                <p className="mt-4 text-gray-600 text-lg">Loading next question...</p>
-              </div>
-            </div>
-          );
-        }
-        
         return currentQuestion ? (
           <QuestionCard
             question={currentQuestion}
-            progress={calculateProgress()}
             currentAnswer={currentAnswer}
             canGoBack={canGoBack}
             onAnswer={handleAnswer}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            currentQuestionNumber={getCurrentQuestionNumber()}
-            totalQuestions={config.questions.length}
+            isTransitioning={isTransitioning}
           />
         ) : (
-          <div className="quiz-container">
+          <div className="w-full max-w-2xl bg-svip-card rounded-xl shadow-svip p-8">
             <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-t-primary border-r-transparent border-b-primary border-l-transparent"></div>
-              <p className="mt-4 text-gray-600 text-lg">Preparing your results...</p>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-t-svip-accent border-r-transparent border-b-svip-accent border-l-transparent"></div>
+              <p className="mt-4 text-svip-muted text-lg">Preparing your results...</p>
             </div>
           </div>
         );
-      case "user-info":
+      case "interstitial-a":
         return (
-          <UserInfoForm 
-            onSubmit={handleUserInfoSubmit}
+          <InterstitialStep
+            type="a"
+            onContinue={handleInterstitialContinue}
+            isTransitioning={isInterstitialTransitioning}
+          />
+        );
+      case "interstitial-b":
+        return (
+          <InterstitialStep
+            type="b"
+            onContinue={handleInterstitialContinue}
+            isTransitioning={isInterstitialTransitioning}
+          />
+        );
+      case "interstitial":
+        return interstitialData ? (
+          <InterstitialCard
+            title={interstitialData.title}
+            features={interstitialData.features}
+            onCtaClick={() => setStage("recommendations")}
+          />
+        ) : null;
+      case "email-gate":
+        // Email gate is handled by modal, so show loading state
+        return (
+          <div className="w-full max-w-2xl bg-svip-card rounded-xl shadow-svip p-8 flex items-center justify-center">
+            <div className="text-center">
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-t-svip-accent border-r-transparent border-b-svip-accent border-l-transparent"></div>
+              <p className="mt-4 text-svip-muted text-lg">Preparing your results...</p>
+            </div>
+          </div>
+        );
+      case "recommendations":
+        return recommendationState ? (
+          <RecommendationResults
+            recommendationState={recommendationState}
+            answers={participant.answers}
+            onSelectTrack={handleTrackSelection}
+          />
+        ) : null;
+      case "results":
+        return (
+          <ResultsPage
             config={config}
+            participant={participant}
+            personalizedResult={mockPersonalizedResult}
+            onContinue={() => setStage("thank-you")}
           />
         );
       case "thank-you":
@@ -262,8 +448,39 @@ const QuizController = ({ config }: QuizControllerProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#F7F4EE] p-0">
-      {renderStage()}
+    <div className="min-h-screen bg-svip-bg flex items-center justify-center p-4">
+      <div className="w-full max-w-2xl">
+        {/* SpanishVIP Logo - hide during interstitials */}
+        {!stage.startsWith('interstitial') && (
+          <div className="flex justify-center mb-6">
+            <img
+              src="/images/SpanishVIP Logo.png"
+              alt="SpanishVIP Logo"
+              className="h-8 md:h-11 w-auto"
+            />
+          </div>
+        )}
+        
+        {/* Progress Bar - hide during interstitials */}
+        {stage === "questions" && currentQuestion && (
+          <ProgressBar
+            progress={calculateProgress()}
+            currentQuestion={getCurrentQuestionNumber()}
+            totalQuestions={config.questions.length}
+            className="mb-6"
+          />
+        )}
+        
+        {renderStage()}
+      </div>
+      
+      {/* Email Gate Modal */}
+      <EmailGateModal
+        isOpen={emailGateOpen}
+        onSubmit={handleEmailSubmit}
+        onSkip={handleEmailSkip}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

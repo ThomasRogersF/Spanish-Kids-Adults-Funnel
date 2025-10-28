@@ -28,7 +28,7 @@ const FillInBlanks: React.FC<FillInBlanksProps> = ({
     setUserInput(e.target.value);
   };
 
-  // Submit answer and proceed to next question
+  // Submit answer
   const handleSubmit = () => {
     const answer: QuizAnswer = {
       questionId: question.id,
@@ -38,8 +38,10 @@ const FillInBlanks: React.FC<FillInBlanksProps> = ({
     
     onAnswer(answer);
     
-    // Automatically proceed to next question without toast notification
-    onNext();
+    // Auto-advance to next question after a short delay
+    setTimeout(() => {
+      onNext();
+    }, 200); // Faster response time
   };
 
   // Skip question
@@ -71,21 +73,13 @@ const FillInBlanks: React.FC<FillInBlanksProps> = ({
         />
       </div>
       
-      <div className="flex flex-col sm:flex-row gap-2 justify-between mt-6">
+      <div className="flex justify-start mt-6">
         <Button
           variant="outline"
           className="quiz-button-secondary"
           onClick={handleSkip}
         >
           Skip question
-        </Button>
-
-        <Button 
-          className="quiz-button" 
-          onClick={handleSubmit} 
-          disabled={userInput.trim() === ""}
-        >
-          Next question
         </Button>
       </div>
     </div>

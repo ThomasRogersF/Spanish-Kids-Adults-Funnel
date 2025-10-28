@@ -20,6 +20,16 @@ export default {
 		},
 		extend: {
 			colors: {
+				/* Hims-inspired Design System Colors */
+				'svip-bg': 'var(--svip-bg)',
+				'svip-ink': 'var(--svip-ink)',
+				'svip-muted': 'var(--svip-muted)',
+				'svip-card': 'var(--svip-card)',
+				'svip-accent': 'var(--svip-accent)',
+				'svip-accent-2': 'var(--svip-accent-2)',
+				'svip-line': 'var(--svip-line)',
+				
+				/* Existing CSS Variables (for compatibility) */
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
@@ -63,7 +73,8 @@ export default {
 			borderRadius: {
 				lg: 'var(--radius)',
 				md: 'calc(var(--radius) - 2px)',
-				sm: 'calc(var(--radius) - 4px)'
+				sm: 'calc(var(--radius) - 4px)',
+				'xl': 'var(--radius-xl)',
 			},
 			keyframes: {
 				'accordion-down': {
@@ -121,10 +132,12 @@ export default {
 				'scale-in': 'scale-in 0.3s ease-out',
 			},
 			fontFamily: {
+				'inter': ['var(--font-inter)', 'sans-serif'],
 				'kumbh': ['Kumbh Sans', 'sans-serif'],
 			},
 			boxShadow: {
 				'soft': '0 4px 16px rgba(0, 0, 0, 0.08)',
+				'svip': 'var(--svip-shadow)',
 			},
 		}
 	},
