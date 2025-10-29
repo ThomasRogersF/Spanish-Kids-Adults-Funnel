@@ -15,153 +15,154 @@ export const spanishQuiz: QuizConfig = {
     {
       id: "q1",
       type: "mcq",
-      title: "What's your main motivation for learning Spanish?",
-      subtitle: "This helps us create the perfect learning experience for you.",
+      title: "What's the main outcome you want in the next 60–90 days?",
       required: true,
       options: [
         {
           id: "a1",
-          text: "Travel with confidence",
-          value: "travel"
+          text: "Travel basics & confidence",
+          value: "travel_basics"
         },
         {
-          id: "a2", 
-          text: "Connect with family and friends",
-          value: "family"
+          id: "a2",
+          text: "Keep a steady habit with peers",
+          value: "steady_habit"
         },
         {
           id: "a3",
-          text: "Keep my mind active", 
-          value: "mental_health"
+          text: "Rapid, personalized progress for work/family",
+          value: "rapid_progress"
         },
         {
           id: "a4",
-          text: "Personal enrichment",
-          value: "personal_growth"
+          text: "I'm not sure—want a simple starting plan",
+          value: "simple_plan"
         }
       ]
     },
     {
       id: "q2",
-      type: "mcq", 
-      title: "What's your current Spanish level?",
-      subtitle: "Don't worry - we welcome all levels!",
+      type: "mcq",
+      title: "Where would you place yourself today?",
       required: true,
       options: [
         {
           id: "a1",
-          text: "Complete beginner",
-          value: "complete_beginner"
+          text: "Starting from zero",
+          value: "starting_zero"
         },
         {
           id: "a2",
-          text: "Very rusty", 
-          value: "rusty"
+          text: "Beginner/Elementary",
+          value: "beginner_elementary"
         },
         {
           id: "a3",
-          text: "Know some basics",
-          value: "basic"
-        },
-        {
-          id: "a4",
-          text: "Can have simple conversations",
-          value: "conversational"
+          text: "Intermediate or higher",
+          value: "intermediate_plus"
         }
       ]
     },
     {
       id: "q3",
       type: "mcq",
-      title: "What's your preferred learning style?",
-      subtitle: "We want to match you with the approach that works best.",
+      title: "How comfortable are you speaking out loud in front of others?",
       required: true,
       options: [
         {
           id: "a1",
-          text: "Group classes",
-          value: "group_classes"
+          text: "Love it—group energy helps me",
+          value: "love_group"
         },
         {
           id: "a2",
-          text: "One-on-one instruction",
-          value: "private_lessons"
+          text: "Okay with it—depends on the day",
+          value: "depends_day"
         },
         {
-          id: "a3", 
-          text: "Self-paced online lessons",
-          value: "self_paced"
-        },
-        {
-          id: "a4",
-          text: "Combination approach",
-          value: "combination"
+          id: "a3",
+          text: "Prefer private practice first",
+          value: "prefer_private"
         }
       ]
     },
     {
       id: "q4",
       type: "mcq",
-      title: "How much time can you dedicate each week?",
-      subtitle: "This helps us recommend the right program intensity.",
+      title: "Which sounds more like your week?",
       required: true,
       options: [
         {
           id: "a1",
-          text: "1-2 hours (casual pace)",
-          value: "casual"
+          text: "I can attend at set times most weekdays",
+          value: "set_times"
         },
         {
           id: "a2",
-          text: "3-4 hours (steady progress)", 
-          value: "steady"
+          text: "My schedule changes weekly; I need flexible 1:1 slots",
+          value: "changing_schedule"
         },
         {
           id: "a3",
-          text: "5+ hours (accelerated)",
-          value: "accelerated"
+          text: "Either could work",
+          value: "either_work"
+        }
+      ]
+    },
+    {
+      id: "q5",
+      type: "mcq",
+      title: "What kind of feedback do you want?",
+      required: true,
+      options: [
+        {
+          id: "a1",
+          text: "Targeted corrections, goal-based drills",
+          value: "targeted_corrections"
         },
         {
-          id: "a4",
-          text: "I'm flexible",
-          value: "flexible"
+          id: "a2",
+          text: "Lots of speaking turns + teacher guidance",
+          value: "speaking_turns"
+        },
+        {
+          id: "a3",
+          text: "Light feedback—keep me consistent",
+          value: "light_feedback"
+        }
+      ]
+    },
+    {
+      id: "q6",
+      type: "mcq",
+      title: "Pick one—what matters more right now?",
+      required: true,
+      options: [
+        {
+          id: "a1",
+          text: "Best value per month",
+          value: "best_value"
+        },
+        {
+          id: "a2",
+          text: "Faster progress, fully personalized",
+          value: "faster_progress"
         }
       ]
     }
   ],
   resultTemplates: [
     {
-      id: "beginner_traveler",
-      title: "Perfect Spanish Learning Package for You!",
-      description: "Based on your responses, we've created a personalized Spanish learning experience that focuses on travel confidence and practical conversation skills. You'll love our supportive community of fellow learners!",
-      conditions: [
-        { questionId: "q1", value: "travel" },
-        { questionId: "q2", value: "complete_beginner" }
-      ]
+      id: "group_classes",
+      title: "Group Classes - Perfect for You!",
+      description: "Based on your responses, Group Classes are your ideal match. You'll enjoy unlimited sessions Monday-Friday at your CEFR level, learning with a global peer group led by native teachers. Perfect for steady progress and great value!",
+      conditions: []
     },
     {
-      id: "family_connection",
-      title: "Connect with Your Loved Ones in Spanish!", 
-      description: "Your desire to connect with Spanish-speaking family and friends is beautiful! Our program will help you build the conversational skills you need to strengthen those precious relationships.",
-      conditions: [
-        { questionId: "q1", value: "family" }
-      ]
-    },
-    {
-      id: "brain_health",
-      title: "Keep Your Mind Sharp with Spanish!",
-      description: "Learning Spanish is one of the best gifts you can give your brain! Our structured approach will challenge you in the most enjoyable way while building practical language skills.",
-      conditions: [
-        { questionId: "q1", value: "mental_health" }
-      ]
-    },
-    {
-      id: "personal_growth",
-      title: "Your Lifelong Learning Journey Starts Here!",
-      description: "We admire your commitment to personal growth! Our Spanish program is designed for adult learners who want to expand their horizons and embrace new challenges.",
-      conditions: [
-        { questionId: "q1", value: "personal_growth" }
-      ]
+      id: "private_tutoring",
+      title: "Private Tutoring - Your Best Path Forward!",
+      description: "Based on your responses, Private Tutoring is your ideal match. You'll get a dedicated native teacher who creates a custom plan around your goals, with flexible scheduling and personalized feedback for faster progress.",
+      conditions: []
     }
   ],
   incentiveEnabled: true,

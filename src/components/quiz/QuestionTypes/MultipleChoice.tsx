@@ -55,22 +55,35 @@ const MultipleChoice = ({
     
     // Fallback emoji mapping based on option value
     const emojiMap: Record<string, string> = {
-      travel: "🌎",
-      family: "❤️", 
-      mental_health: "🧠",
-      personal_growth: "🎯",
-      complete_beginner: "🌱",
-      rusty: "📚",
-      basic: "💬",
-      conversational: "🗣️",
-      group_classes: "👥",
-      private_lessons: "👨‍🏫",
-      self_paced: "🏠",
-      combination: "🔄",
-      casual: "⏰",
-      steady: "📅",
-      accelerated: "🚀",
-      flexible: "🤔"
+      // Question 1 - Main outcome goals
+      travel_basics: "✈️",
+      steady_habit: "📅",
+      rapid_progress: "🚀",
+      simple_plan: "📝",
+      
+      // Question 2 - Current level
+      starting_zero: "🌱",
+      beginner_elementary: "📚",
+      intermediate_plus: "🎓",
+      
+      // Question 3 - Speaking comfort
+      love_group: "👥",
+      depends_day: "🤔",
+      prefer_private: "👤",
+      
+      // Question 4 - Schedule preferences
+      set_times: "⏰",
+      changing_schedule: "🔄",
+      either_work: "🤷",
+      
+      // Question 5 - Feedback preferences
+      targeted_corrections: "🎯",
+      speaking_turns: "💬",
+      light_feedback: "🌟",
+      
+      // Question 6 - Priority
+      best_value: "💰",
+      faster_progress: "⚡"
     };
     
     return emojiMap[optionValue] || "✨";

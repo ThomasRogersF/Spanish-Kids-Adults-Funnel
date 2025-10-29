@@ -26,54 +26,54 @@ export interface RecommendationContent {
 export const recommendationContent: Record<'group' | 'private' | 'kids', RecommendationContent> = {
   group: {
     title: "Group Classes",
-    subtitle: "Best fit: Group classes for steady speaking practice",
+    subtitle: "Best fit: Unlimited sessions for one monthly price",
     features: [
       {
         icon: "👥",
-        title: "Live Conversation Practice",
-        description: "Practice speaking with peers in structured, guided sessions"
+        title: "Unlimited Sessions",
+        description: "Join as many classes as you want Monday-Friday at your CEFR level"
       },
       {
-        icon: "📅",
-        title: "Flexible Scheduling",
-        description: "Choose from multiple time slots that fit your schedule"
+        icon: "🌍",
+        title: "Global Peer Group",
+        description: "Learn with students from around the world, led by native teachers"
       },
       {
-        icon: "📚",
-        title: "Structured Curriculum",
-        description: "Follow a proven learning path with clear milestones"
+        icon: "💰",
+        title: "Great Value",
+        description: "Fixed monthly price with unlimited access to all sessions"
       }
     ],
     benefits: [
-      "Learn from others in a supportive environment",
-      "Cost-effective option with personalized attention",
-      "Regular practice sessions build confidence quickly"
+      "Perfect for adults 18+ who want steady practice",
+      "Build momentum with regular conversation practice",
+      "Learn from others in a supportive community environment"
     ]
   },
   private: {
     title: "Private Tutoring",
-    subtitle: "Best fit: 1-on-1 tutoring for fast, personalized progress",
+    subtitle: "Best fit: Dedicated teacher with custom plan",
     features: [
       {
         icon: "👨‍🏫",
-        title: "Personalized Attention",
-        description: "Get customized feedback and focus on your specific needs"
+        title: "Dedicated Native Teacher",
+        description: "Your own teacher plans every session around your specific goals"
       },
       {
-        icon: "⚡",
-        title: "Faster Progress",
-        description: "Move at your own pace with tailored curriculum"
+        icon: "🎯",
+        title: "Custom Learning Plan",
+        description: "Personalized curriculum designed just for you"
       },
       {
-        icon: "🕐",
-        title: "Flexible Scheduling",
-        description: "Schedule sessions that work perfectly with your routine"
+        icon: "🆓",
+        title: "Free Trial Class",
+        description: "Try a 1:1 class before you decide"
       }
     ],
     benefits: [
-      "Individualized learning plan for your specific goals",
-      "Direct feedback accelerates improvement",
-      "Maximum flexibility for busy schedules"
+      "Faster progress with personalized attention",
+      "Flexible scheduling that adapts to your routine",
+      "Direct feedback and targeted corrections"
     ]
   },
   kids: {
@@ -110,51 +110,63 @@ export const calculateScores = (answers: QuizAnswer[]): RecommendationScores => 
   
   answers.forEach(answer => {
     switch (answer.questionId) {
-      case 'q1': // Motivation
-        if (answer.value === 'travel') {
-          groupScore += 2; privateScore += 1;
-        } else if (answer.value === 'family') {
-          groupScore += 2; privateScore += 2;
-        } else if (answer.value === 'mental_health') {
-          groupScore += 1;
-        } else if (answer.value === 'personal_growth') {
+      case 'q1': // Primary Goal
+        if (answer.value === 'travel_basics') {
           groupScore += 1; privateScore += 1;
-        }
-        break;
-        
-      case 'q2': // Level
-        if (answer.value === 'complete_beginner') {
-          groupScore += 1; privateScore += 2;
-        } else if (answer.value === 'rusty') {
-          groupScore += 1; privateScore += 1;
-        } else if (answer.value === 'basic') {
+        } else if (answer.value === 'steady_habit') {
           groupScore += 2;
-        } else if (answer.value === 'conversational') {
-          groupScore += 2;
-        }
-        break;
-        
-      case 'q3': // Learning Style
-        if (answer.value === 'group_classes') {
-          groupScore += 3;
-        } else if (answer.value === 'private_lessons') {
-          privateScore += 3;
-        } else if (answer.value === 'self_paced') {
-          groupScore += 1;
-        } else if (answer.value === 'combination') {
-          groupScore += 2; privateScore += 2;
-        }
-        break;
-        
-      case 'q4': // Time Commitment
-        if (answer.value === 'casual') {
-          groupScore += 2;
-        } else if (answer.value === 'steady') {
-          groupScore += 1; privateScore += 1;
-        } else if (answer.value === 'accelerated') {
+        } else if (answer.value === 'rapid_progress') {
           privateScore += 2;
-        } else if (answer.value === 'flexible') {
+        } else if (answer.value === 'simple_plan') {
+          groupScore += 1;
+        }
+        break;
+        
+      case 'q2': // Current Level
+        if (answer.value === 'starting_zero') {
+          privateScore += 1;
+        } else if (answer.value === 'beginner_elementary') {
           groupScore += 1; privateScore += 1;
+        } else if (answer.value === 'intermediate_plus') {
+          groupScore += 1;
+        }
+        break;
+        
+      case 'q3': // Comfort Speaking
+        if (answer.value === 'love_group') {
+          groupScore += 2;
+        } else if (answer.value === 'depends_day') {
+          groupScore += 1; privateScore += 1;
+        } else if (answer.value === 'prefer_private') {
+          privateScore += 2;
+        }
+        break;
+        
+      case 'q4': // Schedule Reality
+        if (answer.value === 'set_times') {
+          groupScore += 2;
+        } else if (answer.value === 'changing_schedule') {
+          privateScore += 2;
+        } else if (answer.value === 'either_work') {
+          groupScore += 1; privateScore += 1;
+        }
+        break;
+        
+      case 'q5': // Feedback Style
+        if (answer.value === 'targeted_corrections') {
+          privateScore += 2;
+        } else if (answer.value === 'speaking_turns') {
+          groupScore += 1; privateScore += 1;
+        } else if (answer.value === 'light_feedback') {
+          groupScore += 2;
+        }
+        break;
+        
+      case 'q6': // Budget vs Speed
+        if (answer.value === 'best_value') {
+          groupScore += 2;
+        } else if (answer.value === 'faster_progress') {
+          privateScore += 2;
         }
         break;
     }
@@ -166,7 +178,8 @@ export const calculateScores = (answers: QuizAnswer[]): RecommendationScores => 
 export const determineRecommendation = (
   groupScore: number,
   privateScore: number,
-  isKidsOverride: boolean
+  isKidsOverride: boolean,
+  answers?: QuizAnswer[]
 ): Omit<RecommendationState, 'isKidsOverride'> => {
   if (isKidsOverride) {
     return {
@@ -176,26 +189,93 @@ export const determineRecommendation = (
     };
   }
   
-  if (groupScore > privateScore) {
+  const scoreDifference = groupScore - privateScore;
+  
+  // Primary decision logic
+  if (scoreDifference >= 2) {
     return {
       recommendedTrack: 'group' as const,
       groupScore,
       privateScore
     };
-  } else if (privateScore > groupScore) {
+  } else if (scoreDifference <= -2) {
     return {
       recommendedTrack: 'private' as const,
       groupScore,
       privateScore
     };
   } else {
-    // Tie-breaking: favor group classes for steady practice
-    return {
-      recommendedTrack: 'group' as const,
-      groupScore,
-      privateScore
-    };
+    // Tie / ±1 case - apply tiebreakers
+    return applyTiebreakers(groupScore, privateScore, answers || []);
   }
+};
+
+// Helper function for tiebreaker logic
+const applyTiebreakers = (
+  groupScore: number,
+  privateScore: number,
+  answers: QuizAnswer[]
+): Omit<RecommendationState, 'isKidsOverride'> => {
+  // Tiebreaker 1: Q4 Schedule
+  const q4Answer = answers.find(a => a.questionId === 'q4');
+  if (q4Answer) {
+    if (q4Answer.value === 'set_times') {
+      return {
+        recommendedTrack: 'group' as const,
+        groupScore,
+        privateScore
+      };
+    } else if (q4Answer.value === 'changing_schedule') {
+      return {
+        recommendedTrack: 'private' as const,
+        groupScore,
+        privateScore
+      };
+    }
+  }
+  
+  // Tiebreaker 2: Q3 Comfort Speaking
+  const q3Answer = answers.find(a => a.questionId === 'q3');
+  if (q3Answer) {
+    if (q3Answer.value === 'love_group') {
+      return {
+        recommendedTrack: 'group' as const,
+        groupScore,
+        privateScore
+      };
+    } else if (q3Answer.value === 'prefer_private') {
+      return {
+        recommendedTrack: 'private' as const,
+        groupScore,
+        privateScore
+      };
+    }
+  }
+  
+  // Tiebreaker 3: Q6 Budget vs Speed
+  const q6Answer = answers.find(a => a.questionId === 'q6');
+  if (q6Answer) {
+    if (q6Answer.value === 'best_value') {
+      return {
+        recommendedTrack: 'group' as const,
+        groupScore,
+        privateScore
+      };
+    } else if (q6Answer.value === 'faster_progress') {
+      return {
+        recommendedTrack: 'private' as const,
+        groupScore,
+        privateScore
+      };
+    }
+  }
+  
+  // Default tiebreaker - favor group
+  return {
+    recommendedTrack: 'group' as const,
+    groupScore,
+    privateScore
+  };
 };
 
 export const generateRecommendationReasons = (

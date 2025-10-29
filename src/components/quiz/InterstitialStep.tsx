@@ -9,33 +9,44 @@ interface InterstitialContent {
   buttonText: string;
 }
 
-const interstitialContent: Record<'a' | 'b', InterstitialContent> = {
+const interstitialContent: Record<'a' | 'b' | 'c', InterstitialContent> = {
   a: {
     headline: "Your goal shapes your plan",
-    body: "Factors like travel, family, or personal growth change what you should practice first. A focused plan builds confidence faster.",
+    body: "For community practice and great value, learners pick Group (unlimited Mon-Fri). If you want a teacher who plans just for you, choose Private with a free 1:1 trial.",
     bullets: [
       "Real conversation practice",
-      "CEFR roadmap", 
+      "CEFR roadmap",
       "Flexible group or 1-on-1 options"
     ],
-    footer: "Why we ask: matching your goal = fewer detours, more wins.",
+    footer: "We ask this to recommend the option that fits your time, budget, and confidence.",
     buttonText: "Continue →"
   },
   b: {
-    headline: "Your style determines what works",
-    body: "Prefer group energy, 1-on-1 guidance, or a combo? We'll align activities for the right mix of speaking, feedback, and structure.",
+    headline: "Group = momentum + value",
+    body: "Join our unlimited group sessions and build momentum with peers at your level.",
     bullets: [
-      "Live classes",
-      "Targeted home practice",
-      "Easy schedule swaps"
+      "Unlimited sessions Mon-Fri at your level (CEFR)",
+      "Learn with a global peer group, led by native teachers",
+      "Fixed monthly price, join as often as you like"
     ],
-    footer: "What's next: tell us your weekly time — we'll fit sessions to your routine.",
+    footer: "Group is designed for adults 18+.",
+    buttonText: "Continue →"
+  },
+  c: {
+    headline: "Private = your teacher, your plan",
+    body: "Get personalized attention and accelerate your progress with dedicated instruction.",
+    bullets: [
+      "A dedicated, native teacher plans every session around your goals",
+      "Flexible times, direct feedback, faster course-corrections",
+      "Try a free 1:1 class before you decide"
+    ],
+    footer: "Private tutoring adapts completely to your schedule and learning style.",
     buttonText: "Continue →"
   }
 };
 
 interface InterstitialStepProps {
-  type: 'a' | 'b';
+  type: 'a' | 'b' | 'c';
   onContinue: () => void;
   isTransitioning?: boolean;
 }

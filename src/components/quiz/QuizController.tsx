@@ -19,7 +19,7 @@ interface QuizControllerProps {
   config: QuizConfig;
 }
 
-type QuizStage = "intro" | "questions" | "interstitial-a" | "interstitial-b" | "interstitial" | "email-gate" | "recommendations" | "results" | "thank-you";
+type QuizStage = "intro" | "questions" | "interstitial-a" | "interstitial-b" | "interstitial-c" | "interstitial" | "email-gate" | "recommendations" | "results" | "thank-you";
 
 const QuizController = ({ config }: QuizControllerProps) => {
   const [stage, setStage] = useState<QuizStage>("questions");
@@ -31,7 +31,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
   );
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isInterstitialTransitioning, setIsInterstitialTransitioning] = useState(false);
-  const [currentInterstitial, setCurrentInterstitial] = useState<'a' | 'b' | null>(null);
+  const [currentInterstitial, setCurrentInterstitial] = useState<'a' | 'b' | 'c' | null>(null);
   const [participant, setParticipant] = useState<QuizParticipant>({
     name: "",
     email: "",
@@ -54,7 +54,8 @@ const QuizController = ({ config }: QuizControllerProps) => {
       const recommendation = determineRecommendation(
         scores.groupScore,
         scores.privateScore,
-        false // Default to not kids override
+        false, // Default to not kids override
+        participant.answers
       );
       
       setRecommendationState({
@@ -117,7 +118,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
   };
 
   // Add this function to determine when to show interstitials
-  const shouldShowInterstitial = useCallback((fromQuestionId: string, toQuestionId: string): 'a' | 'b' | null => {
+  const shouldShowInterstitial = useCallback((fromQuestionId: string, toQuestionId: string): 'a' | 'b' | 'c' | null => {
     // After Q1 → Q2, show Interstitial A
     if (fromQuestionId === 'q1' && toQuestionId === 'q2') {
       return 'a';
@@ -126,6 +127,11 @@ const QuizController = ({ config }: QuizControllerProps) => {
     // After Q3 → Q4, show Interstitial B
     if (fromQuestionId === 'q3' && toQuestionId === 'q4') {
       return 'b';
+    }
+    
+    // After Q5 → Q6, show Interstitial C
+    if (fromQuestionId === 'q5' && toQuestionId === 'q6') {
+      return 'c';
     }
     
     return null;
@@ -193,6 +199,9 @@ const QuizController = ({ config }: QuizControllerProps) => {
     } else if (currentInterstitial === 'b') {
       // After Interstitial B, go to Q4
       nextQuestionId = 'q4';
+    } else if (currentInterstitial === 'c') {
+      // After Interstitial C, go to Q6
+      nextQuestionId = 'q6';
     }
     
     setTimeout(() => {
@@ -220,6 +229,9 @@ const QuizController = ({ config }: QuizControllerProps) => {
     } else if (currentInterstitial === 'b') {
       // Before Interstitial B, go back to Q3
       previousQuestionId = 'q3';
+    } else if (currentInterstitial === 'c') {
+      // Before Interstitial C, go back to Q5
+      previousQuestionId = 'q5';
     }
     
     setTimeout(() => {
@@ -399,6 +411,14 @@ const QuizController = ({ config }: QuizControllerProps) => {
         return (
           <InterstitialStep
             type="b"
+            onContinue={handleInterstitialContinue}
+            isTransitioning={isInterstitialTransitioning}
+          />
+        );
+      case "interstitial-c":
+        return (
+          <InterstitialStep
+            type="c"
             onContinue={handleInterstitialContinue}
             isTransitioning={isInterstitialTransitioning}
           />
