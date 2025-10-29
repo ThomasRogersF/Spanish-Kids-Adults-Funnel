@@ -4,7 +4,7 @@ import { RecommendationContent } from '@/lib/recommendationEngine';
 
 interface RecommendationCardProps {
   content: RecommendationContent;
-  type: 'group' | 'private' | 'kids';
+  type: 'group' | 'private' | 'kids' | 'bundled';
   isPrimary?: boolean;
   onSelect?: () => void;
   onViewDetails?: () => void;
@@ -13,7 +13,8 @@ interface RecommendationCardProps {
 const iconMap = {
   group: Users,
   private: GraduationCap,
-  kids: Gamepad2
+  kids: Gamepad2,
+  bundled: Users
 };
 
 export const RecommendationCard = ({ 

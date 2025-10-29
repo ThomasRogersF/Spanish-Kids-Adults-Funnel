@@ -8,7 +8,7 @@ export interface RecommendationScores {
 export interface RecommendationState {
   groupScore: number;
   privateScore: number;
-  recommendedTrack: 'group' | 'private' | 'kids';
+  recommendedTrack: 'group' | 'private' | 'kids' | 'bundled';
   isKidsOverride: boolean;
 }
 
@@ -23,7 +23,7 @@ export interface RecommendationContent {
   benefits: string[];
 }
 
-export const recommendationContent: Record<'group' | 'private' | 'kids', RecommendationContent> = {
+export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundled', RecommendationContent> = {
   group: {
     title: "Group Classes",
     subtitle: "Best fit: Unlimited sessions for one monthly price",
@@ -100,6 +100,36 @@ export const recommendationContent: Record<'group' | 'private' | 'kids', Recomme
       "Age-appropriate content for better engagement",
       "Kid-friendly pacing that builds confidence",
       "Family learning activities for shared progress"
+    ]
+  },
+  bundled: {
+    title: "Bundled Option",
+    subtitle: "Best fit: 1 private class + unlimited group classes",
+    features: [
+      {
+        icon: "👨‍🏫",
+        title: "Dedicated Native Teacher",
+        description: "Your own teacher plans every session around your specific goals"
+      },
+      {
+        icon: "🎯",
+        title: "Custom Learning Plan",
+        description: "Personalized curriculum designed just for you"
+      },
+      {
+        icon: "🆓",
+        title: "Free Trial Class",
+        description: "Try a 1:1 class before you decide"
+      },
+      {
+        icon: "👥",
+        title: "Unlimited Group Classes",
+        description: "Join as many classes as you want Monday-Friday at your CEFR level"
+      }
+    ],
+    benefits: [
+      "Perfect balance of personalized attention and group practice",
+      "Get the best of both worlds with dedicated support and community learning"
     ]
   }
 };

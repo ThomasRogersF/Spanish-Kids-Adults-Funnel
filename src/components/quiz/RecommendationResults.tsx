@@ -22,7 +22,7 @@ import Autoplay from 'embla-carousel-autoplay';
 interface RecommendationResultsProps {
   recommendationState: RecommendationState;
   answers: any[];
-  onSelectTrack: (track: 'group' | 'private' | 'kids') => void;
+  onSelectTrack: (track: 'group' | 'private' | 'kids' | 'bundled') => void;
 }
 
 export const RecommendationResults = ({ 
@@ -31,7 +31,7 @@ export const RecommendationResults = ({
   onSelectTrack 
 }: RecommendationResultsProps) => {
   const [isKidsOverride, setIsKidsOverride] = useState(recommendationState.isKidsOverride);
-  const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | 'bundled' | null>(null);
   
   const { recommendedTrack, groupScore, privateScore } = recommendationState;
   const maxScore = Math.max(groupScore, privateScore);
@@ -53,7 +53,7 @@ export const RecommendationResults = ({
     }
   };
   
-  const handleTrackSelect = (track: 'group' | 'private' | 'kids') => {
+  const handleTrackSelect = (track: 'group' | 'private' | 'kids' | 'bundled') => {
     setSelectedTrack(track);
     onSelectTrack(track);
   };
@@ -240,35 +240,6 @@ export const RecommendationResults = ({
       </motion.div>
       */}
       
-      {/* Kids Override Toggle */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.2 }}
-      >
-        <Card className="bg-gradient-to-r from-purple-50 to-pink-50 border-purple-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <Gamepad2 className="w-5 h-5 text-purple-600" />
-                <div>
-                  <Label htmlFor="kids-toggle" className="font-medium text-gray-900">
-                    Learning for a child (4-17 years)?
-                  </Label>
-                  <p className="text-sm text-gray-600">
-                    Get age-appropriate content and activities
-                  </p>
-                </div>
-              </div>
-              <Switch
-                id="kids-toggle"
-                checked={isKidsOverride}
-                onCheckedChange={handleKidsToggle}
-              />
-            </div>
-          </CardContent>
-        </Card>
-      </motion.div>
       
       {/* Score Breakdown */}
       {!isKidsOverride && (
@@ -367,6 +338,34 @@ export const RecommendationResults = ({
                   content={recommendationContent.private}
                   type="private"
                   onSelect={() => handleTrackSelect('private')}
+                />
+              </motion.div>
+            )}
+            
+            {recommendedTrack !== 'private' && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <RecommendationCard
+                  content={recommendationContent.private}
+                  type="private"
+                  onSelect={() => handleTrackSelect('private')}
+                />
+              </motion.div>
+            )}
+            
+            {recommendedTrack !== 'bundled' && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                <RecommendationCard
+                  content={recommendationContent.bundled}
+                  type="bundled"
+                  onSelect={() => handleTrackSelect('bundled')}
                 />
               </motion.div>
             )}
