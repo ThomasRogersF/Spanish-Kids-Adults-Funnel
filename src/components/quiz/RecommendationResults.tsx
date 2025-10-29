@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { Button } from '@/components/ui/button';
-import { Users, GraduationCap, Gamepad2, Star, ArrowRight, Play, ChevronRight } from 'lucide-react';
+import { Users, GraduationCap, Gamepad2, Star, ArrowRight, Play, ChevronRight, HelpCircle } from 'lucide-react';
 import {
   Carousel,
   CarouselContent,
@@ -17,6 +17,12 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from "@/components/ui/carousel";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import Autoplay from 'embla-carousel-autoplay';
 
 interface RecommendationResultsProps {
@@ -25,10 +31,10 @@ interface RecommendationResultsProps {
   onSelectTrack: (track: 'group' | 'private' | 'kids' | 'bundled') => void;
 }
 
-export const RecommendationResults = ({ 
-  recommendationState, 
-  answers, 
-  onSelectTrack 
+export const RecommendationResults = ({
+  recommendationState,
+  answers,
+  onSelectTrack
 }: RecommendationResultsProps) => {
   const [isKidsOverride, setIsKidsOverride] = useState(recommendationState.isKidsOverride);
   const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | 'bundled' | null>(null);
@@ -37,6 +43,62 @@ export const RecommendationResults = ({
   const maxScore = Math.max(groupScore, privateScore);
   const groupPercentage = maxScore > 0 ? (groupScore / maxScore) * 100 : 50;
   const privatePercentage = maxScore > 0 ? (privateScore / maxScore) * 100 : 50;
+
+  // FAQ Data Structure
+  const faqData = [
+    {
+      question: "Which program is better for me?",
+      answer: "Our private subscription and group classes depend on your learning preferences, schedule, and goals. Group classes are great for those who enjoy learning with others and want a structured curriculum. Private classes are ideal for those who want a flexible schedule and personalized instruction."
+    },
+    {
+      question: "Is this for adults, or kids?",
+      answer: "Our programs are best for learners of all levels! We work with students from beginner to advanced and offer classes for adults and kids. For kids, we recommend starting at age 5 and up. Our teachers are experienced in working with younger learners and tailor lessons to their needs."
+    },
+    {
+      question: "When can I take my classes?",
+      answer: "You can take your classes anytime! We make our current class schedule available at [link]."
+    },
+    {
+      question: "How are your classes so affordable?",
+      answer: "We believe language learning should be accessible to everyone. By building a remote team of teachers and streamlining our operations, we're able to offer high-quality classes at a fraction of the cost of traditional language schools."
+    },
+    {
+      question: "What if I miss a class?",
+      answer: "No problem! All group classes are recorded and available to watch anytime via Zoom. All our subscriptions include access to these recordings so you can catch up or review anytime."
+    },
+    {
+      question: "What's your refund policy?",
+      answer: "We offer a 30-day money-back guarantee, which can be used for any reason."
+    },
+    {
+      question: "I've never practiced Spanish, will this help?",
+      answer: "Absolutely! Our classes are designed for complete beginners. We have courses for learners at every level, and our teachers are trained to help you build a strong foundation in Spanish. You'll start with basic vocabulary and grammar and gradually progress to more complex topics."
+    },
+    {
+      question: "How can I schedule a group class?",
+      answer: "Group classes are scheduled in advance and follow a set curriculum. You can view our upcoming schedule and register for classes at [link]. Once registered, you'll receive reminders and Zoom links for each class."
+    },
+    {
+      question: "Can I try multiple teachers with my private class subscription?",
+      answer: "Yes! Our private class subscription allows you to take classes with ANYONE on our team of amazing teachers. You can try different teachers to find the best fit for your learning style and goals."
+    },
+    {
+      question: "Do your teachers have degrees?",
+      answer: "Our teachers are highly qualified and experienced. Many hold degrees in teaching or education, and all have undergone rigorous training in language instruction. We also prioritize hiring native speakers to ensure authentic language exposure."
+    },
+    {
+      question: "Do you offer bundled pricing?",
+      answer: "Yes! We offer discounted rates when you sign up for multiple classes or purchase a class bundle. The best way to save is by subscribing to our monthly or yearly plans, which include access to all group classes and recordings."
+    },
+    {
+      question: "How often can I change dedicated teachers?",
+      answer: "Once you are on a private class subscription, you can change your teacher anytime if you feel comfortable doing so. We want you to have the best experience possible, and we're happy to accommodate your preferences."
+    },
+    {
+      question: "Why do you have so many private \"teacher\" options?",
+      answer: "We offer a wide range of private teachers to accommodate your needs and preferences. With many styles, specialties, and availabilities, you can find the perfect match for your learning goals. All our teachers are experienced and passionate about helping students succeed. As a multiple teacher platform, we believe in giving you the flexibility to learn from the best."
+    }
+  ];
   
   const getScoreColor = (score: number, isMax: boolean) => {
     if (isMax) return 'bg-green-500';
@@ -516,6 +578,72 @@ export const RecommendationResults = ({
             <br/>
             <p className="text-base sm:text-lg text-gray-600">Join 2,147 successful Spanish learners</p>
           </div>
+        </div>
+      </section>
+      
+      {/* FAQ Section */}
+      <section className="py-12 sm:py-16 lg:py-20 w-full">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="text-center mb-8 sm:mb-12"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <HelpCircle className="w-8 h-8 text-orange-500" />
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+                Got Any Questions?
+              </h2>
+            </div>
+            <p className="text-base sm:text-md text-gray-600 max-w-2xl mx-auto">
+              Got questions about our Spanish programs? We've got answers, if you need more help, please reach out to support@spanishvip.com
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Card className="shadow-lg border-0">
+              <CardContent className="p-6 sm:p-8">
+                <Accordion type="multiple" className="space-y-4">
+                  {faqData.map((faq, index) => (
+                    <AccordionItem
+                      key={index}
+                      value={`item-${index}`}
+                      className="border border-gray-200 rounded-lg px-4 hover:bg-gray-50 transition-colors"
+                    >
+                      <AccordionTrigger className="text-left font-semibold text-gray-900 hover:text-orange-600 transition-colors py-4">
+                        {faq.question}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-gray-700 leading-relaxed pb-4">
+                        {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </CardContent>
+            </Card>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="text-center mt-8 sm:mt-12"
+          >
+            <p className="text-sm text-gray-600 mb-4">
+              Still have questions? We're here to help!
+            </p>
+            <Button
+              className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-full transition-colors"
+              onClick={() => window.open('mailto:info@spanishvip.com', '_blank')}
+            >
+              Contact Support
+            </Button>
+          </motion.div>
         </div>
       </section>
     </>
