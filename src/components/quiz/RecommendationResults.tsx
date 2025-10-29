@@ -342,20 +342,6 @@ export const RecommendationResults = ({
               </motion.div>
             )}
             
-            {recommendedTrack !== 'private' && (
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                <RecommendationCard
-                  content={recommendationContent.private}
-                  type="private"
-                  onSelect={() => handleTrackSelect('private')}
-                />
-              </motion.div>
-            )}
-            
             {recommendedTrack !== 'bundled' && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
