@@ -470,8 +470,8 @@ const QuizController = ({ config }: QuizControllerProps) => {
   return (
     <div className="min-h-screen bg-svip-bg flex items-center justify-center p-4">
       <div className="w-full max-w-2xl">
-        {/* SpanishVIP Logo - hide during interstitials */}
-        {!stage.startsWith('interstitial') && (
+        {/* SpanishVIP Logo - hide during interstitials and recommendations */}
+        {!stage.startsWith('interstitial') && stage !== "recommendations" && (
           <div className="flex justify-center mb-6">
             <img
               src="/images/SpanishVIP Logo.png"
