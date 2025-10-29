@@ -1,73 +1,110 @@
-# Welcome to your Lovable project
+# Spanish Learning Quiz
 
-## Project info
+A React-based interactive quiz application that helps users discover their perfect Spanish learning path through personalized recommendations.
 
-**URL**: https://lovable.dev/projects/cc715bdd-68fc-4aab-9487-219b89fdc9e1
+## Project Overview
 
-## How can I edit this code?
+This Spanish Learning Quiz is designed for SpanishVIP to assess users' language learning goals, current skill level, and preferences. Based on their responses, the application recommends either group classes or private tutoring options that best fit their needs.
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+- Interactive quiz with multiple choice questions
+- Personalized recommendations based on user responses
+- Responsive design for mobile and desktop
+- Progress tracking
+- Modern UI with Tailwind CSS and shadcn/ui components
+- Integration with SpanishVIP's booking system
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/cc715bdd-68fc-4aab-9487-219b89fdc9e1) and start prompting.
+## Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS
+- **UI Components**: shadcn/ui
+- **Routing**: React Router
+- **State Management**: React Hooks
+- **Form Handling**: React Hook Form
+- **Animations**: Framer Motion
 
-**Use your preferred IDE**
+## Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Node.js (v18 or higher)
+- npm or yarn
 
-Follow these steps:
+### Installation
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. Clone the repository:
+```bash
+git clone https://github.com/your-username/spanish-learning-quiz.git
+cd spanish-learning-quiz
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Install dependencies:
+```bash
+npm install
+```
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Available Scripts
 
-**Use GitHub Codespaces**
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run build:dev` - Build for development
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Project Structure
 
-## What technologies are used for this project?
+```
+src/
+├── components/
+│   ├── quiz/           # Quiz-related components
+│   └── ui/             # Reusable UI components
+├── data/
+│   └── spanishQuiz.ts  # Quiz configuration
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions
+├── pages/              # Page components
+├── types/              # TypeScript type definitions
+└── utils/              # Helper functions
+```
 
-This project is built with:
+## Configuration
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+The quiz configuration is stored in `src/data/spanishQuiz.ts` and includes:
 
-## How can I deploy this project?
+- Quiz questions and options
+- Result templates
+- Styling options
+- Webhook URLs for data submission
 
-Simply open [Lovable](https://lovable.dev/projects/cc715bdd-68fc-4aab-9487-219b89fdc9e1) and click on Share -> Publish.
+## Deployment
 
-## Can I connect a custom domain to my Lovable project?
+This project can be deployed to any static hosting service. For production builds:
 
-Yes, you can!
+1. Run `npm run build`
+2. Deploy the contents of the `dist` folder
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Contributing
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is proprietary to SpanishVIP.
+
+## Contact
+
+For questions or support, please contact the SpanishVIP team.
