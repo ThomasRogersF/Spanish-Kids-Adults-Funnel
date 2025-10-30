@@ -4,6 +4,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Academy Toggle Styles */
+@import './styles/academy-toggle.css';
+
 @layer base {
   :root {
     /* Hims-inspired Design System */

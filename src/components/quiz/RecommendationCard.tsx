@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import { Check, Star, Users, GraduationCap, Gamepad2 } from 'lucide-react';
 import { RecommendationContent } from '@/lib/recommendationEngine';
+import { PricingSection } from './PricingSection';
+import { cn } from '@/lib/utils';
 
 interface RecommendationCardProps {
   content: RecommendationContent;
@@ -8,6 +10,8 @@ interface RecommendationCardProps {
   isPrimary?: boolean;
   onSelect?: () => void;
   onViewDetails?: () => void;
+  paymentLink?: string;
+  isLoading?: boolean;
 }
 
 const iconMap = {
@@ -17,14 +21,23 @@ const iconMap = {
   bundled: Users
 };
 
-export const RecommendationCard = ({ 
-  content, 
-  type, 
-  isPrimary = false, 
-  onSelect, 
-  onViewDetails 
+export const RecommendationCard = ({
+  content,
+  type,
+  isPrimary = false,
+  onSelect,
+  onViewDetails,
+  paymentLink,
+  isLoading = false
 }: RecommendationCardProps) => {
   const Icon = iconMap[type];
+  
+  const handleGetStarted = () => {
+    if (paymentLink) {
+      window.open(paymentLink, '_blank');
+    }
+    onSelect?.();
+  };
   
   return (
     <motion.div
@@ -101,17 +114,40 @@ export const RecommendationCard = ({
         ))}
       </div>
       
+      {/* Pricing Section */}
+      {content.pricing && (
+        <PricingSection
+          pricingData={content.pricing}
+          isPrimary={isPrimary}
+          type={type}
+        />
+      )}
+      
       <div className="flex gap-2">
         <button
-          className={`
-            flex-1 py-2 px-4 rounded-lg font-semibold transition-colors
-            ${isPrimary 
-              ? 'bg-white text-blue-600 hover:bg-blue-50' 
-              : 'bg-blue-600 text-white hover:bg-blue-700'
-            }
-          `}
+          onClick={handleGetStarted}
+          disabled={isLoading}
+          aria-label={`Get started with ${content.title} ${content.pricing ? `— ${content.pricing.discountPercent}% off first month applied` : ''} ${paymentLink ? 'and proceed to checkout' : ''}`}
+          className={cn(
+            "flex-1 py-2 px-4 rounded-lg font-semibold transition-all duration-300",
+            "relative overflow-hidden",
+            isPrimary
+              ? 'bg-white text-blue-600 hover:bg-blue-50'
+              : 'bg-blue-600 text-white hover:bg-blue-700',
+            isLoading && "opacity-75 cursor-not-allowed"
+          )}
         >
-          {isPrimary ? 'Get Started' : 'Choose This'}
+          {isLoading ? (
+            <div className="flex items-center justify-center">
+              <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+              Processing...
+            </div>
+          ) : (
+            <>
+              {isPrimary ? 'Get Started — 50% OFF Applied →' : 'Choose This'}
+              {paymentLink && <span className="ml-1">→</span>}
+            </>
+          )}
         </button>
         
         {onViewDetails && (

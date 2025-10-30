@@ -12,6 +12,17 @@ export interface RecommendationState {
   isKidsOverride: boolean;
 }
 
+export interface PricingData {
+  listPrice: number;
+  listPriceFormatted: string;
+  salePrice: number;
+  salePriceFormatted: string;
+  discountPercent: number;
+  saleBadgeText: string;
+  saleNote: string;
+  finePrint: string;
+}
+
 export interface RecommendationContent {
   title: string;
   subtitle: string;
@@ -21,6 +32,7 @@ export interface RecommendationContent {
     description: string;
   }>;
   benefits: string[];
+  pricing?: PricingData;
 }
 
 export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundled', RecommendationContent> = {
@@ -48,7 +60,17 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Perfect for adults 18+ who want steady practice",
       "Build momentum with regular conversation practice",
       "Learn from others in a supportive community environment"
-    ]
+    ],
+    pricing: {
+      listPrice: 198,
+      listPriceFormatted: "$198/mo",
+      salePrice: 99,
+      salePriceFormatted: "$99",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Today only — no code needed",
+      finePrint: "First month $99, then $198/mo. Cancel anytime."
+    }
   },
   private: {
     title: "Private Tutoring",
@@ -74,7 +96,17 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Faster progress with personalized attention",
       "Flexible scheduling that adapts to your routine",
       "Direct feedback and targeted corrections"
-    ]
+    ],
+    pricing: {
+      listPrice: 349,
+      listPriceFormatted: "$349/mo",
+      salePrice: 174,
+      salePriceFormatted: "$174",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Today only — no code needed",
+      finePrint: "First month $174, then $349/mo. Cancel anytime."
+    }
   },
   kids: {
     title: "Spanish for Kids",
@@ -100,7 +132,17 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Age-appropriate content for better engagement",
       "Kid-friendly pacing that builds confidence",
       "Family learning activities for shared progress"
-    ]
+    ],
+    pricing: {
+      listPrice: 149,
+      listPriceFormatted: "$149/mo",
+      salePrice: 74,
+      salePriceFormatted: "$74",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Today only — no code needed",
+      finePrint: "First month $74, then $149/mo. Cancel anytime."
+    }
   },
   bundled: {
     title: "Bundled Option",
@@ -130,7 +172,17 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
     benefits: [
       "Perfect balance of personalized attention and group practice",
       "Get the best of both worlds with dedicated support and community learning"
-    ]
+    ],
+    pricing: {
+      listPrice: 449,
+      listPriceFormatted: "$449/mo",
+      salePrice: 224,
+      salePriceFormatted: "$224",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Today only — no code needed",
+      finePrint: "First month $224, then $449/mo. Cancel anytime."
+    }
   }
 };
 

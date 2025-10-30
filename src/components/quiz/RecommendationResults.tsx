@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RecommendationCard } from './RecommendationCard';
+import { AcademyToggle } from './AcademyToggle';
 import { recommendationContent, RecommendationState } from '@/lib/recommendationEngine';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,7 @@ import { Progress } from '@/components/ui/progress';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { Button } from '@/components/ui/button';
 import { Users, GraduationCap, Gamepad2, Star, ArrowRight, Play, ChevronRight, HelpCircle } from 'lucide-react';
+import { getPaymentLink } from '@/config/paymentLinks';
 import {
   Carousel,
   CarouselContent,
@@ -38,6 +40,8 @@ export const RecommendationResults = ({
 }: RecommendationResultsProps) => {
   const [isKidsOverride, setIsKidsOverride] = useState(recommendationState.isKidsOverride);
   const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | 'bundled' | null>(null);
+  const [isAcademyIncluded, setIsAcademyIncluded] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
   const { recommendedTrack, groupScore, privateScore } = recommendationState;
   const maxScore = Math.max(groupScore, privateScore);
@@ -114,6 +118,18 @@ export const RecommendationResults = ({
       setSelectedTrack(recommendedTrack);
     }
   };
+
+  const handleAcademyToggle = async (checked: boolean) => {
+    setIsTransitioning(true);
+    // Simulate loading to prevent flickering
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setIsAcademyIncluded(checked);
+    setIsTransitioning(false);
+  };
+
+  const getPaymentLinkForCard = (type: 'group' | 'private' | 'kids' | 'bundled') => {
+    return getPaymentLink(type, isAcademyIncluded);
+  };
   
   const handleTrackSelect = (track: 'group' | 'private' | 'kids' | 'bundled') => {
     setSelectedTrack(track);
@@ -137,22 +153,7 @@ export const RecommendationResults = ({
         className="w-full"
       >
         <div className="max-w-7xl mx-auto px-4 py-2 sm:py-4 text-center">
-          {/* Micro-proof row */}
-          <div className="flex flex-row items-center justify-center gap-3 mb-4">
-            <img
-              src="/images/Students.png"
-              alt="Happy SpanishVIP students"
-              className="h-10 sm:h-12 rounded-lg shadow-sm"
-            />
-            <div className="flex flex-col items-start gap-1">
-              <span className="text-xs sm:text-sm font-medium text-gray-700 text-left">
-                Join Hundreds of
-              </span>
-              <span className="text-xs sm:text-sm font-medium text-gray-700 text-left">
-                Happy Spanish Students
-              </span>
-            </div>
-          </div>
+        
           
           {/* Main headline block */}
           <h1
@@ -282,7 +283,22 @@ export const RecommendationResults = ({
       )}
       
       <div className="max-w-4xl mx-auto px-6 pt-2 pb-6 space-y-6">
-      
+        {/* Micro-proof row */}
+          <div className="flex flex-row items-center justify-center gap-3 mb-4">
+            <img
+              src="/images/Students.png"
+              alt="Happy SpanishVIP students"
+              className="h-10 sm:h-12 rounded-lg shadow-sm"
+            />
+            <div className="flex flex-col items-start gap-1">
+              <span className="text-xs sm:text-sm font-medium text-gray-700 text-left">
+                Join Hundreds of
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-gray-700 text-left">
+                Happy Spanish Students
+              </span>
+            </div>
+          </div>
       {/* Video Section - DEACTIVATED */}
       {/*
       <motion.div
@@ -368,6 +384,8 @@ export const RecommendationResults = ({
               content={recommendationContent[isKidsOverride ? 'kids' : recommendedTrack]}
               type={isKidsOverride ? 'kids' : recommendedTrack}
               isPrimary={true}
+              paymentLink={getPaymentLinkForCard(isKidsOverride ? 'kids' : recommendedTrack)}
+              isLoading={isTransitioning}
               onSelect={() => handleTrackSelect(isKidsOverride ? 'kids' : recommendedTrack)}
             />
           </motion.div>
@@ -385,6 +403,8 @@ export const RecommendationResults = ({
                 <RecommendationCard
                   content={recommendationContent.group}
                   type="group"
+                  paymentLink={getPaymentLinkForCard('group')}
+                  isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('group')}
                 />
               </motion.div>
@@ -399,6 +419,8 @@ export const RecommendationResults = ({
                 <RecommendationCard
                   content={recommendationContent.private}
                   type="private"
+                  paymentLink={getPaymentLinkForCard('private')}
+                  isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('private')}
                 />
               </motion.div>
@@ -413,6 +435,8 @@ export const RecommendationResults = ({
                 <RecommendationCard
                   content={recommendationContent.bundled}
                   type="bundled"
+                  paymentLink={getPaymentLinkForCard('bundled')}
+                  isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('bundled')}
                 />
               </motion.div>
@@ -438,7 +462,7 @@ export const RecommendationResults = ({
       {/* SpanishVIP Academy Section */}
       <section
         aria-labelledby="academy-title"
-        className="py-14 sm:py-16 lg:py-18 w-full"
+        className="py-2 sm:py-2 lg:py-2 w-full"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -493,6 +517,17 @@ export const RecommendationResults = ({
               </div>
             </div>
           </motion.div>
+        </div>
+      </section>
+      
+      {/* Academy Toggle Section */}
+      <section className="py-2 w-full">
+        <div className="max-w-4xl mx-auto px-6">
+          <AcademyToggle
+            isChecked={isAcademyIncluded}
+            onChange={handleAcademyToggle}
+            isLoading={isTransitioning}
+          />
         </div>
       </section>
       
