@@ -313,7 +313,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
     // setStage("thank-you");
   };
 
-  const handleTrackSelection = (track: 'group' | 'private' | 'kids') => {
+  const handleTrackSelection = (track: 'group' | 'private' | 'bundled') => {
     console.log("Selected track:", track);
     // Update recommendation state with selected track
     if (recommendationState) {

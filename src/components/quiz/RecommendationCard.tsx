@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Check, Star, Users, GraduationCap, Gamepad2 } from 'lucide-react';
+import { Check, Star, Users, GraduationCap } from 'lucide-react';
 import { RecommendationContent } from '@/lib/recommendationEngine';
 import { PricingSection } from './PricingSection';
 import { cn } from '@/lib/utils';
@@ -8,7 +8,7 @@ import { getPaymentLink, Term } from '@/config/paymentLinks';
 
 interface RecommendationCardProps {
   content: RecommendationContent;
-  type: 'group' | 'private' | 'kids' | 'bundled';
+  type: 'group' | 'private' | 'bundled';
   isPrimary?: boolean;
   onSelect?: () => void;
   onViewDetails?: () => void;
@@ -20,7 +20,6 @@ interface RecommendationCardProps {
 const iconMap = {
   group: Users,
   private: GraduationCap,
-  kids: Gamepad2,
   bundled: Users
 };
 
@@ -36,6 +35,19 @@ export const RecommendationCard = ({
 }: RecommendationCardProps) => {
   const Icon = iconMap[type];
   const [term, setTerm] = useState<Term>('monthly');
+
+  // Determine pricing block to display based on selected term
+  const currentPricing = (term === 'quarterly' && content.pricingQuarterly)
+    ? content.pricingQuarterly
+    : content.pricing;
+
+  // Compute dynamic discount considering Academy fee if toggled
+  const academyFee = 49;
+  const adjustedSale = (currentPricing?.salePrice ?? 0) + (includeAcademy ? academyFee : 0);
+  const listPrice = currentPricing?.listPrice ?? 0;
+  const discountPercentDerived = listPrice > 0
+    ? Math.max(0, Math.round(((listPrice - adjustedSale) / listPrice) * 100))
+    : undefined;
 
   const handleGetStarted = () => {
     const checkoutUrl =
@@ -162,11 +174,14 @@ export const RecommendationCard = ({
       )}
 
       {/* Pricing Section */}
-      {content.pricing && (
+      {currentPricing && (
         <PricingSection
-          pricingData={content.pricing}
+          pricingData={currentPricing}
           isPrimary={isPrimary}
           type={type}
+          includeAcademy={includeAcademy}
+          academyFee={academyFee}
+          term={term}
         />
       )}
       
@@ -174,7 +189,7 @@ export const RecommendationCard = ({
         <button
           onClick={handleGetStarted}
           disabled={isLoading}
-          aria-label={`Get started with ${content.title} ${content.pricing ? `— ${content.pricing.discountPercent}% off first month applied` : ''} ${paymentLink ? 'and proceed to checkout' : ''}`}
+          aria-label={`Get started with ${content.title} ${discountPercentDerived !== undefined ? `— ${discountPercentDerived}% off applied` : ''} ${paymentLink ? 'and proceed to checkout' : ''}`}
           className={cn(
             "flex-1 py-2 px-4 rounded-lg font-semibold transition-all duration-300",
             "relative overflow-hidden",
@@ -191,8 +206,7 @@ export const RecommendationCard = ({
             </div>
           ) : (
             <>
-              {isPrimary ? 'Get Started — 50% OFF Applied →' : 'Choose This'}
-              {paymentLink && <span className="ml-1">→</span>}
+              {isPrimary ? `Get Started — ${discountPercentDerived ?? (content.pricing?.discountPercent ?? 0)}% OFF Applied` : 'Choose This'}
             </>
           )}
         </button>

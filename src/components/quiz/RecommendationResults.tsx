@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { VideoPlayer } from '@/components/ui/video-player';
 import { Button } from '@/components/ui/button';
-import { Users, GraduationCap, Gamepad2, Star, ArrowRight, Play, ChevronRight, HelpCircle } from 'lucide-react';
+import { Users, GraduationCap, Star, ArrowRight, Play, ChevronRight, HelpCircle } from 'lucide-react';
 import { getPaymentLink } from '@/config/paymentLinks';
 import {
   Carousel,
@@ -31,7 +31,7 @@ import Autoplay from 'embla-carousel-autoplay';
 interface RecommendationResultsProps {
   recommendationState: RecommendationState;
   answers: any[];
-  onSelectTrack: (track: 'group' | 'private' | 'kids' | 'bundled') => void;
+  onSelectTrack: (track: 'group' | 'private' | 'bundled') => void;
 }
 
 export const RecommendationResults = ({
@@ -39,14 +39,14 @@ export const RecommendationResults = ({
   answers,
   onSelectTrack
 }: RecommendationResultsProps) => {
-  const [isKidsOverride, setIsKidsOverride] = useState(recommendationState.isKidsOverride);
-  const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | 'bundled' | null>(null);
+  const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'bundled' | null>(null);
   const [isAcademyIncluded, setIsAcademyIncluded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const { recommendedTrack, groupScore, privateScore } = recommendationState;
+  const effectiveTrack: 'group' | 'private' | 'bundled' = recommendedTrack === 'kids' ? 'group' : recommendedTrack;
   const maxScore = Math.max(groupScore, privateScore);
   const groupPercentage = maxScore > 0 ? (groupScore / maxScore) * 100 : 50;
   const privatePercentage = maxScore > 0 ? (privateScore / maxScore) * 100 : 50;
@@ -56,10 +56,6 @@ export const RecommendationResults = ({
     {
       question: "Which program is better for me?",
       answer: "Our private subscription and group classes depend on your learning preferences, schedule, and goals. Group classes are great for those who enjoy learning with others and want a structured curriculum. Private classes are ideal for those who want a flexible schedule and personalized instruction."
-    },
-    {
-      question: "Is this for adults, or kids?",
-      answer: "Our programs are best for learners of all levels! We work with students from beginner to advanced and offer classes for adults and kids. For kids, we recommend starting at age 5 and up. Our teachers are experienced in working with younger learners and tailor lessons to their needs."
     },
     {
       question: "When can I take my classes?",
@@ -113,14 +109,6 @@ export const RecommendationResults = ({
     return 'bg-gray-300';
   };
   
-  const handleKidsToggle = (checked: boolean) => {
-    setIsKidsOverride(checked);
-    if (checked) {
-      setSelectedTrack('kids');
-    } else {
-      setSelectedTrack(recommendedTrack);
-    }
-  };
 
   const handleAcademyToggle = async (checked: boolean) => {
     setIsTransitioning(true);
@@ -130,11 +118,11 @@ export const RecommendationResults = ({
     setIsTransitioning(false);
   };
 
-  const getPaymentLinkForCard = (type: 'group' | 'private' | 'kids' | 'bundled') => {
+  const getPaymentLinkForCard = (type: 'group' | 'private' | 'bundled') => {
     return getPaymentLink(type, isAcademyIncluded);
   };
   
-  const handleTrackSelect = (track: 'group' | 'private' | 'kids' | 'bundled') => {
+  const handleTrackSelect = (track: 'group' | 'private' | 'bundled') => {
     setSelectedTrack(track);
     onSelectTrack(track);
   };
@@ -186,7 +174,7 @@ export const RecommendationResults = ({
       </section>
       
       {/* Group Classes Section - Only show when recommendedTrack is 'group' */}
-      {recommendedTrack === 'group' && !isKidsOverride && (
+      {recommendedTrack === 'group' && (
         <section
           aria-labelledby="gc-title"
           className="w-full rounded-3xl"
@@ -241,7 +229,7 @@ export const RecommendationResults = ({
       )}
       
       {/* Private Classes Section - Only show when recommendedTrack is 'private' */}
-      {recommendedTrack === 'private' && !isKidsOverride && (
+      {recommendedTrack === 'private' && (
         <section
           aria-labelledby="pt-title"
           className="w-full rounded-3xl"
@@ -333,60 +321,58 @@ export const RecommendationResults = ({
       
       
       {/* Score Breakdown */}
-      {!isKidsOverride && (
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.3 }}
-        >
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-500" />
-                How We Made This Recommendation
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-blue-600" />
-                    <span className="font-medium">Group Classes</span>
-                    <Badge variant="outline">{groupScore} points</Badge>
-                  </div>
-                  <span className="text-sm text-gray-600">{groupPercentage.toFixed(0)}%</span>
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Star className="w-5 h-5 text-yellow-500" />
+              How We Made This Recommendation
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-blue-600" />
+                  <span className="font-medium">Group Classes</span>
+                  <Badge variant="outline">{groupScore} points</Badge>
                 </div>
-                <Progress 
-                  value={groupPercentage} 
-                  className="h-2"
-                />
+                <span className="text-sm text-gray-600">{groupPercentage.toFixed(0)}%</span>
               </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <GraduationCap className="w-4 h-4 text-purple-600" />
-                    <span className="font-medium">Private Tutoring</span>
-                    <Badge variant="outline">{privateScore} points</Badge>
-                  </div>
-                  <span className="text-sm text-gray-600">{privatePercentage.toFixed(0)}%</span>
+              <Progress
+                value={groupPercentage}
+                className="h-2"
+              />
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-4 h-4 text-purple-600" />
+                  <span className="font-medium">Private Tutoring</span>
+                  <Badge variant="outline">{privateScore} points</Badge>
                 </div>
-                <Progress 
-                  value={privatePercentage} 
-                  className="h-2"
-                />
+                <span className="text-sm text-gray-600">{privatePercentage.toFixed(0)}%</span>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      )}
+              <Progress
+                value={privatePercentage}
+                className="h-2"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
       
       {/* Recommendation Cards */}
       <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
         <AnimatePresence mode="wait">
           {/* Primary Recommendation */}
           <motion.div
-            key={isKidsOverride ? 'kids' : recommendedTrack}
+            key={effectiveTrack}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
@@ -394,21 +380,20 @@ export const RecommendationResults = ({
             className="lg:col-span-2"
           >
             <RecommendationCard
-              content={recommendationContent[isKidsOverride ? 'kids' : recommendedTrack]}
-              type={isKidsOverride ? 'kids' : recommendedTrack}
+              content={recommendationContent[effectiveTrack]}
+              type={effectiveTrack}
               isPrimary={true}
-              paymentLink={getPaymentLinkForCard(isKidsOverride ? 'kids' : recommendedTrack)}
+              paymentLink={getPaymentLinkForCard(effectiveTrack)}
               includeAcademy={isAcademyIncluded}
               isLoading={isTransitioning}
-              onSelect={() => handleTrackSelect(isKidsOverride ? 'kids' : recommendedTrack)}
+              onSelect={() => handleTrackSelect(effectiveTrack)}
             />
           </motion.div>
         </AnimatePresence>
         
         {/* Alternative Options */}
-        {!isKidsOverride && (
           <>
-            {recommendedTrack !== 'group' && (
+            {effectiveTrack !== 'group' && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -420,12 +405,11 @@ export const RecommendationResults = ({
                   paymentLink={getPaymentLinkForCard('group')}
                   includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
-                  onSelect={() => handleTrackSelect('group')}
                 />
               </motion.div>
             )}
             
-            {recommendedTrack !== 'private' && (
+            {effectiveTrack !== 'private' && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -437,12 +421,11 @@ export const RecommendationResults = ({
                   paymentLink={getPaymentLinkForCard('private')}
                   includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
-                  onSelect={() => handleTrackSelect('private')}
                 />
               </motion.div>
             )}
             
-            {recommendedTrack !== 'bundled' && (
+            {effectiveTrack !== 'bundled' && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -454,12 +437,10 @@ export const RecommendationResults = ({
                   paymentLink={getPaymentLinkForCard('bundled')}
                   includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
-                  onSelect={() => handleTrackSelect('bundled')}
                 />
               </motion.div>
             )}
           </>
-        )}
       </div>
       
       {/* Next Steps */}

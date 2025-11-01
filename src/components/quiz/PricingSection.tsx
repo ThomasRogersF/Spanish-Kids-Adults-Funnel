@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '@/lib/utils';
+import type { Term } from '@/config/paymentLinks';
 
 interface PricingData {
   listPrice: number;
@@ -16,14 +16,27 @@ interface PricingSectionProps {
   pricingData: PricingData;
   isPrimary?: boolean;
   type: 'group' | 'private' | 'kids' | 'bundled';
+  includeAcademy?: boolean;
+  academyFee?: number;
+  term?: Term;
 }
 
 export const PricingSection: React.FC<PricingSectionProps> = ({
   pricingData,
   isPrimary = false,
-  type
+  type,
+  includeAcademy = false,
+  academyFee = 49,
+  term = 'monthly'
 }) => {
-  const savingsAmount = pricingData.listPrice - pricingData.salePrice;
+  const adjustedSalePrice = pricingData.salePrice + (includeAcademy ? academyFee : 0);
+  const adjustedSalePriceFormatted = `$${adjustedSalePrice.toFixed(2)}`;
+  const savingsAmount = pricingData.listPrice - adjustedSalePrice;
+  const discountPercentDerived = Math.max(
+    0,
+    Math.round(((pricingData.listPrice - adjustedSalePrice) / pricingData.listPrice) * 100)
+  );
+  const periodLabel = term === 'quarterly' ? '/ first 3 months' : '/ first month';
   
   return (
     <div className="my-4">
@@ -45,20 +58,11 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
           <div className="flex items-center gap-2">
             <span
               className="
-                inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold
-                bg-orange-500 text-white
-              "
-            >
-              <span aria-hidden="true" className="mr-1">⭐</span>
-              {pricingData.saleBadgeText}
-            </span>
-            <span
-              className="
                 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold
                 bg-orange-500 text-white
               "
             >
-              {pricingData.discountPercent}% OFF
+              {discountPercentDerived}% OFF
             </span>
           </div>
 
@@ -78,18 +82,18 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
                   font-bold leading-tight text-gray-900
                   text-2xl sm:text-3xl lg:text-4xl
                 "
-                aria-label={`Now ${pricingData.salePriceFormatted} for the first month`}
+                aria-label={`Now ${adjustedSalePriceFormatted} for the first month`}
               >
-                {pricingData.salePriceFormatted}
+                {adjustedSalePriceFormatted}
               </span>
               <span className="text-sm text-gray-600">
-                / first month
+                {periodLabel}
               </span>
             </div>
             
             {/* Savings Helper */}
             <div className="text-sm font-medium text-gray-700">
-              You save ${savingsAmount} ({pricingData.discountPercent}%) today
+              You save ${savingsAmount.toFixed(2)} ({discountPercentDerived}%) today
             </div>
           </div>
 

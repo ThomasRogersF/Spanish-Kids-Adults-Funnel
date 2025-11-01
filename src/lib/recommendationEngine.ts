@@ -33,6 +33,7 @@ export interface RecommendationContent {
   }>;
   benefits: string[];
   pricing?: PricingData;
+  pricingQuarterly?: PricingData;
 }
 
 export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundled', RecommendationContent> = {
@@ -62,14 +63,24 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Learn from others in a supportive community environment"
     ],
     pricing: {
-      listPrice: 198,
-      listPriceFormatted: "$198/mo",
-      salePrice: 99,
-      salePriceFormatted: "$99",
+      listPrice: 149,
+      listPriceFormatted: "$149/mo",
+      salePrice: 74.5,
+      salePriceFormatted: "$74.50",
       discountPercent: 50,
       saleBadgeText: "Incredible deal",
-      saleNote: "Today only — no code needed",
-      finePrint: "First month $99, then $198/mo. Cancel anytime."
+      saleNote: "Limited-time offer",
+      finePrint: "First month $74.50, then $149/mo. Cancel anytime."
+    },
+    pricingQuarterly: {
+      listPrice: 349,
+      listPriceFormatted: "$349",
+      salePrice: 174.5,
+      salePriceFormatted: "$174.50",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Limited-time offer",
+      finePrint: "First 3 months $174.50, then $149/mo. Cancel anytime."
     }
   },
   private: {
@@ -98,14 +109,14 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Direct feedback and targeted corrections"
     ],
     pricing: {
-      listPrice: 349,
-      listPriceFormatted: "$349/mo",
-      salePrice: 174,
-      salePriceFormatted: "$174",
+      listPrice: 199,
+      listPriceFormatted: "$199/mo",
+      salePrice: 99.5,
+      salePriceFormatted: "$99.50",
       discountPercent: 50,
       saleBadgeText: "Incredible deal",
-      saleNote: "Today only — no code needed",
-      finePrint: "First month $174, then $349/mo. Cancel anytime."
+      saleNote: "Limited-time offer",
+      finePrint: "First month $99.50, then $199/mo. Cancel anytime."
     }
   },
   kids: {
@@ -174,14 +185,24 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
       "Get the best of both worlds with dedicated support and community learning"
     ],
     pricing: {
-      listPrice: 449,
-      listPriceFormatted: "$449/mo",
-      salePrice: 224,
-      salePriceFormatted: "$224",
+      listPrice: 215.4,
+      listPriceFormatted: "$215.40/mo",
+      salePrice: 114.99,
+      salePriceFormatted: "$114.99",
+      discountPercent: 47,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Limited-time offer",
+      finePrint: "First month $114.99, then ~$215.40/mo. Cancel anytime."
+    },
+    pricingQuarterly: {
+      listPrice: 515.32,
+      listPriceFormatted: "$515.32",
+      salePrice: 257.66,
+      salePriceFormatted: "$257.66",
       discountPercent: 50,
       saleBadgeText: "Incredible deal",
-      saleNote: "Today only — no code needed",
-      finePrint: "First month $224, then $449/mo. Cancel anytime."
+      saleNote: "Limited-time offer",
+      finePrint: "First 3 months $257.66, then ~$215.40/mo. Cancel anytime."
     }
   }
 };
