@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { RecommendationCard } from './RecommendationCard';
 import { AcademyToggle } from './AcademyToggle';
+import { TestimonialVideoModal } from './TestimonialVideoModal';
 import { recommendationContent, RecommendationState } from '@/lib/recommendationEngine';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
@@ -42,6 +43,8 @@ export const RecommendationResults = ({
   const [selectedTrack, setSelectedTrack] = useState<'group' | 'private' | 'kids' | 'bundled' | null>(null);
   const [isAcademyIncluded, setIsAcademyIncluded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedTestimonial, setSelectedTestimonial] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const { recommendedTrack, groupScore, privateScore } = recommendationState;
   const maxScore = Math.max(groupScore, privateScore);
@@ -134,6 +137,16 @@ export const RecommendationResults = ({
   const handleTrackSelect = (track: 'group' | 'private' | 'kids' | 'bundled') => {
     setSelectedTrack(track);
     onSelectTrack(track);
+  };
+
+  const handleTestimonialClick = (testimonial: any) => {
+    setSelectedTestimonial(testimonial);
+    setIsModalOpen(true);
+  };
+
+  const closeTestimonialModal = () => {
+    setIsModalOpen(false);
+    setSelectedTestimonial(null);
   };
   
   return (
@@ -385,6 +398,7 @@ export const RecommendationResults = ({
               type={isKidsOverride ? 'kids' : recommendedTrack}
               isPrimary={true}
               paymentLink={getPaymentLinkForCard(isKidsOverride ? 'kids' : recommendedTrack)}
+              includeAcademy={isAcademyIncluded}
               isLoading={isTransitioning}
               onSelect={() => handleTrackSelect(isKidsOverride ? 'kids' : recommendedTrack)}
             />
@@ -404,6 +418,7 @@ export const RecommendationResults = ({
                   content={recommendationContent.group}
                   type="group"
                   paymentLink={getPaymentLinkForCard('group')}
+                  includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('group')}
                 />
@@ -420,6 +435,7 @@ export const RecommendationResults = ({
                   content={recommendationContent.private}
                   type="private"
                   paymentLink={getPaymentLinkForCard('private')}
+                  includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('private')}
                 />
@@ -436,6 +452,7 @@ export const RecommendationResults = ({
                   content={recommendationContent.bundled}
                   type="bundled"
                   paymentLink={getPaymentLinkForCard('bundled')}
+                  includeAcademy={isAcademyIncluded}
                   isLoading={isTransitioning}
                   onSelect={() => handleTrackSelect('bundled')}
                 />
@@ -480,8 +497,8 @@ export const RecommendationResults = ({
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight text-white"
-                  style={{ fontSize: 'clamp(24px, 3vw, 40px)' }}
+                  className="text-xl sm:text-2xl lg:text-3xl font-bold leading-tight text-white"
+                  style={{ fontSize: 'clamp(20px, 2.5vw, 32px)' }}
                 >
                   Master Spanish at Your Own Pace with{' '}
                   <span style={{ color: '#50C1A3' }}>SpanishVIP</span>{' '}
@@ -568,7 +585,7 @@ export const RecommendationResults = ({
                   },
                   {
                     name: "Chris",
-                    quote: "Each class is tailored to my individual needs and abilities.",
+                    quote: "The classes are customized just for me!",
                     video: "/videos/chris-testimonial.mp4",
                     image: "/images/testimonials-preview/chris-testimonial.png"
                   },
@@ -580,7 +597,7 @@ export const RecommendationResults = ({
                   }
                 ].map((testimonial, index) => (
                   <CarouselItem key={index} className="pl-4 md:basis-1/3 basis-full">
-                    <div className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => window.open(testimonial.video, '_blank')}>
+                    <div className="relative overflow-hidden shadow-lg rounded-2xl group cursor-pointer" onClick={() => handleTestimonialClick(testimonial)}>
                       <div className="aspect-video relative">
                         <img
                           src={testimonial.image}
@@ -681,6 +698,13 @@ export const RecommendationResults = ({
           </motion.div>
         </div>
       </section>
+      
+      {/* Testimonial Video Modal */}
+      <TestimonialVideoModal
+        testimonial={selectedTestimonial}
+        isOpen={isModalOpen}
+        onClose={closeTestimonialModal}
+      />
     </>
   );
 };

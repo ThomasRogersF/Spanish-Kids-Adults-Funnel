@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Star, Users, GraduationCap, Gamepad2 } from 'lucide-react';
 import { RecommendationContent } from '@/lib/recommendationEngine';
 import { PricingSection } from './PricingSection';
 import { cn } from '@/lib/utils';
+import { getPaymentLink, Term } from '@/config/paymentLinks';
 
 interface RecommendationCardProps {
   content: RecommendationContent;
@@ -11,6 +13,7 @@ interface RecommendationCardProps {
   onSelect?: () => void;
   onViewDetails?: () => void;
   paymentLink?: string;
+  includeAcademy?: boolean;
   isLoading?: boolean;
 }
 
@@ -28,13 +31,20 @@ export const RecommendationCard = ({
   onSelect,
   onViewDetails,
   paymentLink,
+  includeAcademy = false,
   isLoading = false
 }: RecommendationCardProps) => {
   const Icon = iconMap[type];
-  
+  const [term, setTerm] = useState<Term>('monthly');
+
   const handleGetStarted = () => {
-    if (paymentLink) {
-      window.open(paymentLink, '_blank');
+    const checkoutUrl =
+      term === 'monthly'
+        ? paymentLink
+        : getPaymentLink(type, includeAcademy, 'quarterly');
+
+    if (checkoutUrl) {
+      window.open(checkoutUrl, '_blank');
     }
     onSelect?.();
   };
@@ -114,6 +124,43 @@ export const RecommendationCard = ({
         ))}
       </div>
       
+      {/* Term Toggle for eligible plans */}
+      {(type === 'group' || type === 'bundled') && (
+        <div className="mb-3" role="group" aria-label="Select plan term" onClick={(e) => e.stopPropagation()}>
+          <div className={cn(
+            "inline-flex rounded-full border",
+            isPrimary ? "border-white/40" : "border-gray-300"
+          )}>
+            <button
+              type="button"
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-l-full transition-colors focus:outline-none focus-visible:ring-2",
+                term === 'monthly'
+                  ? (isPrimary ? "bg-white text-blue-700" : "bg-blue-600 text-white")
+                  : (isPrimary ? "bg-transparent text-white/90 hover:bg-white/10" : "bg-transparent text-gray-700 hover:bg-gray-100")
+              )}
+              aria-pressed={term === 'monthly'}
+              onClick={() => setTerm('monthly')}
+            >
+              1 month
+            </button>
+            <button
+              type="button"
+              className={cn(
+                "px-3 py-1.5 text-sm rounded-r-full transition-colors focus:outline-none focus-visible:ring-2",
+                term === 'quarterly'
+                  ? (isPrimary ? "bg-white text-blue-700" : "bg-blue-600 text-white")
+                  : (isPrimary ? "bg-transparent text-white/90 hover:bg-white/10" : "bg-transparent text-gray-700 hover:bg-gray-100")
+              )}
+              aria-pressed={term === 'quarterly'}
+              onClick={() => setTerm('quarterly')}
+            >
+              3 months
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Pricing Section */}
       {content.pricing && (
         <PricingSection
