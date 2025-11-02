@@ -239,6 +239,78 @@ export const sendDataToWebhook = async (
   }
 };
 
+// Webhook function specifically for email gate with simplified payload
+export const sendEmailGateWebhook = async (
+  webhookUrl: string,
+  email: string
+): Promise<boolean> => {
+  try {
+    console.log("=== EMAIL GATE WEBHOOK DEBUG START ===");
+    console.log("Webhook URL:", webhookUrl);
+    console.log("Email:", email);
+    
+    // Only attempt to send data if we have a webhook URL
+    if (!webhookUrl || webhookUrl.trim() === '') {
+      console.log("No webhook URL provided, skipping data submission");
+      return true;
+    }
+    
+    // Validate webhook URL format
+    try {
+      new URL(webhookUrl);
+    } catch (e) {
+      console.error("Invalid webhook URL format:", webhookUrl);
+      return false;
+    }
+    
+    // Build simplified data structure as required
+    const webhookData = {
+      name: "Spanish Learner", // Default value as specified
+      email: email, // Participant's email address
+      score: "0", // Default value as specified
+      "quizz-id": "fall-sale" // Required quiz identifier
+    };
+    
+    console.log("Email gate webhook data being sent:", JSON.stringify(webhookData, null, 2));
+    
+    // Make the actual API call to the webhook
+    console.log("Making fetch request to email gate webhook...");
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      mode: 'cors',
+      body: JSON.stringify(webhookData),
+    });
+    
+    console.log("Email gate webhook response status:", response.status);
+    console.log("Email gate webhook response headers:", Object.fromEntries(response.headers.entries()));
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Email gate webhook response not OK:", response.status, errorText);
+      return false;
+    }
+    
+    const responseText = await response.text();
+    console.log("Email gate webhook response body:", responseText);
+    console.log("Email gate data sent successfully to webhook");
+    console.log("=== EMAIL GATE WEBHOOK DEBUG END ===");
+    return true;
+  } catch (error) {
+    console.error("=== EMAIL GATE WEBHOOK ERROR ===");
+    console.error("Error sending data to email gate webhook:", error);
+    console.error("Error details:", {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
+    });
+    console.log("=== EMAIL GATE WEBHOOK DEBUG END ===");
+    return false;
+  }
+};
+
 // Function to count the number of correct answers (to replace calculateScore)
 const countCorrectAnswers = (answers: QuizAnswer[]): number => {
   // Map of all question IDs to their correct answers

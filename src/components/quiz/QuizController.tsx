@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { QuizConfig, QuizParticipant, QuizAnswer, ResultTemplate } from "@/types/quiz";
-import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook } from "@/utils/quizUtils";
+import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook, sendEmailGateWebhook } from "@/utils/quizUtils";
 import { calculateScores, determineRecommendation, RecommendationState } from "@/lib/recommendationEngine";
 import IntroductionPage from "./IntroductionPage";
 import QuestionCard from "./QuestionCard";
@@ -281,26 +281,26 @@ const QuizController = ({ config }: QuizControllerProps) => {
     };
     setParticipant(updatedParticipant);
     
-    // Send data to webhook if configured
-    console.log("=== QUIZ CONTROLLER WEBHOOK DEBUG ===");
+    // Send simplified data to email gate webhook if configured
+    console.log("=== QUIZ CONTROLLER EMAIL GATE WEBHOOK DEBUG ===");
     console.log("Config webhook URL:", config.webhookUrl);
-    console.log("Updated participant:", updatedParticipant);
+    console.log("Email submitted:", email);
     
     if (config.webhookUrl && config.webhookUrl.trim() !== "") {
-      console.log("Webhook URL found, attempting to send data...");
-      sendDataToWebhook(config.webhookUrl, updatedParticipant, config)
+      console.log("Webhook URL found, attempting to send email gate data...");
+      sendEmailGateWebhook(config.webhookUrl, email)
         .then((success) => {
-          console.log("Webhook send result:", success);
+          console.log("Email gate webhook send result:", success);
           // Continue to results even if webhook fails
         })
         .catch(error => {
-          console.error("Webhook send error:", error);
+          console.error("Email gate webhook send error:", error);
           // Continue to results even if webhook fails
         });
     } else {
       console.log("No webhook URL configured");
     }
-    console.log("=== QUIZ CONTROLLER WEBHOOK DEBUG END ===");
+    console.log("=== QUIZ CONTROLLER EMAIL GATE WEBHOOK DEBUG END ===");
     
     setEmailGateOpen(false);
     // Stay on recommendations page after email submission

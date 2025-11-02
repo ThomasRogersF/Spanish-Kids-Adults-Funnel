@@ -10,7 +10,7 @@ export const spanishQuiz: QuizConfig = {
   estimatedTime: "2-3 minutes",
   primaryColor: "#FF5913",
   secondaryColor: "#F7F4EE",
-  webhookUrl: "https://hook.us2.make.com/gnfd34g3pl5pk0kbwsy53j5207o0yv95",
+  webhookUrl: "https://hook.us2.make.com/x9laeetkiiumljb0qi3yo2c7rx3oxafr",
   questions: [
     {
       id: "q1",
