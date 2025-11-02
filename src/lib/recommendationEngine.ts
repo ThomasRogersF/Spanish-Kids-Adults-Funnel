@@ -97,11 +97,7 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
         title: "Custom Learning Plan",
         description: "Personalized curriculum designed just for you"
       },
-      {
-        icon: "🆓",
-        title: "Free Trial Class",
-        description: "Try a 1:1 class before you decide"
-      }
+    
     ],
     benefits: [
       "Faster progress with personalized attention",
@@ -169,11 +165,7 @@ export const recommendationContent: Record<'group' | 'private' | 'kids' | 'bundl
         title: "Custom Learning Plan",
         description: "Personalized curriculum designed just for you"
       },
-      {
-        icon: "🆓",
-        title: "Free Trial Class",
-        description: "Try a 1:1 class before you decide"
-      },
+     
       {
         icon: "👥",
         title: "Unlimited Group Classes",
