@@ -1,101 +1,22 @@
-/* Academy toggle animations */
-.academy-toggle-gradient {
-  transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.academy-toggle-switch {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.academy-toggle-switch:hover {
-  transform: scale(1.05);
-}
-
-.academy-toggle-switch:active {
-  transform: scale(0.95);
-}
-
-/* Loading state animations */
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.academy-toggle-loading {
-  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Touch-friendly targets for mobile */
-@media (max-width: 768px) {
-  .academy-toggle-switch {
-    min-height: 48px;
-    min-width: 48px;
-  }
-  
-  .academy-toggle-card {
-    padding: 1.5rem;
-  }
-}
-
-/* Enhanced focus styles for accessibility */
-.academy-toggle-switch:focus-visible {
-  outline: 2px solid #FF5913;
-  outline-offset: 2px;
-}
-
-/* Smooth color transitions */
-.academy-toggle-text {
-  transition: color 0.3s ease-in-out;
-}
-
-.academy-toggle-bg {
-  transition: background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
-}
-
-/* Micro-animations for hover states */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.academy-toggle-shimmer {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.1),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .academy-toggle-gradient,
-  .academy-toggle-switch,
-  .academy-toggle-text,
-  .academy-toggle-bg {
-    transition: none;
-  }
-  
-  .academy-toggle-loading {
-    animation: none;
-  }
-  
-  .academy-toggle-shimmer {
-    animation: none;
-  }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  .academy-toggle-switch {
-    border: 2px solid currentColor;
-  }
-  
-  .academy-toggle-gradient {
-    background: currentColor;
-  }
+/* Academy Toggle Color Tokens */
+:root {
+  --academy-brand: #FF5913;
+  --academy-text-dark: #101828;
+  --academy-border: #E6E8EE;
+  --academy-surface-off: #FFFFFF;
+  --academy-surface-on: #FFEDE4;
+  --academy-surface-hover: #FFF4EE;
+  --academy-surface-pressed-off: #F8F8F8;
+  --academy-surface-pressed-on: #FFE4D0;
+  --academy-border-on: #FFD5C2;
+  --academy-chip-bg-off: #F2F4F7;
+  --academy-chip-text-off: #475467;
+  --academy-chip-bg-on: rgba(255, 89, 19, 0.12);
+  --academy-chip-text-on: #FF5913;
+  --academy-toggle-track-off: #E4E7EC;
+  --academy-toggle-track-on: #FF5913;
+  --academy-focus-ring: #FF5913;
+  --academy-focus-halo: rgba(255, 89, 19, 0.25);
 }
 
 /* Screen reader only content */
@@ -111,14 +32,25 @@
   border: 0;
 }
 
-/* Focus management for keyboard navigation */
-.sr-only-focusable:focus {
-  position: static;
-  width: auto;
-  height: auto;
-  padding: inherit;
-  margin: inherit;
-  overflow: visible;
-  clip: auto;
-  white-space: normal;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .transition-colors,
+  .transition-transform {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  [role="switch"] {
+    border: 2px solid currentColor;
+  }
+}
+
+/* Dark mode support (if needed) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --academy-surface-off: #121A2A;
+    --academy-surface-on: rgba(255, 89, 19, 0.12);
+  }
 }

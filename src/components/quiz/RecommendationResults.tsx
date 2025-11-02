@@ -493,8 +493,25 @@ export const RecommendationResults = ({
                   transition={{ duration: 0.5, delay: 0.4 }}
                   className="text-lg lg:text-xl text-white/90 max-w-2xl leading-relaxed"
                 >
-                  Get 24/7 access to interactive lessons, videos, and exercises—learn anytime, anywhere, and watch your fluency flourish!
+                  Add a full year of interactive lessons, videos, and exercises—perfect daily practice between live classes.
                 </motion.p>
+
+                <p className="text-base text-white/90 mt-2">
+                  $49/year (50% off, was <s>$98</s>)
+                </p>
+
+                <ul className="mt-3 text-sm text-white/90 list-disc pl-5 space-y-1">
+                  <li>24/7 access to bite-size lessons and quizzes</li>
+                  <li>Tracks progress and reinforces what you learn live</li>
+                  <li>Works on laptop, tablet, or phone</li>
+                </ul>
+
+                <p className="mt-3 text-xs text-white/80">
+                  Limited-time autumn offer · One-time annual purchase
+                </p>
+                <p className="mt-1 text-xs text-white/70">
+                  SpanishVIP Academy annual access: $49 during Autumn Sale (50% off; regular $98). Cancels automatically after 1 year.
+                </p>
               </div>
               
               {/* Right Column - Image */}
@@ -672,7 +689,7 @@ export const RecommendationResults = ({
             </p>
             <Button
               className="bg-orange-500 hover:bg-orange-600 text-white font-medium px-6 py-2 rounded-full transition-colors"
-              onClick={() => window.open('mailto:info@spanishvip.com', '_blank')}
+              onClick={() => window.open('mailto:support@spanishvip.com', '_blank')}
             >
               Contact Support
             </Button>

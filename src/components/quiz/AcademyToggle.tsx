@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Switch } from '@/components/ui/switch';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { GraduationCap, Star, Zap } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 
 interface AcademyToggleProps {
@@ -17,19 +13,14 @@ export const AcademyToggle: React.FC<AcademyToggleProps> = ({
   onChange,
   isLoading = false
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleToggleChange = (checked: boolean) => {
-    if (!isLoading) {
-      onChange(checked);
-    }
-  };
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const [isPressed, setIsPressed] = useState(false);
 
   // Screen reader announcement for state changes
   const announceToggleChange = (checked: boolean) => {
-    const announcement = checked 
-      ? "SpanishVIP Academy added to your plan" 
-      : "SpanishVIP Academy removed from your plan";
+    const announcement = checked
+      ? "Academy added"
+      : "Academy removed";
     
     const announcementElement = document.createElement('div');
     announcementElement.setAttribute('role', 'status');
@@ -42,170 +33,242 @@ export const AcademyToggle: React.FC<AcademyToggleProps> = ({
   };
 
   const handleChange = (checked: boolean) => {
-    announceToggleChange(checked);
-    handleToggleChange(checked);
+    if (!isLoading) {
+      announceToggleChange(checked);
+      onChange(checked);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if ((e.key === ' ' || e.key === 'Enter') && !isLoading) {
+      e.preventDefault();
+      handleChange(!isChecked);
+    }
+  };
+
+  const handleMouseDown = () => {
+    if (!isLoading) {
+      setIsPressed(true);
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsPressed(false);
+  };
+
+  const handleMouseLeave = () => {
+    setIsPressed(false);
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full max-w-4xl mx-auto mb-2"
+      transition={{ duration: 0.3 }}
+      className="w-full max-w-4xl mx-auto"
     >
-      <Card 
+      <div
         className={cn(
-          "relative overflow-hidden transition-all duration-500",
-          "border-2 shadow-xl",
-          isChecked 
-            ? "bg-gradient-to-r from-orange-500 to-red-500 border-orange-400" 
-            : "bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200"
+          "border rounded-2xl shadow-sm transition-all duration-200",
+          "p-4 sm:p-5 lg:p-[18px]",
+          // OFF state
+          !isChecked && [
+            "bg-white",
+            "border-[#E6E8EE]",
+            "shadow-[0_6px_16px_rgba(16,24,40,0.06)]",
+            "hover:bg-[#FFF4EE]"
+          ],
+          // ON state
+          isChecked && [
+            "bg-[#FFEDE4]",
+            "border-[#FFD5C2]",
+            "shadow-[0_6px_16px_rgba(16,24,40,0.05)]",
+            "hover:bg-[#FFF4EE]"
+          ],
+          // Pressed state
+          isPressed && !isChecked && "bg-[#F8F8F8]",
+          isPressed && isChecked && "bg-[#FFE4D0]"
         )}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
       >
-        {/* Animated background elements */}
-        <AnimatePresence>
-          {isChecked && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-white"
-            />
-          )}
-        </AnimatePresence>
-
-        <CardContent className="relative p-6 sm:p-8">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-            {/* Left side - Content */}
-            <div className="flex-1 text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-3 mb-3">
-                <GraduationCap className={cn(
-                  "w-8 h-8 transition-colors duration-300",
-                  isChecked ? "text-white" : "text-orange-500"
-                )} />
-                <h3 className={cn(
-                  "text-xl sm:text-2xl font-bold transition-colors duration-300",
-                  isChecked ? "text-white" : "text-gray-900"
-                )}>
-                  SpanishVIP Academy
-                </h3>
-                {isChecked && (
-                  <Badge 
-                    variant="secondary" 
-                    className="bg-white/20 text-white hover:bg-white/30"
-                  >
-                    INCLUDED
-                  </Badge>
-                )}
-              </div>
-              
-              <p className={cn(
-                "text-base sm:text-lg mb-4 transition-colors duration-300",
-                isChecked ? "text-white/90" : "text-gray-600"
-              )}>
-                Get 24/7 access to interactive lessons, videos, and exercises—learn anytime, anywhere!
-              </p>
-
-              {/* Features list */}
-              <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                {[
-                  { icon: Star, text: "Interactive Lessons" },
-                  { icon: Zap, text: "Self-Paced Learning" },
-                  { icon: GraduationCap, text: "Progress Tracking" }
-                ].map((feature, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      "flex items-center gap-1 px-3 py-1 rounded-full text-sm transition-colors duration-300",
-                      isChecked 
-                        ? "bg-white/20 text-white" 
-                        : "bg-orange-100 text-orange-700"
-                    )}
-                  >
-                    <feature.icon className="w-3 h-3" />
-                    <span>{feature.text}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Right side - Toggle */}
-            <div className="flex flex-col items-center gap-4">
-              <div className="text-center">
-                <div className={cn(
-                  "text-3xl sm:text-4xl font-bold mb-1 transition-colors duration-300",
-                  isChecked ? "text-white" : "text-gray-900"
-                )}>
-                  {isChecked ? "FREE" : "+$0"}
-                </div>
-                <p className={cn(
-                  "text-sm transition-colors duration-300",
-                  isChecked ? "text-white/80" : "text-gray-500"
-                )}>
-                  Limited time offer
-                </p>
-              </div>
-
-              {/* Enhanced Switch */}
-              <div className="relative">
-                <Switch
-                  checked={isChecked}
-                  onCheckedChange={handleChange}
-                  disabled={isLoading}
-                  aria-label="Include SpanishVIP Academy premium add-on"
-                  aria-describedby="academy-description"
-                  className={cn(
-                    "scale-125 transition-all duration-300",
-                    isChecked && "data-[state=checked]:bg-white",
-                    !isChecked && "data-[state=unchecked]:bg-orange-500"
-                  )}
-                />
-                
-                {/* Loading overlay */}
-                {isLoading && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center bg-white/50 rounded-full"
-                  >
-                    <div className="w-4 h-4 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
-                  </motion.div>
-                )}
-              </div>
-
-              <p 
-                id="academy-description"
-                className={cn(
-                  "text-xs sm:text-sm max-w-32 text-center transition-colors duration-300",
-                  isChecked ? "text-white/80" : "text-gray-500"
-                )}
-              >
-                {isChecked ? "Academy included" : "Add Academy to your plan"}
-              </p>
-            </div>
+        {/* Mobile: Stacked layout */}
+        <div className="flex flex-col gap-4 lg:hidden">
+          {/* Left block - Title, helper, benefits */}
+          <div className="space-y-1">
+            <h3 className="text-base font-semibold text-[#101828]">
+              Add Academy
+            </h3>
+            <p className="text-xs text-gray-500" id="academy-helper">
+              50% off · was <span className="line-through">~$98~</span>
+            </p>
+            <p className="text-xs text-gray-500">
+              24/7 self-study · Reinforces live classes
+            </p>
           </div>
 
-          {/* Hover effect overlay */}
-          <AnimatePresence>
-            {isHovered && !isLoading && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  background: isChecked 
-                    ? "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)"
-                    : "linear-gradient(135deg, rgba(251,146,60,0.1) 0%, rgba(251,146,60,0.05) 100%)"
-                }}
-              />
-            )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
+          {/* Right block - Price, chip, toggle */}
+          <div className="flex flex-col items-center gap-3">
+            <div className="text-base font-bold text-[#101828]">
+              $49/year
+            </div>
+            
+            {/* Status line */}
+            <div className={cn(
+              "text-xs font-medium",
+              isChecked ? "text-[#FF5913]" : "text-[#475467]"
+            )}>
+              {isChecked ? "Academy will be added at checkout" : "Academy is not in your plan"}
+            </div>
+            
+            <div className="flex items-center gap-3">
+              {/* State chip */}
+              <div
+                className={cn(
+                  "px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200",
+                  isChecked
+                    ? "bg-[rgba(255,89,19,0.12)] text-[#FF5913]"
+                    : "bg-[#F2F4F7] text-[#475467]"
+                )}
+              >
+                {isChecked ? "Included" : "Not added"}
+              </div>
+
+              {/* Custom toggle switch */}
+              <button
+                ref={toggleRef}
+                type="button"
+                role="switch"
+                aria-checked={isChecked}
+                aria-describedby="academy-helper"
+                onClick={() => handleChange(!isChecked)}
+                onKeyDown={handleKeyDown}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+                disabled={isLoading}
+                className={cn(
+                  "relative inline-flex h-[26px] w-[44px] items-center rounded-full transition-colors duration-200 focus:outline-none",
+                  "focus-visible:ring-2 focus-visible:ring-[#FF5913] focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                  isChecked ? "bg-[#FF5913]" : "bg-[#E4E7EC]",
+                  isLoading && "opacity-50 cursor-not-allowed"
+                )}
+              >
+                <span className="sr-only">Toggle Academy</span>
+                <span
+                  className={cn(
+                    "inline-block h-[22px] w-[22px] transform rounded-full bg-white transition-transform duration-200",
+                    isChecked ? "translate-x-[18px]" : "translate-x-[2px]",
+                    "shadow-sm"
+                  )}
+                >
+                  {isChecked && (
+                    <svg
+                      className="h-3 w-3 text-[#FF5913] mt-[3px] ml-[3px]"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: Single row layout */}
+        <div className="hidden lg:flex lg:items-center lg:justify-between">
+          {/* Left block - Title, helper, benefits */}
+          <div className="space-y-1">
+            <h3 className="text-base font-semibold text-[#101828]">
+              Add Academy
+            </h3>
+            <p className="text-xs text-gray-500" id="academy-helper-desktop">
+              50% off · was <span className="line-through">~$98~</span>
+            </p>
+            <p className="text-xs text-gray-500">
+              24/7 self-study · Reinforces live classes
+            </p>
+          </div>
+
+          {/* Right block - Price, chip, toggle */}
+          <div className="flex flex-col items-end gap-2">
+            <div className="text-base font-bold text-[#101828]">
+              $49/year
+            </div>
+            
+            {/* Status line */}
+            <div className={cn(
+              "text-xs font-medium",
+              isChecked ? "text-[#FF5913]" : "text-[#475467]"
+            )}>
+              {isChecked ? "Academy will be added at checkout" : "Academy is not in your plan"}
+            </div>
+            
+            <div className="flex items-center gap-4">
+              {/* State chip */}
+              <div
+                className={cn(
+                  "px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200",
+                  isChecked
+                    ? "bg-[rgba(255,89,19,0.12)] text-[#FF5913]"
+                    : "bg-[#F2F4F7] text-[#475467]"
+                )}
+              >
+                {isChecked ? "Included" : "Not added"}
+              </div>
+
+              {/* Custom toggle switch */}
+              <button
+                type="button"
+                role="switch"
+                aria-checked={isChecked}
+                aria-describedby="academy-helper-desktop"
+                onClick={() => handleChange(!isChecked)}
+                onKeyDown={handleKeyDown}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+                disabled={isLoading}
+                className={cn(
+                  "relative inline-flex h-[28px] w-[48px] items-center rounded-full transition-colors duration-200 focus:outline-none",
+                  "focus-visible:ring-2 focus-visible:ring-[#FF5913] focus-visible:ring-offset-2 focus-visible:ring-offset-white",
+                  isChecked ? "bg-[#FF5913]" : "bg-[#E4E7EC]",
+                  isLoading && "opacity-50 cursor-not-allowed"
+                )}
+              >
+                <span className="sr-only">Toggle Academy</span>
+                <span
+                  className={cn(
+                    "inline-block h-[24px] w-[24px] transform rounded-full bg-white transition-transform duration-200",
+                    isChecked ? "translate-x-[20px]" : "translate-x-[2px]",
+                    "shadow-sm"
+                  )}
+                >
+                  {isChecked && (
+                    <svg
+                      className="h-3 w-3 text-[#FF5913] mt-[3.5px] ml-[3.5px]"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </motion.div>
   );
 };
