@@ -46,7 +46,6 @@ export const RecommendationResults = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const { recommendedTrack, groupScore, privateScore } = recommendationState;
-  const effectiveTrack: 'group' | 'private' | 'bundled' = recommendedTrack === 'kids' ? 'group' : recommendedTrack;
   const maxScore = Math.max(groupScore, privateScore);
   const groupPercentage = maxScore > 0 ? (groupScore / maxScore) * 100 : 50;
   const privatePercentage = maxScore > 0 ? (privateScore / maxScore) * 100 : 50;
@@ -372,7 +371,7 @@ export const RecommendationResults = ({
         <AnimatePresence mode="wait">
           {/* Primary Recommendation */}
           <motion.div
-            key={effectiveTrack}
+            key={recommendedTrack}
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
@@ -380,20 +379,20 @@ export const RecommendationResults = ({
             className="lg:col-span-2"
           >
             <RecommendationCard
-              content={recommendationContent[effectiveTrack]}
-              type={effectiveTrack}
+              content={recommendationContent[recommendedTrack]}
+              type={recommendedTrack}
               isPrimary={true}
-              paymentLink={getPaymentLinkForCard(effectiveTrack)}
+              paymentLink={getPaymentLinkForCard(recommendedTrack)}
               includeAcademy={isAcademyIncluded}
               isLoading={isTransitioning}
-              onSelect={() => handleTrackSelect(effectiveTrack)}
+              onSelect={() => handleTrackSelect(recommendedTrack)}
             />
           </motion.div>
         </AnimatePresence>
         
         {/* Alternative Options */}
           <>
-            {effectiveTrack !== 'group' && (
+            {recommendedTrack !== 'group' && (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -409,7 +408,7 @@ export const RecommendationResults = ({
               </motion.div>
             )}
             
-            {effectiveTrack !== 'private' && (
+            {recommendedTrack !== 'private' && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -425,7 +424,7 @@ export const RecommendationResults = ({
               </motion.div>
             )}
             
-            {effectiveTrack !== 'bundled' && (
+            {recommendedTrack !== 'bundled' && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}

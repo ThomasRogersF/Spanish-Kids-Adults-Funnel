@@ -25,19 +25,9 @@ export const paymentLinks = {
       withAcademy: "https://buy.stripe.com/fZu8wPcrbdKNggC7I40VO1r"
     }
   },
-  kids: {
-    monthly: {
-      withoutAcademy: "https://spanishvip.punchpass.com/passes/99821?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99821&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0wOC0xMFQxNTo0MTowNS4yNTJaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--357f1eff4a5be750270b2e907777edb0ec1d242f&pass%5Bdiscount_code%5D=PROMO50%25",
-      withAcademy: "https://spanishvip.punchpass.com/passes/99822?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99822&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0wOC0xMFQxNTo0MTowNS4yNTJaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--357f1eff4a5be750270b2e907777edb0ec1d242f&pass%5Bdiscount_code%5D=PROMO50%25"
-    },
-    quarterly: {
-      withoutAcademy: "https://spanishvip.punchpass.com/passes/99821?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99821&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0wOC0xMFQxNTo0MTowNS4yNTJaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--357f1eff4a5be750270b2e907777edb0ec1d242f&pass%5Bdiscount_code%5D=PROMO50%25",
-      withAcademy: "https://spanishvip.punchpass.com/passes/99822?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99822&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0wOC0xMFQxNTo0MTowNS4yNTJaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--357f1eff4a5be750270b2e907777edb0ec1d242f&pass%5Bdiscount_code%5D=PROMO50%25"
-    }
-  }
 };
 
-export type PlanType = keyof typeof paymentLinks;
+export type PlanType = 'group' | 'private' | 'bundled';
 export type Term = 'monthly' | 'quarterly';
 
 export const getPaymentLink = (planType: PlanType, includeAcademy: boolean, term: Term = 'monthly'): string => {

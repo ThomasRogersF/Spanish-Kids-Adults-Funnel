@@ -15,7 +15,7 @@ interface PricingData {
 interface PricingSectionProps {
   pricingData: PricingData;
   isPrimary?: boolean;
-  type: 'group' | 'private' | 'kids' | 'bundled';
+  type: 'group' | 'private' | 'bundled';
   includeAcademy?: boolean;
   academyFee?: number;
   term?: Term;

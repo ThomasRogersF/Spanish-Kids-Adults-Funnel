@@ -15,139 +15,110 @@ export const spanishQuiz: QuizConfig = {
     {
       id: "q1",
       type: "mcq",
-      title: "What's the main outcome you want in the next 60–90 days?",
+      title: "What’s your main reason for learning Spanish?",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "Travel basics & confidence",
-          value: "travel_basics"
-        },
-        {
-          id: "a2",
-          text: "Keep a steady habit with peers",
-          value: "steady_habit"
-        },
-        {
-          id: "a3",
-          text: "Rapid, personalized progress for work/family",
-          value: "rapid_progress"
-        },
-        {
-          id: "a4",
-          text: "I'm not sure—want a simple starting plan",
-          value: "simple_plan"
-        }
+        { id: "a1", text: "Travel ✈", value: "reason_travel" },
+        { id: "a2", text: "Work or career 💼", value: "reason_work" },
+        { id: "a3", text: "Family or relationships 👨‍👩‍👧‍👦", value: "reason_family" },
+        { id: "a4", text: "Study or exam 🎓", value: "reason_study" },
+        { id: "a5", text: "Just for fun 🙂", value: "reason_fun" }
       ]
     },
     {
       id: "q2",
       type: "mcq",
-      title: "Where would you place yourself today?",
+      title: "How would you describe your current level?",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "Starting from zero",
-          value: "starting_zero"
-        },
-        {
-          id: "a2",
-          text: "Beginner/Elementary",
-          value: "beginner_elementary"
-        },
-        {
-          id: "a3",
-          text: "Intermediate or higher",
-          value: "intermediate_plus"
-        }
+        { id: "a1", text: "Beginner (I know a few words)", value: "level_beginner" },
+        { id: "a2", text: "Upper beginner (I can manage basic conversations)", value: "level_upper_beginner" },
+        { id: "a3", text: "Intermediate", value: "level_intermediate" },
+        { id: "a4", text: "Advanced", value: "level_advanced" }
       ]
     },
     {
       id: "q3",
       type: "mcq",
-      title: "How comfortable are you speaking out loud in front of others?",
+      title: "What kind of learning experience sounds right for you?",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "Love it—group energy helps me",
-          value: "love_group"
-        },
-        {
-          id: "a2",
-          text: "Okay with it—depends on the day",
-          value: "depends_day"
-        },
-        {
-          id: "a3",
-          text: "Prefer private practice first",
-          value: "prefer_private"
-        }
+        { id: "a1", text: "1-on-1 private lessons with a personal tutor", value: "experience_private" },
+        { id: "a2", text: "Small, friendly group classes", value: "experience_group" },
+        { id: "a3", text: "A mix of both", value: "experience_mix" }
       ]
     },
     {
       id: "q4",
       type: "mcq",
-      title: "Which sounds more like your week?",
+      title: "How much time can you usually dedicate to Spanish each week?",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "I can attend at set times most weekdays",
-          value: "set_times"
-        },
-        {
-          id: "a2",
-          text: "My schedule changes weekly; I need flexible 1:1 slots",
-          value: "changing_schedule"
-        },
-        {
-          id: "a3",
-          text: "Either could work",
-          value: "either_work"
-        }
+        { id: "a1", text: "1–2 hours", value: "time_1_2" },
+        { id: "a2", text: "3–4 hours", value: "time_3_4" },
+        { id: "a3", text: "5–6 hours", value: "time_5_6" },
+        { id: "a4", text: "7+ hours", value: "time_7_plus" }
       ]
     },
     {
       id: "q5",
       type: "mcq",
-      title: "What kind of feedback do you want?",
+      title: "Which schedule works best for you?",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "Targeted corrections, goal-based drills",
-          value: "targeted_corrections"
-        },
-        {
-          id: "a2",
-          text: "Lots of speaking turns + teacher guidance",
-          value: "speaking_turns"
-        },
-        {
-          id: "a3",
-          text: "Light feedback—keep me consistent",
-          value: "light_feedback"
-        }
+        { id: "a1", text: "Mornings", value: "schedule_mornings" },
+        { id: "a2", text: "Afternoons", value: "schedule_afternoons" },
+        { id: "a3", text: "Evenings", value: "schedule_evenings" },
+        { id: "a4", text: "Weekends", value: "schedule_weekends" }
       ]
     },
     {
       id: "q6",
       type: "mcq",
-      title: "Pick one—what matters more right now?",
+      title: "How often would you like to take classes?\n\n(You’ll still be able to change this later.)",
       required: true,
       options: [
-        {
-          id: "a1",
-          text: "Best value per month",
-          value: "best_value"
-        },
-        {
-          id: "a2",
-          text: "Faster progress, fully personalized",
-          value: "faster_progress"
-        }
+        { id: "a1", text: "Private lessons: 3× per week", value: "freq_private_3x" },
+        { id: "a2", text: "Private lessons: 5× per week", value: "freq_private_5x" },
+        { id: "a3", text: "Group classes: Join whenever you want (unlimited access)", value: "freq_group_unlimited" }
+      ]
+    },
+    {
+      id: "q7",
+      type: "mcq",
+      title: "What are you most interested in improving right now?",
+      required: true,
+      options: [
+        { id: "a1", text: "Speaking confidence", value: "focus_speaking" },
+        { id: "a2", text: "Grammar and structure", value: "focus_grammar" },
+        { id: "a3", text: "Listening and pronunciation", value: "focus_listening" },
+        { id: "a4", text: "Vocabulary for everyday life", value: "focus_vocabulary" },
+        { id: "a5", text: "Professional or business Spanish", value: "focus_business" }
+      ]
+    },
+    {
+      id: "q8",
+      type: "mcq",
+      title: "What would make you feel successful after one month?",
+      required: true,
+      options: [
+        { id: "a1", text: "Feeling comfortable having basic conversations", value: "success_basic_conversations" },
+        { id: "a2", text: "Understanding native speakers better", value: "success_understanding" },
+        { id: "a3", text: "Seeing real progress with grammar", value: "success_grammar_progress" },
+        { id: "a4", text: "Staying consistent with practice", value: "success_consistency" }
+      ]
+    },
+    {
+      id: "q9",
+      type: "mcq",
+      title: "What usually makes it harder for you to keep learning a language?",
+      required: true,
+      options: [
+        { id: "a1", text: "A busy schedule", value: "obstacle_busy_schedule" },
+        { id: "a2", text: "Hard to stay motivated", value: "obstacle_motivation" },
+        { id: "a3", text: "Not knowing what to study next", value: "obstacle_unclear_study" },
+        { id: "a4", text: "Nervous to speak", value: "obstacle_nervous_speaking" },
+        { id: "a5", text: "Finding the right program", value: "obstacle_find_program" }
       ]
     }
   ],
@@ -155,13 +126,19 @@ export const spanishQuiz: QuizConfig = {
     {
       id: "group_classes",
       title: "Group Classes - Perfect for You!",
-      description: "Based on your responses, Group Classes are your ideal match. You'll enjoy unlimited sessions Monday-Friday at your CEFR level, learning with a global peer group led by native teachers. Perfect for steady progress and great value!",
+      description: "Based on your responses, Group Classes are your ideal match. You'll enjoy unlimited sessions Monday–Friday at your CEFR level, learning with a global peer group led by native teachers. Perfect for steady progress and great value!",
       conditions: []
     },
     {
       id: "private_tutoring",
       title: "Private Tutoring - Your Best Path Forward!",
       description: "Based on your responses, Private Tutoring is your ideal match. You'll get a dedicated native teacher who creates a custom plan around your goals, with flexible scheduling and personalized feedback for faster progress.",
+      conditions: []
+    },
+    {
+      id: "bundled_option",
+      title: "Bundled Option - Best of Both!",
+      description: "A balanced plan that combines a dedicated 1-on-1 tutor with unlimited group classes. Get personalized attention and consistent practice with peers.",
       conditions: []
     }
   ],

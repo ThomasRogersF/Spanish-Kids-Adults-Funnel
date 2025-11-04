@@ -47,46 +47,72 @@ const MultipleChoice = ({
 
   // Map option values to appropriate emojis
   const getOptionEmoji = (optionValue: string, optionText: string) => {
-    // Extract emoji from the beginning of the text if it exists
-    const emojiMatch = optionText.match(/^([🌎❤️🧠🎯🌱📚💬🗣️👥👨‍🏫🏠🔄⏰📅🚀🤔])/);
+    // Extract emoji from the beginning of the text if it exists (not used for our quiz since text excludes emojis)
+    const emojiMatch = optionText.match(/^([🌴💼👨‍👩‍👧‍👦🎓🙂🌱📖🚀🧠👤👥🔄⏰📅📈🔥🌅🌞🌙📆🎯🏆♾🗣✍👂📚💬🎧🧩✅🕒😅❓😬🔍])/);
     if (emojiMatch) {
       return emojiMatch[1];
     }
     
-    // Fallback emoji mapping based on option value
+    // Emoji mapping based on canonical option values (replaces previous ✨ fallback)
     const emojiMap: Record<string, string> = {
-      // Question 1 - Main outcome goals
-      travel_basics: "✈️",
-      steady_habit: "📅",
-      rapid_progress: "🚀",
-      simple_plan: "📝",
-      
-      // Question 2 - Current level
-      starting_zero: "🌱",
-      beginner_elementary: "📚",
-      intermediate_plus: "🎓",
-      
-      // Question 3 - Speaking comfort
-      love_group: "👥",
-      depends_day: "🤔",
-      prefer_private: "👤",
-      
-      // Question 4 - Schedule preferences
-      set_times: "⏰",
-      changing_schedule: "🔄",
-      either_work: "🤷",
-      
-      // Question 5 - Feedback preferences
-      targeted_corrections: "🎯",
-      speaking_turns: "💬",
-      light_feedback: "🌟",
-      
-      // Question 6 - Priority
-      best_value: "💰",
-      faster_progress: "⚡"
+      // Q1 — Main reason
+      reason_travel: "🌴",
+      reason_work: "💼",
+      reason_family: "👨‍👩‍👧‍👦",
+      reason_study: "🎓",
+      reason_fun: "🙂",
+
+      // Q2 — Current level
+      level_beginner: "🌱",
+      level_upper_beginner: "📖",
+      level_intermediate: "🚀",
+      level_advanced: "🧠",
+
+      // Q3 — Learning experience
+      experience_private: "👤",
+      experience_group: "👥",
+      experience_mix: "🔄",
+
+      // Q4 — Time per week
+      time_1_2: "⏰",
+      time_3_4: "📅",
+      time_5_6: "📈",
+      time_7_plus: "🔥",
+
+      // Q5 — Best schedule
+      schedule_mornings: "🌅",
+      schedule_afternoons: "🌞",
+      schedule_evenings: "🌙",
+      schedule_weekends: "📆",
+
+      // Q6 — Frequency preference
+      freq_private_3x: "🎯",
+      freq_private_5x: "🏆",
+      freq_group_unlimited: "♾",
+
+      // Q7 — Focus area
+      focus_speaking: "🗣",
+      focus_grammar: "✍",
+      focus_listening: "👂",
+      focus_vocabulary: "📚",
+      focus_business: "💼",
+
+      // Q8 — Success after one month
+      success_basic_conversations: "💬",
+      success_understanding: "🎧",
+      success_grammar_progress: "🧩",
+      success_consistency: "✅",
+
+      // Q9 — Obstacles
+      obstacle_busy_schedule: "🕒",
+      obstacle_motivation: "😅",
+      obstacle_unclear_study: "❓",
+      obstacle_nervous_speaking: "😬",
+      obstacle_find_program: "🔍"
     };
     
-    return emojiMap[optionValue] || "✨";
+    // Default to a neutral bullet to avoid sparkles if an unmapped value appears
+    return emojiMap[optionValue] || "•";
   };
 
   // Clean option text by removing emoji from the beginning
