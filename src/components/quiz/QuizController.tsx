@@ -15,6 +15,9 @@ import InterstitialStep from "./InterstitialStep";
 import ProgressBar from "./ProgressBar";
 import { animationClasses, durations } from "@/lib/animations";
 
+// Feature flag to enable/disable the Email Gate without removing code
+const EMAIL_GATE_ENABLED = false;
+
 interface QuizControllerProps {
   config: QuizConfig;
 }
@@ -63,9 +66,11 @@ const QuizController = ({ config }: QuizControllerProps) => {
         isKidsOverride: false
       });
       
-      // Go directly to recommendations and open email gate
+      // Go directly to recommendations and optionally open email gate
       setStage("recommendations");
-      setEmailGateOpen(true);
+      if (EMAIL_GATE_ENABLED) {
+        setEmailGateOpen(true);
+      }
     }
   }, [stage, currentQuestionId, participant.answers]);
 
@@ -494,13 +499,15 @@ const QuizController = ({ config }: QuizControllerProps) => {
         {renderStage()}
       </div>
       
-      {/* Email Gate Modal */}
-      <EmailGateModal
-        isOpen={emailGateOpen}
-        onSubmit={handleEmailSubmit}
-        onSkip={handleEmailSkip}
-        isLoading={isLoading}
-      />
+      {/* Email Gate Modal (disabled via feature flag) */}
+      {EMAIL_GATE_ENABLED && (
+        <EmailGateModal
+          isOpen={emailGateOpen}
+          onSubmit={handleEmailSubmit}
+          onSkip={handleEmailSkip}
+          isLoading={isLoading}
+        />
+      )}
     </div>
   );
 };
