@@ -18,11 +18,11 @@ export const spanishQuiz: QuizConfig = {
       title: "What’s your main reason for learning Spanish?",
       required: true,
       options: [
-        { id: "a1", text: "Travel ✈", value: "reason_travel" },
-        { id: "a2", text: "Work or career 💼", value: "reason_work" },
-        { id: "a3", text: "Family or relationships 👨‍👩‍👧‍👦", value: "reason_family" },
-        { id: "a4", text: "Study or exam 🎓", value: "reason_study" },
-        { id: "a5", text: "Just for fun 🙂", value: "reason_fun" }
+        { id: "a1", text: "Travel", value: "reason_travel" },
+        { id: "a2", text: "Work or career", value: "reason_work" },
+        { id: "a3", text: "Family or relationships", value: "reason_family" },
+        { id: "a4", text: "Study or exam", value: "reason_study" },
+        { id: "a5", text: "Just for fun", value: "reason_fun" }
       ]
     },
     {
