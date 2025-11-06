@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import { QuizConfig, QuizParticipant, QuizAnswer, ResultTemplate } from "@/types/quiz";
-import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook, sendEmailGateWebhook } from "@/utils/quizUtils";
+import { getNextQuestionId, getPersonalizedResult, sendDataToWebhook, sendEmailGateWebhook, getQuestionText, getOptionText } from "@/utils/quizUtils";
 import { calculateScores, determineRecommendation, RecommendationState } from "@/lib/recommendationEngine";
 import IntroductionPage from "./IntroductionPage";
 import QuestionCard from "./QuestionCard";
@@ -48,6 +48,7 @@ const QuizController = ({ config }: QuizControllerProps) => {
   } | null>(null);
   const [recommendationState, setRecommendationState] = useState<RecommendationState | null>(null);
   const { toast } = useToast();
+  const [hasSentRecommendationWebhook, setHasSentRecommendationWebhook] = useState(false);
 
   // Effect to handle completion of questions and transition to recommendations
   useEffect(() => {
@@ -73,6 +74,51 @@ const QuizController = ({ config }: QuizControllerProps) => {
       }
     }
   }, [stage, currentQuestionId, participant.answers]);
+
+  // Trigger webhook once when entering recommendations if email gate is disabled
+  useEffect(() => {
+    if (stage === "recommendations" && !EMAIL_GATE_ENABLED && !hasSentRecommendationWebhook) {
+      console.log("=== RECOMMENDATION WEBHOOK TRIGGER START ===");
+      console.log("Config webhook URL:", config.webhookUrl);
+      try {
+        if (config.webhookUrl && config.webhookUrl.trim() !== "") {
+          const humanReadableMap: Record<string, string> = {};
+          participant.answers.forEach((ans) => {
+            const qTitle = getQuestionText(ans.questionId, config);
+            const optionText = getOptionText(ans.questionId, ans.value, config);
+            humanReadableMap[qTitle] = optionText;
+          });
+
+          const payloadOverride = {
+            name: "Spanish Learner",
+            email: "Spanishlearner@fallsale.com",
+            score: JSON.stringify(humanReadableMap),
+            "quizz-id": "fall-sale"
+          };
+
+          console.log("Recommendation webhook payload override:", JSON.stringify(payloadOverride, null, 2));
+
+          sendEmailGateWebhook(config.webhookUrl, "Spanishlearner@fallsale.com", payloadOverride)
+            .then((success) => {
+              console.log("Recommendation webhook send result:", success);
+            })
+            .catch((error) => {
+              console.error("Recommendation webhook send error:", error);
+            })
+            .finally(() => {
+              setHasSentRecommendationWebhook(true);
+              console.log("=== RECOMMENDATION WEBHOOK TRIGGER END ===");
+            });
+        } else {
+          console.log("No webhook URL configured; skipping recommendation webhook.");
+          setHasSentRecommendationWebhook(true);
+        }
+      } catch (err) {
+        console.error("Error building/sending recommendation webhook payload:", err);
+        setHasSentRecommendationWebhook(true);
+      }
+    }
+  }, [stage, hasSentRecommendationWebhook, config.webhookUrl, participant.answers, config]);
 
   const handleStartQuiz = () => {
     console.log("Starting quiz");

@@ -242,19 +242,23 @@ export const sendDataToWebhook = async (
 // Webhook function specifically for email gate with simplified payload
 export const sendEmailGateWebhook = async (
   webhookUrl: string,
-  email: string
+  email: string,
+  payloadOverride?: Record<string, any>
 ): Promise<boolean> => {
   try {
     console.log("=== EMAIL GATE WEBHOOK DEBUG START ===");
     console.log("Webhook URL:", webhookUrl);
     console.log("Email:", email);
-    
+    if (payloadOverride) {
+      console.log("Payload override provided. Will use override payload instead of default.");
+    }
+
     // Only attempt to send data if we have a webhook URL
     if (!webhookUrl || webhookUrl.trim() === '') {
       console.log("No webhook URL provided, skipping data submission");
       return true;
     }
-    
+
     // Validate webhook URL format
     try {
       new URL(webhookUrl);
@@ -262,17 +266,19 @@ export const sendEmailGateWebhook = async (
       console.error("Invalid webhook URL format:", webhookUrl);
       return false;
     }
-    
-    // Build simplified data structure as required
-    const webhookData = {
-      name: "Spanish Learner", // Default value as specified
-      email: email, // Participant's email address
-      score: "0", // Default value as specified
-      "quizz-id": "fall-sale" // Required quiz identifier
+
+    // Build data structure (allow override for custom payloads)
+    const defaultPayload = {
+      name: "Spanish Learner",
+      email: email,
+      score: "0",
+      "quizz-id": "fall-sale"
     };
-    
+
+    const webhookData = payloadOverride ?? defaultPayload;
+
     console.log("Email gate webhook data being sent:", JSON.stringify(webhookData, null, 2));
-    
+
     // Make the actual API call to the webhook
     console.log("Making fetch request to email gate webhook...");
     const response = await fetch(webhookUrl, {
@@ -284,16 +290,16 @@ export const sendEmailGateWebhook = async (
       mode: 'cors',
       body: JSON.stringify(webhookData),
     });
-    
+
     console.log("Email gate webhook response status:", response.status);
     console.log("Email gate webhook response headers:", Object.fromEntries(response.headers.entries()));
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error("Email gate webhook response not OK:", response.status, errorText);
       return false;
     }
-    
+
     const responseText = await response.text();
     console.log("Email gate webhook response body:", responseText);
     console.log("Email gate data sent successfully to webhook");

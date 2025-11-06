@@ -588,7 +588,7 @@ export const RecommendationResults = ({
                   },
                   {
                     name: "Kholman",
-                    quote: "Spanish VIP is the best program I've worked with.",
+                    quote: "SpanishVIP is the best program I've worked with.",
                     video: "/videos/kholman-testimonial.mp4",
                     image: "/images/testimonials-preview/kholman-testimonial.png"
                   }
