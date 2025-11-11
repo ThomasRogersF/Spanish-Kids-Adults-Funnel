@@ -36,7 +36,14 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
     0,
     Math.round(((pricingData.listPrice - adjustedSalePrice) / pricingData.listPrice) * 100)
   );
-  const periodLabel = term === 'quarterly' ? '/ first 3 months' : '/ first month';
+  const periodLabel =
+    term === 'quarterly' ? '/ first 3 months' :
+    term === '6_months' ? 'for 6 months' :
+    '/ first month';
+  const ariaPeriodLabel =
+    term === 'quarterly' ? 'for the first 3 months' :
+    term === '6_months' ? 'for 6 months' :
+    'for the first month';
   
   return (
     <div className="my-4">
@@ -82,7 +89,7 @@ export const PricingSection: React.FC<PricingSectionProps> = ({
                   font-bold leading-tight text-gray-900
                   text-2xl sm:text-3xl lg:text-4xl
                 "
-                aria-label={`Now ${adjustedSalePriceFormatted} for the first month`}
+                aria-label={`Now ${adjustedSalePriceFormatted} ${ariaPeriodLabel}`}
               >
                 {adjustedSalePriceFormatted}
               </span>

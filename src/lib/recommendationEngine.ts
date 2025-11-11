@@ -34,6 +34,7 @@ export interface RecommendationContent {
   benefits: string[];
   pricing?: PricingData;
   pricingQuarterly?: PricingData;
+  pricingSixMonths?: PricingData;
 }
 
 export const recommendationContent: Record<'group' | 'private' | 'bundled', RecommendationContent> = {
@@ -81,6 +82,16 @@ export const recommendationContent: Record<'group' | 'private' | 'bundled', Reco
       saleBadgeText: "Incredible deal",
       saleNote: "Limited-time offer",
       finePrint: "First 3 months $174.50, then $149/mo. Cancel anytime."
+    },
+    pricingSixMonths: {
+      listPrice: 599,
+      listPriceFormatted: "$599",
+      salePrice: 299.5,
+      salePriceFormatted: "$299.50",
+      discountPercent: 50,
+      saleBadgeText: "Incredible deal",
+      saleNote: "Limited-time offer",
+      finePrint: "First 6 months $299.50, then $599/mo. Cancel anytime."
     }
   },
   private: {

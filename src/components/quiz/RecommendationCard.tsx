@@ -37,9 +37,12 @@ export const RecommendationCard = ({
   const [term, setTerm] = useState<Term>('monthly');
 
   // Determine pricing block to display based on selected term
-  const currentPricing = (term === 'quarterly' && content.pricingQuarterly)
-    ? content.pricingQuarterly
-    : content.pricing;
+  const currentPricing =
+    (term === 'quarterly' && content.pricingQuarterly)
+      ? content.pricingQuarterly
+      : (term === '6_months' && content.pricingSixMonths)
+        ? content.pricingSixMonths
+        : content.pricing;
 
   // Compute dynamic discount considering Academy fee if toggled
   const academyFee = 49;
@@ -53,7 +56,7 @@ export const RecommendationCard = ({
     const checkoutUrl =
       term === 'monthly'
         ? paymentLink
-        : getPaymentLink(type, includeAcademy, 'quarterly');
+        : getPaymentLink(type, includeAcademy, term);
 
     if (checkoutUrl) {
       window.open(checkoutUrl, '_blank');
@@ -159,7 +162,7 @@ export const RecommendationCard = ({
             <button
               type="button"
               className={cn(
-                "px-3 py-1.5 text-sm rounded-r-full transition-colors focus:outline-none focus-visible:ring-2",
+                "px-3 py-1.5 text-sm transition-colors focus:outline-none focus-visible:ring-2",
                 term === 'quarterly'
                   ? (isPrimary ? "bg-white text-blue-700" : "bg-blue-600 text-white")
                   : (isPrimary ? "bg-transparent text-white/90 hover:bg-white/10" : "bg-transparent text-gray-700 hover:bg-gray-100")
@@ -169,6 +172,21 @@ export const RecommendationCard = ({
             >
               3 months
             </button>
+            {type === 'group' && (
+              <button
+                type="button"
+                className={cn(
+                  "px-3 py-1.5 text-sm rounded-r-full transition-colors focus:outline-none focus-visible:ring-2",
+                  term === '6_months'
+                    ? (isPrimary ? "bg-white text-blue-700" : "bg-blue-600 text-white")
+                    : (isPrimary ? "bg-transparent text-white/90 hover:bg-white/10" : "bg-transparent text-gray-700 hover:bg-gray-100")
+                )}
+                aria-pressed={term === '6_months'}
+                onClick={() => setTerm('6_months')}
+              >
+                6 months
+              </button>
+            )}
           </div>
         </div>
       )}
