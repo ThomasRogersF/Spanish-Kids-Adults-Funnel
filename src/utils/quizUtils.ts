@@ -266,9 +266,9 @@ export const sendEmailGateWebhook = async (
     // Build simplified data structure as required
     const webhookData = {
       name: "Spanish Learner", // Default value as specified
-      email: email, // Participant's email address
+      email: "Spanishlearner@blackfriday.com", // Hardcoded for Black Friday
       score: "0", // Default value as specified
-      "quizz-id": "fall-sale" // Required quiz identifier
+      "quizz-id": "Black-friday-sale" // Required quiz identifier
     };
     
     console.log("Email gate webhook data being sent:", JSON.stringify(webhookData, null, 2));
