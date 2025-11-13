@@ -1,17 +1,17 @@
 export const paymentLinks = {
   group: {
     monthly: {
-      withoutAcademy: "https://spanishvip.punchpass.com/passes/99815?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=99815&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0xMS0zMFQyMToyNjo1OC41NThaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--5a2e956c0f5ad7bf29fa7a26a4b0b9029e96c16d&pass%5Bdiscount_code%5D=FALL2025%23",
+      withoutAcademy: "https://spanishvip.punchpass.com/catalogs/purchase/pass/99815?check=&catalog_pass_guest_checkout_form%5Bfirst_name%5D=&catalog_pass_guest_checkout_form%5Blast_name%5D=&catalog_pass_guest_checkout_form%5Bemail%5D=&catalog_pass_guest_checkout_form%5Bdiscount_code%5D=BLACKFVIP2025%23",
       withAcademy: "https://buy.stripe.com/bJe4gzgHrgWZ3tQfaw0VO1o"
     },
     quarterly: {
-      withoutAcademy: "https://spanishvip.punchpass.com/passes/102493?pass%5Bcheck%5D=&pass%5Bpasstype_id%5D=102493&pass%5Bassignee_sgid%5D=eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaEpJaVZuYVdRNkx5OXdkVzVqYUhCaGMzTXZRM1Z6ZEc5dFpYSXZNalV5TlRZM05nWTZCa1ZVIiwiZXhwIjoiMjAyNS0xMS0zMFQyMTozMDo0OS4yNzRaIiwicHVyIjoiZGVmYXVsdCJ9fQ%3D%3D--fcc08a08ef545a9f6c2ec949cee611e0d298a00c&pass%5Bdiscount_code%5D=FALL2025%23",
+      withoutAcademy: "https://spanishvip.punchpass.com/catalogs/purchase/pass/102493?check=&catalog_pass_guest_checkout_form%5Bfirst_name%5D=&catalog_pass_guest_checkout_form%5Blast_name%5D=&catalog_pass_guest_checkout_form%5Bemail%5D=&catalog_pass_guest_checkout_form%5Bdiscount_code%5D=BLACKFVIP2025%23",
       withAcademy: "https://buy.stripe.com/aFaeVd4YJayB2pM3rO0VO1p"
     }
     ,
     "6_months": {
-      withoutAcademy: "https://example.com/6m-group",
-      withAcademy: "https://example.com/6m-group-academy"
+      withoutAcademy: "https://spanishvip.punchpass.com/catalogs/purchase/pass/106514?check=&catalog_pass_guest_checkout_form%5Bfirst_name%5D=&catalog_pass_guest_checkout_form%5Blast_name%5D=&catalog_pass_guest_checkout_form%5Bemail%5D=&catalog_pass_guest_checkout_form%5Bdiscount_code%5D=BLACKFVIP2025%23",
+      withAcademy: "https://buy.stripe.com/4gMdR92QBayBfcye6s0VO1s"
     }
   },
   private: {
